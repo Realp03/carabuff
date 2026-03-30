@@ -1,0 +1,321 @@
+/* ================= BASE ================= */
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #1e2a38;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* ================= GLOW BACKGROUND ================= */
+body::before {
+  content: "";
+  position: fixed;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(0,255,200,0.18), transparent 70%);
+  top: -120px;
+  left: -120px;
+  filter: blur(120px);
+  animation: float1 12s infinite ease-in-out;
+  z-index: -1;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0,255,200,0.12), transparent 70%);
+  bottom: -120px;
+  right: -120px;
+  filter: blur(120px);
+  animation: float2 14s infinite ease-in-out;
+  z-index: -1;
+}
+
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(80px, 60px); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-80px, -50px); }
+}
+
+/* ================= MAIN ================= */
+.main {
+  text-align: center;
+}
+
+/* ================= HERO ================= */
+.hero {
+  padding: 130px 20px 90px;
+}
+
+.hero h1 {
+  font-size: 64px;
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  margin-top: 10px;
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+.small-note {
+  margin-top: 10px;
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+/* ================= LOGO ================= */
+.logo {
+  width: 180px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 10px 40px rgba(0, 255, 200, 0.3));
+  transition: 0.4s;
+}
+
+.logo:hover {
+  transform: scale(1.1) rotate(-2deg);
+}
+
+/* ================= BUTTON ================= */
+.btn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 16px 36px;
+  background: linear-gradient(135deg, #ffffff, #d1d5db);
+  color: #1e2a38;
+  border-radius: 14px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glow effect */
+.btn::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,255,200,0.3);
+  top: 0;
+  left: -100%;
+  transition: 0.4s;
+}
+
+.btn:hover::after {
+  left: 0;
+}
+
+.btn:hover {
+  transform: translateY(-4px) scale(1.06);
+  box-shadow: 0 15px 40px rgba(0, 255, 200, 0.2);
+}
+
+/* ================= FEATURES ================= */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 25px;
+  padding: 80px 40px;
+}
+
+/* ================= CARD ================= */
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 18px;
+  text-align: left;
+  transition: 0.3s;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+}
+
+/* glow border */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: linear-gradient(120deg, transparent, rgba(0,255,200,0.2), transparent);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover {
+  transform: translateY(-12px) scale(1.03);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.card h3 {
+  margin: 0 0 10px;
+}
+
+.card p {
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+/* ================= STATS ================= */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  padding: 60px 20px;
+}
+
+.stats h2 {
+  margin: 0;
+  font-size: 34px;
+}
+
+.stats p {
+  opacity: 0.6;
+  font-size: 14px;
+}
+
+/* ================= QR ================= */
+.qr {
+  padding: 80px 20px;
+}
+
+.qr h2 {
+  margin-bottom: 20px;
+  font-size: 26px;
+}
+
+.qr img {
+  border-radius: 14px;
+  background: white;
+  padding: 12px;
+  transition: 0.3s;
+}
+
+.qr img:hover {
+  transform: scale(1.08) rotate(2deg);
+}
+
+/* ================= FOOTER ================= */
+footer {
+  padding: 40px;
+  opacity: 0.5;
+  font-size: 14px;
+}
+/* ================= MOBILE RESPONSIVE ================= */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .hero {
+    padding: 100px 20px 70px;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .logo {
+    width: 140px;
+  }
+
+  .btn {
+    padding: 14px 28px;
+    font-size: 14px;
+  }
+
+  .features {
+    padding: 50px 20px;
+    gap: 20px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .qr {
+    padding: 50px 20px;
+  }
+
+  .qr img {
+    width: 180px;
+  }
+}
+
+/* Phones (MAIN TARGET 🔥) */
+@media (max-width: 480px) {
+  .hero {
+    padding: 80px 15px 60px;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .logo {
+    width: 120px;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 280px;
+    font-size: 14px;
+    padding: 14px;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+    padding: 40px 15px;
+  }
+
+  .card {
+    font-size: 14px;
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .stats h2 {
+    font-size: 26px;
+  }
+
+  .qr img {
+    width: 160px;
+  }
+
+  footer {
+    font-size: 12px;
+    padding: 20px;
+  }
+}
