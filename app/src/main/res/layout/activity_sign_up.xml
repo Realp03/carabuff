@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E2A38">
+
+    <!-- MAIN CONTENT -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- FORM CARD -->
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@drawable/rounded_card"
+            android:gravity="center"
+            android:layout_marginTop="120dp">
+
+            <!-- LOGO -->
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/carabuff_logo"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/circle_bg"
+                android:clipToOutline="true"/>
+
+            <!-- EMAIL -->
+            <EditText
+                android:id="@+id/emailInput"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Email"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/input_bg"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:textColorHint="#666666"/>
+
+            <!-- PASSWORD -->
+            <EditText
+                android:id="@+id/passwordInput"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Password"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/input_bg"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:textColorHint="#666666"
+                android:drawableEnd="@android:drawable/ic_menu_view"/>
+
+            <!-- CONFIRM -->
+            <EditText
+                android:id="@+id/confirmPasswordInput"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Confirm Password"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/input_bg"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:textColorHint="#666666"
+                android:drawableEnd="@android:drawable/ic_menu_view"/>
+
+            <!-- BUTTON -->
+            <Button
+                android:id="@+id/signUpButton"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Sign Up"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#1E2A38"
+                android:textColor="#FFFFFF"/>
+
+        </LinearLayout>
+
+        <!-- LOGIN LINK -->
+        <TextView
+            android:id="@+id/signinText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an Account? Sign In here."
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginTop="15dp"/>
+
+    </LinearLayout>
+
+    <!-- 🐃 CARABUFF OVERLAY -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="50dp">
+
+        <TextView
+            android:id="@+id/carabuffThought"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="..."
+            android:textColor="#1E2A38"
+            android:textSize="13sp"
+            android:background="@drawable/rounded_card"
+            android:backgroundTint="@android:color/white"
+            android:padding="10dp"/>
+
+        <ImageView
+            android:id="@+id/carabuffSprite"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="-2dp"
+            android:src="@drawable/carabuff_talk_anim"/>
+    </LinearLayout>
+
+</FrameLayout>

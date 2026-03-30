@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E2A38">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- 🔥 HEADER (BACK + TITLE SAME ROW) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp">
+
+            <!-- BACK BUTTON -->
+            <TextView
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="&lt;--"
+                android:textSize="26sp"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="10dp"
+                android:padding="5dp"/>
+
+            <!-- TITLE -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit Profile"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"/>
+
+        </LinearLayout>
+
+        <!-- NAME -->
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Name"
+            android:textColor="#000000"
+            android:textColorHint="#666666"
+            android:background="@drawable/input_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- BIRTHDAY -->
+        <EditText
+            android:id="@+id/etBirthday"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Birthday"
+            android:focusable="false"
+            android:clickable="true"
+            android:textColor="#000000"
+            android:textColorHint="#666666"
+            android:background="@drawable/input_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- AGE -->
+        <EditText
+            android:id="@+id/etAge"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Age"
+            android:enabled="false"
+            android:textColor="#000000"
+            android:textColorHint="#666666"
+            android:background="@drawable/input_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- WEIGHT -->
+        <EditText
+            android:id="@+id/etWeight"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Weight (kg)"
+            android:enabled="false"
+            android:textColor="#000000"
+            android:background="@drawable/input_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- HEIGHT -->
+        <EditText
+            android:id="@+id/etHeight"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Height (cm)"
+            android:enabled="false"
+            android:textColor="#000000"
+            android:background="@drawable/input_bg"
+            android:padding="12dp"
+            android:layout_marginBottom="25dp"/>
+
+        <!-- SAVE BUTTON -->
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Save Changes"
+            android:backgroundTint="#6C8CFF"
+            android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
+
+</ScrollView>

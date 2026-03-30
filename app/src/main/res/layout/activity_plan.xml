@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E2A38">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- TITLE -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Plan 🔥"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+
+        <!-- PLAN CARD -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#2E3B4E"
+            android:padding="16dp"
+            android:layout_marginTop="16dp">
+
+            <!-- BMI + GOAL -->
+            <TextView
+                android:id="@+id/tvPlanBMI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BMI: --"
+                android:textColor="#FFFFFF"/>
+
+            <TextView
+                android:id="@+id/tvPlanGoal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Goal: --"
+                android:textColor="#00E676"
+                android:layout_marginBottom="10dp"/>
+
+            <!-- MACROS -->
+            <TextView
+                android:id="@+id/tvPlanCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calories: --"
+                android:textColor="#FFFFFF"/>
+
+            <TextView
+                android:id="@+id/tvPlanProtein"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Protein: --"
+                android:textColor="#FFFFFF"/>
+
+            <TextView
+                android:id="@+id/tvPlanCarbs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Carbs: --"
+                android:textColor="#FFFFFF"/>
+
+            <TextView
+                android:id="@+id/tvPlanFats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fats: --"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+
+        <!-- WORKOUT -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Daily Workout Time ⏱"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="20dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#FFFFFF"/>
+
+        <!-- BUTTON -->
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Get Started 🚀"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="#6C8CFF"/>
+
+    </LinearLayout>
+</ScrollView>

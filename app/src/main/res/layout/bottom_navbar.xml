@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottomNavbar"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:orientation="horizontal"
+    android:background="#2C3E50"
+    android:gravity="center"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/navHome"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:src="@drawable/home_icon"/>
+
+    <ImageView
+        android:id="@+id/navAnalytics"
+        android:layout_width="10dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:src="@drawable/analytics_icon"/>
+
+    <ImageView
+        android:id="@+id/navNotif"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:src="@drawable/notification_icon"/>
+
+    <ImageView
+        android:id="@+id/navProfile"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:src="@drawable/profile_icon"/>
+
+</LinearLayout>

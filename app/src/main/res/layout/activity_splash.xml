@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="#1E2A38"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="206dp"
+        android:layout_height="204dp"
+        android:alpha="0"
+        android:background="@drawable/logo_bg"
+        android:padding="20dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/carabuff_logo" />
+
+</LinearLayout>

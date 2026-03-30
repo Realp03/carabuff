@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "766543877637",
+    "project_id": "carabuff-52cc5",
+    "storage_bucket": "carabuff-52cc5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766543877637:android:2ca915a6381b232696ae6c",
+        "android_client_info": {
+          "package_name": "com.example.carabuff"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkpV2nTlINnstum83OGkclZ4hBRK6mCyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

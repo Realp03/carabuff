@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E2A38">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- TITLE -->
+        <TextView
+            android:text="Customize Your Plan ⚙️"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- BMI -->
+        <TextView
+            android:id="@+id/tvBMI"
+            android:text="BMI: --"
+            android:textColor="#AAAAAA"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- GOAL -->
+        <TextView
+            android:text="Goal"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:id="@+id/spinnerGoal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- CALORIES -->
+        <TextView
+            android:text="Daily Calories"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/etCalories"
+            android:hint="Enter calories"
+            android:inputType="number"
+            android:textColor="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- PROTEIN -->
+        <TextView
+            android:text="Protein (g)"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/etProtein"
+            android:hint="Enter protein"
+            android:inputType="number"
+            android:textColor="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- CARBS -->
+        <TextView
+            android:text="Carbohydrates (g)"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/etCarbs"
+            android:hint="Enter carbs"
+            android:inputType="number"
+            android:textColor="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- FATS -->
+        <TextView
+            android:text="Fats (g)"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/etFats"
+            android:hint="Enter fats"
+            android:inputType="number"
+            android:textColor="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- WORKOUT -->
+        <TextView
+            android:text="Daily Workout Time"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:id="@+id/spinnerWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- SAVE BUTTON -->
+        <Button
+            android:id="@+id/btnSave"
+            android:text="Save Plan 🚀"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="#6C8CFF"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#1E2A38">
+
+    <!-- 🔝 TOP BAR -->
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:text="March 29, 2026"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:padding="15dp"/>
+
+    <!-- 📜 CONTENT -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- 🐃 CARABUFF -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/carabuffThought"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Let’s hit your goals today 💪"
+                    android:background="@drawable/rounded_card"
+                    android:backgroundTint="#FFFFFF"
+                    android:textColor="#1E2A38"
+                    android:padding="10dp"
+                    android:layout_marginEnd="10dp"/>
+
+                <ImageView
+                    android:id="@+id/carabuffHome"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/carabuff1"/>
+            </LinearLayout>
+
+            <!-- 🔥 CALORIES + MACROS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/rounded_card"
+                android:padding="16dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/tvCalories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 / 0 Calories"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <ProgressBar
+                    android:id="@+id/progressCalories"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="10dp"
+                    android:indeterminate="false"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:id="@+id/tvProtein"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Protein: 0 / 0g"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:id="@+id/tvCarbs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Carbs: 0 / 0g"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:id="@+id/tvFats"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fats: 0 / 0g"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnAddFood"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:text="ADD FOOD"
+                    android:layout_marginTop="15dp"
+                    android:backgroundTint="#6C8CFF"
+                    android:textColor="#FFFFFF"/>
+            </LinearLayout>
+
+            <!-- 💪 WORKOUT -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/rounded_card"
+                android:padding="16dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:text="Workout Progress"
+                    android:textColor="#FFFFFF"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ProgressBar
+                    android:id="@+id/progressWorkout"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="10dp"
+                    android:indeterminate="false"/>
+
+                <TextView
+                    android:id="@+id/tvWorkout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 / 0 minutes"
+                    android:textColor="#AAAAAA"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:id="@+id/tvCaloriesBurned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Burned: 0 kcal 🔥"
+                    android:textColor="#FF7043"
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp"/>
+
+                <Button
+                    android:id="@+id/btnAddWorkout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="WORKOUT NOW"
+                    android:layout_marginTop="15dp"
+                    android:backgroundTint="#6C8CFF"
+                    android:textColor="#FFFFFF"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 🔥 NEW REUSABLE NAVBAR -->
+    <include
+        layout="@layout/bottom_navbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E2A38"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <!-- THOUGHT -->
+    <TextView
+        android:id="@+id/carabuffThought"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:textColor="#1E2A38"
+        android:textSize="13sp"
+        android:background="@drawable/rounded_card"
+        android:backgroundTint="@color/white"
+        android:padding="10dp"
+        android:fontFamily="@font/iceland_regular"/>
+
+    <!-- SPRITE -->
+    <ImageView
+        android:id="@+id/carabuffSprite"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:src="@drawable/carabuff_talk_anim"
+        android:layout_marginBottom="-40dp"
+        android:scaleType="centerInside"/>
+
+    <!-- CARD -->
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="@drawable/rounded_card"
+        android:gravity="center"
+        android:layout_margin="20dp">
+
+        <!-- LOGO -->
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/carabuff_logo"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/circle_bg"
+            android:clipToOutline="true"/>
+
+        <!-- EMAIL -->
+        <EditText
+            android:id="@+id/emailInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Email"
+            android:background="@drawable/input_bg"
+            android:padding="12dp"
+            android:textColor="#333333"
+            android:textColorHint="#666666"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/iceland_regular"/>
+
+        <!-- PASSWORD -->
+        <EditText
+            android:id="@+id/passwordInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:background="@drawable/input_bg"
+            android:padding="12dp"
+            android:fontFamily="@font/iceland_regular"
+            android:textColor="#333333"
+            android:textColorHint="#666666"
+            android:drawableEnd="@android:drawable/ic_menu_view"
+            android:layout_marginBottom="5dp"/>
+
+        <!-- FORGOT PASSWORD -->
+        <TextView
+            android:id="@+id/forgotPasswordText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Forgot your password?"
+            android:textColor="#1E2A38"
+            android:textSize="12sp"
+            android:gravity="end"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/iceland_regular"/>
+
+        <!-- SIGN IN BUTTON -->
+        <Button
+            android:id="@+id/signInButton"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:text="Sign In"
+            android:backgroundTint="#1E2A38"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/iceland_regular"/>
+
+    </LinearLayout>
+
+    <!-- SIGN UP -->
+    <TextView
+        android:id="@+id/signupText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Don't have an Account? Sign Up here."
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/iceland_regular"/>
+
+</LinearLayout>

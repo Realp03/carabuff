@@ -1,0 +1,111 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E2A38">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- PUSH DOWN -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!-- TITLE -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Body Information"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginBottom="25dp"/>
+
+        <!-- WEIGHT -->
+        <EditText
+            android:id="@+id/weightInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Weight (kg)"
+            android:inputType="numberDecimal"
+            android:background="@drawable/input_bg"
+            android:textColor="#333333"
+            android:textColorHint="#666666"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- HEIGHT -->
+        <EditText
+            android:id="@+id/heightInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Height (cm)"
+            android:inputType="numberDecimal"
+            android:background="@drawable/input_bg"
+            android:textColor="#333333"
+            android:textColorHint="#666666"
+            android:padding="12dp"
+            android:layout_marginBottom="30dp"/>
+
+        <!-- PROGRESS (STEP 2 ACTIVE) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="25dp">
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="5dp"
+                android:background="#AAAAAA"/>
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="5dp"
+                android:background="#00BCD4"
+                android:layout_marginStart="10dp"/>
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="5dp"
+                android:background="#AAAAAA"
+                android:layout_marginStart="10dp"/>
+        </LinearLayout>
+
+        <!-- BUTTONS -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- PREVIOUS -->
+            <Button
+                android:id="@+id/prevBtn"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="Previous"
+                android:backgroundTint="#3A8DFF"
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/iceland_regular"/>
+
+            <!-- NEXT -->
+            <Button
+                android:id="@+id/nextBtn"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="Next"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="#3A8DFF"
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/iceland_regular"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

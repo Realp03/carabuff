@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E2A38">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- RESULT CARD -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#2E3B4E"
+            android:padding="16dp"
+            android:layout_marginTop="120dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvBMI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BMI: --"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvGoal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Goal: --"
+                android:textColor="#00E676"
+                android:textSize="16sp"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <!-- MACROS CARD -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#2E3B4E"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recommended Daily Intake"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/tvCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calories: --"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/tvProtein"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Protein: --"
+                android:textColor="#FFFFFF"/>
+
+            <TextView
+                android:id="@+id/tvCarbs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Carbs: --"
+                android:textColor="#FFFFFF"/>
+
+            <TextView
+                android:id="@+id/tvFats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fats: --"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+
+        <!-- BUTTONS -->
+        <Button
+            android:id="@+id/btnFollow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trust Carabuff 🐃"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#6C8CFF"/>
+
+        <Button
+            android:id="@+id/btnCustom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Customize Your Journey ⚙️"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#6C8CFF"/>
+    </LinearLayout>
+
+    <!-- CARABUFF CONTAINER -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="top"
+        android:layout_marginTop="-21dp">
+
+        <!-- CARABUFF -->
+        <ImageView
+            android:id="@+id/carabuffSprite"
+            android:layout_width="130dp"
+            android:layout_height="160dp"
+            android:src="@drawable/carabuff_talk_anim"
+            android:layout_gravity="center"
+            android:layout_marginEnd="100dp"
+            android:scaleType="centerInside"/>
+
+        <!-- THOUGHT BUBBLE -->
+        <TextView
+            android:id="@+id/carabuffThought"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="..."
+            android:textColor="#1E2A38"
+            android:textSize="13sp"
+            android:background="@drawable/rounded_card"
+            android:backgroundTint="@color/white"
+            android:padding="10dp"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_gravity="top|end"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="60dp"/>
+
+    </FrameLayout>
+
+
+
+
+</FrameLayout>
