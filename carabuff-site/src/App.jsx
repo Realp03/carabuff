@@ -16,6 +16,56 @@ function App() {
     }
   };
 
+  const features = [
+    {
+      title: "🤖 AI Fitness Coach",
+      desc: "Chat with Carabuff for personalized tips about calories, protein, workouts, and progress.",
+    },
+    {
+      title: "🔥 Calorie Tracking",
+      desc: "Log your meals and monitor your daily calorie intake with ease.",
+    },
+    {
+      title: "🍗 Macro Monitoring",
+      desc: "Track protein, carbs, and fats to stay aligned with your nutrition goals.",
+    },
+    {
+      title: "🏋️ Workout Logging",
+      desc: "Record workout duration and calories burned to measure your activity level.",
+    },
+    {
+      title: "📊 Smart Analytics",
+      desc: "View averages, highest records, streaks, weekly trends, and overall progress insights.",
+    },
+    {
+      title: "🎯 Goal-Based Dashboard",
+      desc: "See your calorie, macro, and workout progress compared to your personal targets.",
+    },
+    {
+      title: "🔔 Smart Notifications",
+      desc: "Get reminders for meals, workouts, and daily progress check-ins.",
+    },
+    {
+      title: "📅 Daily Progress Summary",
+      desc: "Review your daily performance and stay aware of where you need to improve.",
+    },
+    {
+      title: "⚡ Fast and Simple UI",
+      desc: "Clean design focused on quick logging, fast access, and easy tracking.",
+    },
+  ];
+
+  const updates = [
+    "Added AI chatbot with personalized fitness coaching",
+    "Connected AI to user goals and progress data",
+    "Added calorie, macro, and workout tracking system",
+    "Added dashboard with daily and weekly analytics",
+    "Added highest record and average progress insights",
+    "Added smart reminders and in-app notifications",
+    "Added daily summary support for user progress review",
+    "Improved goal tracking for protein, carbs, fats, and calories",
+  ];
+
   return (
     <div className="main">
       {/* HERO */}
@@ -43,7 +93,8 @@ function App() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
-          Track calories, workouts, and progress — all in one app.
+          Your smart fitness companion for tracking food, workouts, analytics,
+          and real progress.
         </motion.p>
 
         <motion.button
@@ -55,43 +106,52 @@ function App() {
           📥 Download for Android
         </motion.button>
 
-        <p className="small-note">Free • No ads • Easy to use</p>
+        <p className="small-note">Free • No ads • Built for fitness tracking</p>
       </section>
 
       {/* FEATURES */}
       <section className="features">
-        {[
-          "🔥 Track Calories",
-          "🏋️ Log Workouts",
-          "📊 Monitor Progress",
-          "🔔 Smart Notifications",
-          "⚡ Fast Performance",
-          "🎯 Goal Tracking",
-          "📅 Daily Planner",
-          "💡 Fitness Tips",
-        ].map((text, index) => (
+        {features.map((item, index) => (
           <motion.div
             className="card"
             key={index}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ delay: index * 0.08 }}
+            viewport={{ once: true }}
           >
-            <h3>{text}</h3>
-            <p>Powerful feature to boost your fitness journey.</p>
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
           </motion.div>
         ))}
       </section>
 
-      {/* STATS SECTION 🔥 */}
+      {/* WHAT'S NEW */}
+      <section className="features">
+        {updates.map((text, index) => (
+          <motion.div
+            className="card"
+            key={`update-${index}`}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.06 }}
+            viewport={{ once: true }}
+          >
+            <h3>✨ Update {index + 1}</h3>
+            <p>{text}</p>
+          </motion.div>
+        ))}
+      </section>
+
+      {/* STATS */}
       <section className="stats">
         <div>
-          <h2>🔥 5</h2>
-          <p>Downloads</p>
+          <h2>🤖 AI</h2>
+          <p>Coach Assistant</p>
         </div>
         <div>
-          <h2>⭐ 6.7</h2>
-          <p>User Rating</p>
+          <h2>📊 Smart</h2>
+          <p>Progress Analytics</p>
         </div>
         <div>
           <h2>💪 100%</h2>
