@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#1E2A38">
+
+    <!-- 🔝 TOP BAR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:background="#263544">
+
+        <!-- BACK BUTTON -->
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&lt;--"
+            android:textSize="22sp"
+            android:textColor="#FFFFFF"
+            android:padding="4dp"
+            android:contentDescription="Back"/>
+
+        <!-- CARABUFF AVATAR (CIRCLE) -->
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/carabuff1"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_bg"
+            android:padding="2dp"
+            android:contentDescription="Carabuff"/>
+
+        <!-- NAME -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Carabuff"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Online • Fitness Coach"
+                android:textColor="#90A4AE"
+                android:textSize="12sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ⚡ QUICK CHIPS -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:paddingTop="10dp"
+        android:paddingBottom="6dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <Button
+                android:id="@+id/btnChipProtein"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Protein"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#3E5C76"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btnChipWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Weight Loss"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#3E5C76"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btnChipWorkout"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Workout"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#3E5C76"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btnChipCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Calories"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#3E5C76"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btnChipHydration"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Hydration"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- 💬 CHAT LIST -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerChat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="12dp"
+        android:clipToPadding="false"/>
+
+    <!-- ✍️ INPUT BAR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:background="#263544">
+
+        <EditText
+            android:id="@+id/etMessage"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:hint="Message Carabuff..."
+            android:textColor="#FFFFFF"
+            android:textColorHint="#90A4AE"
+            android:background="@drawable/rounded_card"
+            android:backgroundTint="#32485C"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"/>
+
+        <ImageButton
+            android:id="@+id/btnSend"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:src="@android:drawable/ic_menu_send"
+            android:backgroundTint="#6C8CFF"
+            android:contentDescription="Send"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,206 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    android:id="@+id/main"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#1E2A38"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#1E2A38">
 
-    <!-- 📜 SCROLLABLE CONTENT -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottomNavbar">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <LinearLayout
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:paddingBottom="80dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <!-- 📊 HEADER -->
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="📊 Progress Dashboard"
+                android:textColor="#FFFFFF"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_marginBottom="18dp" />
 
-            <!-- 🔥 TODAY SUMMARY -->
+            <!-- TODAY SUMMARY -->
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="#263544"
                 android:padding="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_marginBottom="16dp">
 
                 <TextView
-                    android:text="🔥 Today Summary"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginBottom="10dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="🔥 Today Summary"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
 
                 <TextView
                     android:id="@+id/tvTodayCalories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Calories: 0"
                     android:textColor="#FFFFFF"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="16sp"
+                    android:layout_marginBottom="6dp" />
 
                 <TextView
                     android:id="@+id/tvTodayBurn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Burned: 0"
                     android:textColor="#FFFFFF"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="16sp"
+                    android:layout_marginBottom="6dp" />
 
                 <TextView
                     android:id="@+id/tvTodayNet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Net: 0"
                     android:textColor="#FFFFFF"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="16sp" />
             </LinearLayout>
 
-            <!-- 📅 CALENDAR -->
+            <!-- CALENDAR + STREAK -->
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="#263544"
                 android:padding="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_marginBottom="16dp">
 
                 <TextView
-                    android:text="📅 Activity Calendar"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginBottom="10dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="📅 Activity Calendar"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvStreak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🔥 Current Streak: 0 days"
+                    android:textColor="#FFA726"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
 
                 <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                     android:id="@+id/calendarView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:background="#263544"
+                    android:padding="8dp" />
             </LinearLayout>
 
-            <!-- 📈 WEEKLY GRAPH -->
+            <!-- WEEKLY GRAPH -->
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="#263544"
                 android:padding="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_marginBottom="16dp">
 
                 <TextView
-                    android:text="📈 Weekly Progress"
-                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📈 Weekly Graph"
                     android:textColor="#FFFFFF"
-                    android:layout_marginBottom="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
 
-                <TextView
-                    android:text="(Coming Soon: Graph)"
-                    android:textColor="#B0BEC5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lineChartWeekly"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:layout_marginBottom="12dp" />
             </LinearLayout>
 
-            <!-- 🍔 MACROS -->
+            <!-- AVERAGE MACROS + CALORIES DONUT CHART -->
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="#263544"
                 android:padding="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_marginBottom="16dp">
 
                 <TextView
-                    android:text="🍔 Avg Macros Per Day"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginBottom="10dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="🍽 Average Macros"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pieChartMacros"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"/>
+                    android:layout_height="260dp" />
             </LinearLayout>
 
-            <!-- 🏆 RECORDS -->
+            <!-- EXTRA STATS -->
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="#263544"
                 android:padding="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_marginBottom="16dp">
 
-                <TextView
-                    android:text="🏆 Records"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginBottom="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <!-- ✅ FIXED TEXTVIEWS -->
                 <TextView
                     android:id="@+id/tvHighestCalories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"/>
+                    android:text="Highest Intake: 0 kcal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="6dp" />
 
                 <TextView
                     android:id="@+id/tvLowestCalories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"/>
+                    android:text="Lowest Intake: 0 kcal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="6dp" />
 
                 <TextView
                     android:id="@+id/tvHighestBurn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"/>
+                    android:text="Highest Burn: 0 kcal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="6dp" />
 
                 <TextView
                     android:id="@+id/tvLowestBurn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"/>
+                    android:text="Lowest Burn: 0 kcal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="6dp" />
 
                 <TextView
                     android:id="@+id/tvMaxWorkout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"/>
+                    android:text="Longest Workout: 0 mins"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:layout_marginBottom="6dp" />
 
                 <TextView
                     android:id="@+id/tvMinWorkout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"/>
-
+                    android:text="Shortest Workout: 0 mins"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp" />
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- 🔥 FIXED NAVBAR INCLUDE -->
     <include
-        android:id="@+id/bottomNavbar"
         layout="@layout/bottom_navbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        android:layout_height="wrap_content" />
 
-</RelativeLayout>
+</LinearLayout>

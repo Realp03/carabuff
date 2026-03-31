@@ -1,13 +1,10 @@
 package com.example.carabuff
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.util.Log
-import androidx.core.app.NotificationCompat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -18,27 +15,53 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         Log.d("FCM", "Message received")
 
-        // 🔥 GET TITLE
         val title = remoteMessage.notification?.title
             ?: remoteMessage.data["title"]
             ?: "Carabuff"
 
-        // 🔥 GET MESSAGE
         val body = remoteMessage.notification?.body
             ?: remoteMessage.data["message"]
             ?: "New notification"
 
-        // 🔥 GET TYPE (IMPORTANT)
         val type = remoteMessage.data["type"] ?: "general"
+        val target = remoteMessage.data["target"] ?: "home"
+        val summaryDate = remoteMessage.data["summaryDate"]
 
-        // 🔥 USE MAIN SYSTEM (SAVES TO FIRESTORE + SHOW NOTIF)
-        val helper = NotificationHelper(this)
-        helper.sendNotification(title, body, type)
+        NotificationHelper.showNotification(
+            context = applicationContext,
+            title = title,
+            message = body,
+            type = type,
+            target = target,
+            saveToDb = false,
+            summaryDate = summaryDate
+        )
     }
 
-    // 🔥 OPTIONAL: TOKEN (FOR DEBUG / FUTURE)
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        Log.d("FCM_TOKEN", token)
+
+        Log.d("FCM_TOKEN", "New token: $token")
+        saveTokenToFirestore(token)
+    }
+
+    private fun saveTokenToFirestore(token: String) {
+        val user = FirebaseAuth.getInstance().currentUser ?: return
+        val db = FirebaseFirestore.getInstance()
+
+        val data = hashMapOf(
+            "fcmToken" to token,
+            "tokenUpdatedAt" to FieldValue.serverTimestamp()
+        )
+
+        db.collection("users")
+            .document(user.uid)
+            .set(data, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.d("FCM_TOKEN", "Token saved")
+            }
+            .addOnFailureListener { e ->
+                Log.e("FCM_TOKEN", "Failed to save token", e)
+            }
     }
 }

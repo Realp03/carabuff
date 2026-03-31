@@ -52,22 +52,23 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx")
 
-    // 🔥 RETROFIT
+    // 🔥 RETROFIT (optional mo na ito pero ok lang i-keep)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // 🔥 OKHTTP (IMPORTANT FOR CHATBOT API)
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     // 🔥 GLIDE
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
-    // 📅 CALENDAR (STABLE VERSION)
+    // 📅 CALENDAR
     implementation("com.prolificinteractive:material-calendarview:1.4.3")
 
     // 📊 CHART LIBRARY
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-
-    // PUSH NOTIF SA Phone
-    implementation("com.google.firebase:firebase-messaging-ktx")
 
     // TEST
     testImplementation("junit:junit:4.13.2")
@@ -75,7 +76,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 }
 
-// 🔥🔥🔥 CRITICAL FIX (Duplicate class error)
+// 🔥 FIX DUPLICATE CLASS
 configurations.all {
     exclude(group = "com.android.support")
 }

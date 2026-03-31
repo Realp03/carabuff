@@ -38,20 +38,10 @@ class SettingsActivity : AppCompatActivity() {
         changeEmailBtn.setOnClickListener { showChangeEmailDialog() }
         deleteAccountBtn.setOnClickListener { showDeleteDialog() }
 
-        val prefs = getSharedPreferences("settings", MODE_PRIVATE)
-        switchWorkout.isChecked = prefs.getBoolean("workoutReminder", false)
-        switchMeal.isChecked = prefs.getBoolean("mealReminder", false)
-
-        switchWorkout.setOnCheckedChangeListener { _, isChecked ->
-            prefs.edit().putBoolean("workoutReminder", isChecked).apply()
-        }
-
-        switchMeal.setOnCheckedChangeListener { _, isChecked ->
-            prefs.edit().putBoolean("mealReminder", isChecked).apply()
-        }
+        loadReminderSettings()
+        setupReminderSwitches()
     }
 
-    // 🔥 AUTO LOGOUT AFTER EMAIL VERIFIED
     override fun onResume() {
         super.onResume()
 
@@ -64,25 +54,22 @@ class SettingsActivity : AppCompatActivity() {
         if (!pendingEmailChange) return
 
         user.reload().addOnSuccessListener {
-
-            // 🔥 CHECK IF EMAIL CHANGED
             if (user.email != oldEmail) {
 
-                // 🔥 SEND NOTIFICATION
-                val helper = NotificationHelper(this)
-                helper.sendNotification(
-                    "Email Updated 📧",
-                    "Your email has been successfully changed.",
-                    "security"
+                NotificationHelper.showNotification(
+                    context = this,
+                    title = "Email Updated 📧",
+                    message = "Your email has been successfully changed.",
+                    type = "security",
+                    target = "profile",
+                    saveToDb = true
                 )
 
-                // 🔥 CLEAR FLAGS
                 prefs.edit()
                     .remove("pendingEmailChange")
                     .remove("oldEmail")
                     .apply()
 
-                // 🔥 FORCE LOGOUT
                 FirebaseAuth.getInstance().signOut()
 
                 Toast.makeText(
@@ -92,16 +79,70 @@ class SettingsActivity : AppCompatActivity() {
                 ).show()
 
                 val intent = Intent(this, MainActivity::class.java)
-                intent.flags =
-                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             }
         }
     }
 
-    // 📧 CHANGE EMAIL
-    private fun showChangeEmailDialog() {
+    private fun loadReminderSettings() {
+        val userId = auth.currentUser?.uid ?: return
 
+        db.collection("users")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { doc ->
+                val workoutEnabled = doc.getBoolean("workoutReminderEnabled") ?: true
+                val mealEnabled = doc.getBoolean("mealReminderEnabled") ?: true
+
+                switchWorkout.isChecked = workoutEnabled
+                switchMeal.isChecked = mealEnabled
+            }
+            .addOnFailureListener {
+                switchWorkout.isChecked = true
+                switchMeal.isChecked = true
+            }
+    }
+
+    private fun setupReminderSwitches() {
+        switchWorkout.setOnCheckedChangeListener { _, isChecked ->
+            saveReminderSetting("workoutReminderEnabled", isChecked)
+
+            Toast.makeText(
+                this,
+                if (isChecked) "Workout reminder ON" else "Workout reminder OFF",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        switchMeal.setOnCheckedChangeListener { _, isChecked ->
+            saveReminderSetting("mealReminderEnabled", isChecked)
+
+            Toast.makeText(
+                this,
+                if (isChecked) "Meal reminder ON" else "Meal reminder OFF",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun saveReminderSetting(field: String, value: Boolean) {
+        val userId = auth.currentUser?.uid ?: return
+
+        db.collection("users")
+            .document(userId)
+            .update(field, value)
+            .addOnFailureListener {
+                val data = hashMapOf(
+                    field to value
+                )
+                db.collection("users")
+                    .document(userId)
+                    .set(data, com.google.firebase.firestore.SetOptions.merge())
+            }
+    }
+
+    private fun showChangeEmailDialog() {
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(40, 20, 40, 10)
@@ -125,7 +166,6 @@ class SettingsActivity : AppCompatActivity() {
                 val currentEmail = user?.email
 
                 if (user != null && currentEmail != null) {
-
                     val credential = EmailAuthProvider.getCredential(
                         currentEmail,
                         password.text.toString()
@@ -133,17 +173,14 @@ class SettingsActivity : AppCompatActivity() {
 
                     user.reauthenticate(credential)
                         .addOnSuccessListener {
-
                             user.verifyBeforeUpdateEmail(newEmail.text.toString())
                                 .addOnSuccessListener {
-
                                     Toast.makeText(
                                         this,
                                         "Verification sent! Check your email.",
                                         Toast.LENGTH_LONG
                                     ).show()
 
-                                    // 🔥 SAVE STATE
                                     val prefs = getSharedPreferences("settings", MODE_PRIVATE)
                                     prefs.edit()
                                         .putBoolean("pendingEmailChange", true)
@@ -151,7 +188,11 @@ class SettingsActivity : AppCompatActivity() {
                                         .apply()
                                 }
                                 .addOnFailureListener {
-                                    Toast.makeText(this, "Failed to send email", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        this,
+                                        "Failed to send email",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                         }
                         .addOnFailureListener {
@@ -163,9 +204,7 @@ class SettingsActivity : AppCompatActivity() {
             .show()
     }
 
-    // 🔐 CHANGE PASSWORD
     private fun showChangePasswordDialog() {
-
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(40, 20, 40, 10)
@@ -188,7 +227,6 @@ class SettingsActivity : AppCompatActivity() {
                 val email = user?.email
 
                 if (user != null && email != null) {
-
                     val credential = EmailAuthProvider.getCredential(
                         email,
                         currentPass.text.toString()
@@ -196,22 +234,30 @@ class SettingsActivity : AppCompatActivity() {
 
                     user.reauthenticate(credential)
                         .addOnSuccessListener {
-
                             user.updatePassword(newPass.text.toString())
                                 .addOnSuccessListener {
 
-                                    Toast.makeText(this, "Password Updated", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        this,
+                                        "Password Updated",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
 
-                                    // 🔥 NOTIFICATION
-                                    val helper = NotificationHelper(this)
-                                    helper.sendNotification(
-                                        "Password Updated 🔐",
-                                        "Your password was successfully changed.",
-                                        "security"
+                                    NotificationHelper.showNotification(
+                                        context = this,
+                                        title = "Password Updated 🔐",
+                                        message = "Your password was successfully changed.",
+                                        type = "security",
+                                        target = "profile",
+                                        saveToDb = true
                                     )
                                 }
                                 .addOnFailureListener {
-                                    Toast.makeText(this, "Failed to update password", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        this,
+                                        "Failed to update password",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                         }
                         .addOnFailureListener {
@@ -223,9 +269,7 @@ class SettingsActivity : AppCompatActivity() {
             .show()
     }
 
-    // ❌ DELETE ACCOUNT
     private fun showDeleteDialog() {
-
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(40, 20, 40, 10)
@@ -246,12 +290,10 @@ class SettingsActivity : AppCompatActivity() {
                 val password = passwordInput.text.toString()
 
                 if (user != null && email != null) {
-
                     val credential = EmailAuthProvider.getCredential(email, password)
 
                     user.reauthenticate(credential)
                         .addOnSuccessListener {
-
                             val userId = user.uid
 
                             db.collection("users").document(userId).delete()
@@ -259,7 +301,11 @@ class SettingsActivity : AppCompatActivity() {
 
                             user.delete()
                                 .addOnSuccessListener {
-                                    Toast.makeText(this, "Account Deleted", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        this,
+                                        "Account Deleted",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
 
                                     val intent = Intent(this, MainActivity::class.java)
                                     intent.flags =

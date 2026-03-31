@@ -53,7 +53,58 @@
                     android:id="@+id/carabuffHome"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/carabuff1"/>
+                    android:src="@drawable/carabuff1"
+                    android:contentDescription="carabuff"/>
+            </LinearLayout>
+
+            <!-- 🤖 ASK CARABUFF -->
+            <LinearLayout
+                android:id="@+id/btnAskCarabuff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/rounded_card"
+                android:padding="15dp"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/carabuff1"
+                    android:layout_marginEnd="10dp"
+                    android:contentDescription="ask carabuff"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ask Carabuff 🐃"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Get advice about food, fitness, workouts, and health"
+                        android:textColor="#AAAAAA"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="→"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"/>
             </LinearLayout>
 
             <!-- 🔥 CALORIES + MACROS -->
@@ -135,10 +186,10 @@
                 android:layout_marginTop="20dp">
 
                 <TextView
-                    android:text="Workout Progress"
-                    android:textColor="#FFFFFF"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="Workout Progress"
+                    android:textColor="#FFFFFF"/>
 
                 <ProgressBar
                     android:id="@+id/progressWorkout"
@@ -178,7 +229,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- 🔥 NEW REUSABLE NAVBAR -->
+    <!-- 🔥 NAVBAR -->
     <include
         layout="@layout/bottom_navbar"
         android:layout_width="match_parent"

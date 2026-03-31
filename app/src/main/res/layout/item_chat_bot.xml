@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="start"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+
+    <ImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/carabuff1"
+        android:scaleType="centerCrop"
+        android:background="@drawable/circle_bg"
+        android:padding="2dp"
+        android:contentDescription="Carabuff"/>
+
+    <TextView
+        android:id="@+id/tvBotMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_card"
+        android:backgroundTint="#FFFFFF"
+        android:textColor="#1E2A38"
+        android:textSize="14sp"
+        android:padding="12dp"
+        android:maxWidth="260dp"/>
+</LinearLayout>

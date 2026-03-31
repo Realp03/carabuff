@@ -11,55 +11,53 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.random.Random
 
-class NotificationHelper(private val context: Context) {
+object NotificationHelper {
 
-    private val db = FirebaseFirestore.getInstance()
-    private val userId = FirebaseAuth.getInstance().currentUser?.uid
-
-    fun sendNotification(title: String, message: String, type: String) {
-
-        if (userId == null) return
-
-        val timestamp = System.currentTimeMillis()
-
-        // 🔥 MAS SAFE NOTIFICATION ID (iwas duplicate/crash)
-        val notifId = Random.nextInt(100000, 999999)
+    private fun saveToFirestore(
+        title: String,
+        message: String,
+        type: String,
+        target: String,
+        summaryDate: String? = null
+    ) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val db = FirebaseFirestore.getInstance()
 
         val data = hashMapOf(
             "userId" to userId,
             "title" to title,
             "message" to message,
             "type" to type,
-            "timestamp" to timestamp,
+            "target" to target,
+            "timestamp" to System.currentTimeMillis(),
             "isRead" to false
         )
 
-        // 🔥 SAVE TO FIREBASE
-        db.collection("notifications")
-            .add(data)
-            .addOnSuccessListener {
-                // optional log
-            }
-            .addOnFailureListener {
-                // optional error handling
-            }
+        if (summaryDate != null) {
+            data["summaryDate"] = summaryDate
+        }
 
-        // 🔥 SHOW LOCAL NOTIFICATION
-        showLocalNotification(title, message, type, notifId)
+        db.collection("notifications").add(data)
     }
 
-    private fun showLocalNotification(
+    fun showNotification(
+        context: Context,
         title: String,
         message: String,
-        type: String,
-        notifId: Int
+        type: String = "general",
+        target: String = "home",
+        saveToDb: Boolean = true,
+        summaryDate: String? = null
     ) {
+        if (saveToDb) {
+            saveToFirestore(title, message, type, target, summaryDate)
+        }
 
+        val notifId = Random.nextInt(100000, 999999)
         val manager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channelId = "carabuff_channel"
 
-        // 🔥 CREATE CHANNEL (ANDROID 8+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
@@ -69,19 +67,22 @@ class NotificationHelper(private val context: Context) {
             manager.createNotificationChannel(channel)
         }
 
-        // 🔥 NAVIGATION INTENT
-        val intent = when (type) {
+        val intent = when (target) {
             "daily_summary" -> Intent(context, DailySummaryActivity::class.java)
-            "achievement" -> Intent(context, AnalyticsActivity::class.java)
-            "workout", "food" -> Intent(context, HomeActivity::class.java)
-            "welcome" -> Intent(context, ProfileActivity::class.java)
+            "notifications" -> Intent(context, NotificationActivity::class.java)
+            "profile" -> Intent(context, ProfileActivity::class.java)
+            "analytics" -> Intent(context, AnalyticsActivity::class.java)
             else -> Intent(context, HomeActivity::class.java)
         }
 
-        // 🔥 PASS NOTIF ID
         intent.putExtra("notifId", notifId)
+        intent.putExtra("notif_type", type)
 
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        if (summaryDate != null) {
+            intent.putExtra("date", summaryDate)
+        }
+
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
 
         val pendingIntent = PendingIntent.getActivity(
             context,
@@ -90,17 +91,16 @@ class NotificationHelper(private val context: Context) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        // 🔥 BUILD NOTIFICATION (IMPROVED)
         val notification = NotificationCompat.Builder(context, channelId)
             .setContentTitle(title)
             .setContentText(message)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .build()
 
-        // 🔥 SHOW NOTIFICATION
         manager.notify(notifId, notification)
     }
 }
