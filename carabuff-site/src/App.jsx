@@ -86,11 +86,11 @@ function App() {
       {/* STATS SECTION 🔥 */}
       <section className="stats">
         <div>
-          <h2>🔥 1K+</h2>
+          <h2>🔥 5</h2>
           <p>Downloads</p>
         </div>
         <div>
-          <h2>⭐ 4.8</h2>
+          <h2>⭐ 6.7</h2>
           <p>User Rating</p>
         </div>
         <div>
