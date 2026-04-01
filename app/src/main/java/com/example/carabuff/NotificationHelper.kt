@@ -30,12 +30,9 @@ object NotificationHelper {
             "type" to type,
             "target" to target,
             "timestamp" to System.currentTimeMillis(),
-            "isRead" to false
+            "isRead" to false,
+            "summaryDate" to (summaryDate ?: "")
         )
-
-        if (summaryDate != null) {
-            data["summaryDate"] = summaryDate
-        }
 
         db.collection("notifications").add(data)
     }
@@ -78,7 +75,7 @@ object NotificationHelper {
         intent.putExtra("notifId", notifId)
         intent.putExtra("notif_type", type)
 
-        if (summaryDate != null) {
+        if (!summaryDate.isNullOrEmpty()) {
             intent.putExtra("date", summaryDate)
         }
 

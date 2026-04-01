@@ -10,7 +10,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,7 +24,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.messaging.FirebaseMessaging
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class HomeActivity : AppCompatActivity() {
 
@@ -47,12 +53,25 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var progressCalories: ProgressBar
     private lateinit var progressWorkout: ProgressBar
 
-    private val handler = Handler(Looper.getMainLooper())
+    private val textHandler = Handler(Looper.getMainLooper())
+    private val animHandler = Handler(Looper.getMainLooper())
+
     private var isTalking = false
     private var userName: String = "User"
+    private var hasPlayedGreeting = false
 
     private var typingRunnable: Runnable? = null
     private var deletingRunnable: Runnable? = null
+    private var animationEndRunnable: Runnable? = null
+
+    private var currentAnim: AnimationDrawable? = null
+
+    companion object {
+        private val STATIC_CARABUFF = R.drawable.carabuff1
+        private val ANIM_TALK = R.drawable.carabuff_talk_anim
+        private val ANIM_POINT = R.drawable.carabuff_point
+        private val ANIM_VIBE = R.drawable.carabuff_vibe
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,10 +108,11 @@ class HomeActivity : AppCompatActivity() {
         ).format(Date())
 
         dateText.text = currentDate
-        carabuff.setImageResource(R.drawable.carabuff1)
 
         requestNotificationPermission()
         fetchAndSaveFcmToken()
+
+        showStaticCarabuff()
 
         checkDailyReset()
         loadData()
@@ -107,8 +127,7 @@ class HomeActivity : AppCompatActivity() {
                 "You got this 😤"
             )
 
-            playTalkAnimation()
-            typeText(messages.random())
+            playRandomCarabuffAnimation(messages.random())
         }
 
         btnAddWorkout.setOnClickListener {
@@ -130,9 +149,11 @@ class HomeActivity : AppCompatActivity() {
         super.onResume()
         checkDailyReset()
         loadData()
-
-        // Local reminder lang ito habang bukas ang app
         checkMealReminder()
+
+        if (!isTalking) {
+            showStaticCarabuff()
+        }
     }
 
     private fun cancelOpenedNotificationIfNeeded() {
@@ -195,7 +216,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupNavbar() {
-        navHome.setOnClickListener {}
+        navHome.setOnClickListener { }
         navAnalytics.setOnClickListener {
             startActivity(Intent(this, AnalyticsActivity::class.java))
         }
@@ -259,9 +280,9 @@ class HomeActivity : AppCompatActivity() {
                     else -> "Good evening"
                 }
 
-                if (!isTalking) {
-                    playTalkAnimation()
-                    typeText("$greeting, $userName 👋")
+                if (!isTalking && !hasPlayedGreeting) {
+                    hasPlayedGreeting = true
+                    playRandomCarabuffAnimation("$greeting, $userName 👋")
                 }
             }
     }
@@ -360,25 +381,62 @@ class HomeActivity : AppCompatActivity() {
             }
     }
 
-    private fun playTalkAnimation() {
-        carabuff.setImageResource(R.drawable.carabuff_talk_anim)
-        val anim = carabuff.drawable as AnimationDrawable
-        anim.start()
+    private fun showStaticCarabuff() {
+        stopCurrentAnimation()
+        carabuff.setImageResource(STATIC_CARABUFF)
+    }
 
-        val totalDuration = (0 until anim.numberOfFrames).sumOf {
-            anim.getDuration(it)
+    private fun playAnimationOnce(resId: Int) {
+        stopCurrentAnimation()
+        carabuff.setImageResource(resId)
+
+        val drawable = carabuff.drawable
+        if (drawable is AnimationDrawable) {
+            drawable.isOneShot = true
+            currentAnim = drawable
+            drawable.start()
+        } else {
+            currentAnim = null
         }
+    }
 
-        carabuff.postDelayed({
-            carabuff.setImageResource(R.drawable.carabuff1)
-        }, totalDuration.toLong())
+    private fun stopCurrentAnimation() {
+        animationEndRunnable?.let { animHandler.removeCallbacks(it) }
+        currentAnim?.stop()
+        currentAnim = null
+        carabuff.clearAnimation()
+    }
+
+    private fun getAnimationDuration(resId: Int): Long {
+        val drawable = ContextCompat.getDrawable(this, resId)
+        return if (drawable is AnimationDrawable) {
+            var total = 0
+            for (i in 0 until drawable.numberOfFrames) {
+                total += drawable.getDuration(i)
+            }
+            total.toLong()
+        } else {
+            1000L
+        }
+    }
+
+    private fun playRandomCarabuffAnimation(message: String) {
+        isTalking = true
+        textHandler.removeCallbacksAndMessages(null)
+        thoughtText.text = ""
+
+        val randomAnim = listOf(ANIM_TALK, ANIM_POINT, ANIM_VIBE).random()
+        playAnimationOnce(randomAnim)
+        typeText(message)
+
+        animationEndRunnable = Runnable {
+            showStaticCarabuff()
+        }
+        animHandler.postDelayed(animationEndRunnable!!, getAnimationDuration(randomAnim))
     }
 
     private fun typeText(text: String) {
-        handler.removeCallbacksAndMessages(null)
-        isTalking = true
         thoughtText.text = ""
-
         var index = 0
 
         typingRunnable = object : Runnable {
@@ -386,17 +444,17 @@ class HomeActivity : AppCompatActivity() {
                 if (index < text.length) {
                     thoughtText.text = text.substring(0, index + 1)
                     index++
-                    handler.postDelayed(this, 40)
+                    textHandler.postDelayed(this, 40L)
                 } else {
                     deletingRunnable = Runnable {
                         deleteText(text)
                     }
-                    handler.postDelayed(deletingRunnable!!, 1500)
+                    textHandler.postDelayed(deletingRunnable!!, 1500L)
                 }
             }
         }
 
-        handler.post(typingRunnable!!)
+        textHandler.post(typingRunnable!!)
     }
 
     private fun deleteText(text: String) {
@@ -407,15 +465,16 @@ class HomeActivity : AppCompatActivity() {
                 if (index > 0) {
                     index--
                     thoughtText.text = text.substring(0, index)
-                    handler.postDelayed(this, 25)
+                    textHandler.postDelayed(this, 25L)
                 } else {
                     thoughtText.text = "..."
                     isTalking = false
+                    showStaticCarabuff()
                 }
             }
         }
 
-        handler.post(deletingRunnable!!)
+        textHandler.post(deletingRunnable!!)
     }
 
     private fun checkMealReminder() {
@@ -460,8 +519,18 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        stopCurrentAnimation()
+        if (!isTalking) {
+            showStaticCarabuff()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        handler.removeCallbacksAndMessages(null)
+        textHandler.removeCallbacksAndMessages(null)
+        animHandler.removeCallbacksAndMessages(null)
+        stopCurrentAnimation()
     }
 }

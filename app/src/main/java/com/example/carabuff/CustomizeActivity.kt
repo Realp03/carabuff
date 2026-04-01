@@ -6,6 +6,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 
 class CustomizeActivity : AppCompatActivity() {
 
@@ -28,7 +29,6 @@ class CustomizeActivity : AppCompatActivity() {
         val spinnerWorkout = findViewById<Spinner>(R.id.spinnerWorkout)
         val btnSave = findViewById<Button>(R.id.btnSave)
 
-        // GET DATA
         val bmi = intent.getDoubleExtra("bmi", 0.0)
         val goal = intent.getStringExtra("goal") ?: ""
         val calories = intent.getIntExtra("calories", 0)
@@ -38,27 +38,30 @@ class CustomizeActivity : AppCompatActivity() {
 
         tvBMI.text = "BMI: %.1f".format(bmi)
 
-        // GOAL OPTIONS
         val goals = arrayOf("Cut", "Maintain", "Bulk")
         spinnerGoal.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, goals)
 
-        spinnerGoal.setSelection(goals.indexOf(goal))
+        spinnerGoal.setSelection(goals.indexOf(goal).coerceAtLeast(0))
 
-        // PREFILL
         etCalories.setText(calories.toString())
         etProtein.setText(protein.toString())
         etCarbs.setText(carbs.toString())
         etFats.setText(fats.toString())
 
-        // WORKOUT OPTIONS
         val workouts = arrayOf("30 mins", "1 hour", "2 hours", "3 hours", "4 hours")
         spinnerWorkout.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, workouts)
 
         btnSave.setOnClickListener {
 
-            val userId = auth.currentUser?.uid ?: return@setOnClickListener
+            val userId = auth.currentUser?.uid
+            if (userId == null) {
+                Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            btnSave.isEnabled = false
 
             val selectedGoal = spinnerGoal.selectedItem.toString()
             val caloriesVal = etCalories.text.toString().toIntOrNull() ?: 0
@@ -89,12 +92,67 @@ class CustomizeActivity : AppCompatActivity() {
 
             db.collection("users")
                 .document(userId)
-                .set(planMap, com.google.firebase.firestore.SetOptions.merge())
+                .set(planMap, SetOptions.merge())
                 .addOnSuccessListener {
-                    Toast.makeText(this, "Custom Plan Saved 🔥", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, HomeActivity::class.java))
-                    finish()
+                    sendWelcomeIfFirstTime(userId) {
+                        Toast.makeText(this, "Custom Plan Saved 🔥", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, HomeActivity::class.java))
+                        finish()
+                    }
+                }
+                .addOnFailureListener {
+                    btnSave.isEnabled = true
+                    Toast.makeText(this, "Failed to save custom plan", Toast.LENGTH_SHORT).show()
                 }
         }
+    }
+
+    private fun sendWelcomeIfFirstTime(userId: String, onDone: () -> Unit) {
+        db.collection("users")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { document ->
+
+                val alreadySent = document.getBoolean("welcomeNotifSent") ?: false
+
+                if (alreadySent) {
+                    onDone()
+                    return@addOnSuccessListener
+                }
+
+                val rawName = document.getString("name")
+                    ?: document.getString("fullName")
+                    ?: document.getString("username")
+                    ?: document.getString("displayName")
+                    ?: "Carabuff Warrior"
+
+                val firstName = rawName.trim()
+                    .split(" ")
+                    .firstOrNull()
+                    ?.replaceFirstChar { it.uppercase() }
+                    ?: "Carabuff Warrior"
+
+                NotificationHelper.showNotification(
+                    context = this,
+                    title = "Welcome to Carabuff, $firstName! 🎉",
+                    message = "Thanks for signing up! Your fitness journey starts now — stay consistent and make every workout count 💪",
+                    type = "welcome",
+                    target = "profile",
+                    saveToDb = true
+                )
+
+                db.collection("users")
+                    .document(userId)
+                    .set(mapOf("welcomeNotifSent" to true), SetOptions.merge())
+                    .addOnSuccessListener {
+                        onDone()
+                    }
+                    .addOnFailureListener {
+                        onDone()
+                    }
+            }
+            .addOnFailureListener {
+                onDone()
+            }
     }
 }

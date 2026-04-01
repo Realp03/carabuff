@@ -1,8 +1,8 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="true">
 
-    <item android:drawable="@drawable/carabuff1" android:duration="500"/>
-    <item android:drawable="@drawable/carabuff2" android:duration="500"/>
-    <item android:drawable="@drawable/carabuff3" android:duration="500"/>
+    <item android:drawable="@drawable/carabuff1" android:duration="400"/>
+    <item android:drawable="@drawable/carabuff2" android:duration="400"/>
+    <item android:drawable="@drawable/carabuff3" android:duration="400"/>
 
 </animation-list>

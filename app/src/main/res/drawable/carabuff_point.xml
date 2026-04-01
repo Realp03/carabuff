@@ -1,0 +1,8 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="true">
+
+    <item android:drawable="@drawable/carapoint1" android:duration="400"/>
+    <item android:drawable="@drawable/carapoint2" android:duration="400"/>
+    <item android:drawable="@drawable/carapoint3" android:duration="400"/>
+
+</animation-list>

@@ -16,6 +16,11 @@ class SetupProfileActivity : AppCompatActivity() {
     private var selectedMonth = 0
     private var selectedDay = 0
 
+    companion object {
+        private const val MIN_AGE = 14
+        private const val MAX_AGE = 99
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setup_profile)
@@ -29,6 +34,7 @@ class SetupProfileActivity : AppCompatActivity() {
         val prevBtn = findViewById<Button>(R.id.prevBtn)
 
         prevBtn.isEnabled = false
+        ageInput.isEnabled = false
 
         // 🔥 SPINNER DATA
         val genderList = arrayOf("Male", "Female", "Other")
@@ -45,18 +51,42 @@ class SetupProfileActivity : AppCompatActivity() {
 
             val name = nameInput.text.toString().trim()
             val birthday = birthdayInput.text.toString().trim()
-            val age = ageInput.text.toString().trim()
+            val ageText = ageInput.text.toString().trim()
             val gender = genderSpinner.selectedItem.toString()
 
-            if (name.isEmpty() || birthday.isEmpty()) {
+            if (name.isEmpty() || birthday.isEmpty() || ageText.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val age = ageText.toIntOrNull()
+            if (age == null) {
+                Toast.makeText(this, "Invalid age", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (age < MIN_AGE) {
+                Toast.makeText(
+                    this,
+                    "Minimum age to use this app is $MIN_AGE years old",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            if (age > MAX_AGE) {
+                Toast.makeText(
+                    this,
+                    "Maximum age allowed is $MAX_AGE years old",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
             val intent = Intent(this, Step2Activity::class.java)
             intent.putExtra("name", name)
             intent.putExtra("birthday", birthday)
-            intent.putExtra("age", age)
+            intent.putExtra("age", age.toString())
             intent.putExtra("gender", gender)
 
             startActivity(intent)
@@ -78,10 +108,32 @@ class SetupProfileActivity : AppCompatActivity() {
                 selectedMonth = m
                 selectedDay = d
 
+                val age = calculateAge(y, m, d)
+
+                if (age < MIN_AGE) {
+                    birthdayInput.setText("")
+                    ageInput.setText("")
+                    Toast.makeText(
+                        this,
+                        "You must be at least $MIN_AGE years old to use this app",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@DatePickerDialog
+                }
+
+                if (age > MAX_AGE) {
+                    birthdayInput.setText("")
+                    ageInput.setText("")
+                    Toast.makeText(
+                        this,
+                        "Maximum age allowed is $MAX_AGE years old",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@DatePickerDialog
+                }
+
                 val formatted = "${m + 1}/$d/$y"
                 birthdayInput.setText(formatted)
-
-                val age = calculateAge(y, m, d)
                 ageInput.setText(age.toString())
             },
             year,

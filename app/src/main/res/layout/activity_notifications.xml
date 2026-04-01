@@ -7,7 +7,6 @@
     android:orientation="vertical"
     android:background="#1E2A38">
 
-    <!-- 🔝 HEADER -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,16 +15,98 @@
         android:textStyle="bold"
         android:textColor="#FFFFFF"
         android:gravity="center"
-        android:paddingTop="24dp"
-        android:paddingBottom="16dp"/>
+        android:paddingTop="20dp"
+        android:paddingBottom="12dp"/>
 
-    <!-- 📜 CONTENT -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/btnRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Refresh"
+                android:textColor="#FFFFFF"
+                android:background="#32485A"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="8dp"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/btnReadAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Read All"
+                android:textColor="#FFFFFF"
+                android:background="#32485A"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="8dp"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/txtSelectionCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 selected"
+                android:textColor="#FFD54F"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="8dp"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/btnSelectAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="☐ Select All"
+                android:textColor="#FFFFFF"
+                android:background="#455A64"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="8dp"
+                android:visibility="gone"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/btnDeleteSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:textColor="#FFFFFF"
+                android:background="#C62828"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="8dp"
+                android:visibility="gone"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/btnCancelSelection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:textColor="#FFFFFF"
+                android:background="#616161"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="8dp"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <!-- 🔥 RECYCLER VIEW -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerNotifications"
             android:layout_width="match_parent"
@@ -37,7 +118,6 @@
             android:overScrollMode="never"
             android:scrollbars="none"/>
 
-        <!-- 💤 EMPTY STATE -->
         <LinearLayout
             android:id="@+id/emptyState"
             android:layout_width="match_parent"
@@ -59,12 +139,10 @@
                 android:textColor="#AAAAAA"
                 android:textSize="16sp"
                 android:layout_marginTop="12dp"/>
-
         </LinearLayout>
 
     </FrameLayout>
 
-    <!-- 🔥 NAVBAR -->
     <include
         layout="@layout/bottom_navbar"
         android:layout_width="match_parent"

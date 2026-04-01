@@ -53,7 +53,8 @@
                     android:id="@+id/carabuffHome"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/carabuff1"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
                     android:contentDescription="carabuff"/>
             </LinearLayout>
 

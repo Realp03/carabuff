@@ -2,15 +2,19 @@ package com.example.carabuff
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.InputType
 import android.view.MotionEvent
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -19,14 +23,20 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
 
-    private var isPasswordVisible = false
     private lateinit var auth: FirebaseAuth
-
     private lateinit var carabuff: ImageView
     private lateinit var thoughtText: TextView
 
+    private var isPasswordVisible = false
     private var isThinking = false
+    private var hasPlayedIntro = false
+
     private val handler = Handler(Looper.getMainLooper())
+
+    private var typingRunnable: Runnable? = null
+    private var deletingRunnable: Runnable? = null
+    private var animationEndRunnable: Runnable? = null
+    private var currentAnim: AnimationDrawable? = null
 
     private val errorMessages = listOf(
         "Oops, try again 😅",
@@ -39,15 +49,31 @@ class MainActivity : AppCompatActivity() {
         "Take your time, no rush ⏳"
     )
 
+    private val triviaList = listOf(
+        "Eggs are one of the best protein sources 🥚",
+        "Walking burns fat more consistently 🚶",
+        "Muscle burns more calories than fat 💪",
+        "Drink water to boost metabolism 💧",
+        "Rest days help muscles grow 😴",
+        "Protein helps recovery 🍗",
+        "Consistency beats intensity 🔥",
+        "No gym? Bodyweight works 🏃",
+        "Sleep affects your progress 🛌",
+        "Small progress is still progress 👊"
+    )
+
+    companion object {
+        private val STATIC_CARABUFF = R.drawable.carabuff1
+        private val ANIM_TALK = R.drawable.carabuff_talk_anim
+        private val ANIM_POINT = R.drawable.carabuff_point
+        private val ANIM_VIBE = R.drawable.carabuff_vibe
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 🔔 FORCE NOTIFICATION PERMISSION (ANDROID 13+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-
-            Toast.makeText(this, "Requesting notification permission...", Toast.LENGTH_SHORT).show()
-
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.POST_NOTIFICATIONS),
@@ -66,43 +92,22 @@ class MainActivity : AppCompatActivity() {
         carabuff = findViewById(R.id.carabuffSprite)
         thoughtText = findViewById(R.id.carabuffThought)
 
-        carabuff.setImageResource(R.drawable.carabuff1)
+        showStaticCarabuff()
+        thoughtText.text = "..."
 
-        val triviaList = listOf(
-            "Eggs are one of the best protein sources 🥚",
-            "Walking burns fat more consistently 🚶",
-            "Muscle burns more calories than fat 💪",
-            "Drink water to boost metabolism 💧",
-            "Rest days help muscles grow 😴",
-            "Protein helps recovery 🍗",
-            "Consistency beats intensity 🔥",
-            "No gym? Bodyweight works 🏃",
-            "Sleep affects your progress 🛌",
-            "Small progress is still progress 👊"
-        )
-
-        // DEFAULT TEXT
-        typeText("...", true)
-
-        // INTRO
-        playTalkAnimation()
-        typeText("Hi! I'm Carabuff Your fitness AI companion 💪")
-
-        // CLICK CARABUFF
         carabuff.setOnClickListener {
-            if (isThinking) return@setOnClickListener
-            val randomMessage = triviaList.random()
-            playTalkAnimation()
-            typeText(randomMessage)
+            forceResetCarabuff()
+            playRandomCarabuffAnimation(triviaList.random())
         }
 
-        // PASSWORD TOGGLE
         passwordInput.setOnTouchListener { v, event ->
             val drawableEnd = 2
 
             if (event.action == MotionEvent.ACTION_UP) {
-                if (event.rawX >= (passwordInput.right - passwordInput.compoundDrawables[drawableEnd].bounds.width())) {
-
+                val endDrawable = passwordInput.compoundDrawables[drawableEnd]
+                if (endDrawable != null &&
+                    event.rawX >= (passwordInput.right - endDrawable.bounds.width())
+                ) {
                     val selection = passwordInput.selectionEnd
 
                     if (isPasswordVisible) {
@@ -123,159 +128,261 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
-        // LOGIN BUTTON
         signInBtn.setOnClickListener {
-
             val email = emailInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Enter email and password", Toast.LENGTH_SHORT).show()
+                forceResetCarabuff()
+                playRandomCarabuffAnimation("Enter your email and password first 📩")
                 return@setOnClickListener
             }
 
-            playTalkAnimation()
+            forceResetCarabuff()
+            playRandomCarabuffAnimation("Signing you in...")
 
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
-
                     if (task.isSuccessful) {
-
                         auth.currentUser?.reload()?.addOnCompleteListener {
-
                             val user = auth.currentUser
 
                             if (user == null) {
                                 auth.signOut()
                                 Toast.makeText(this, "Account error", Toast.LENGTH_LONG).show()
+                                forceResetCarabuff()
+                                playRandomCarabuffAnimation("Account error 😥")
                                 return@addOnCompleteListener
                             }
 
                             if (!user.isEmailVerified) {
                                 auth.signOut()
                                 Toast.makeText(this, "Please verify your email first.", Toast.LENGTH_LONG).show()
+                                forceResetCarabuff()
+                                playRandomCarabuffAnimation("Please verify your email first 📩")
                                 return@addOnCompleteListener
                             }
 
                             goToNextScreen(user.uid)
                         }
-
                     } else {
-                        val randomMessage = errorMessages.random()
-                        playTalkAnimation()
-                        typeText(randomMessage)
-
+                        forceResetCarabuff()
+                        playRandomCarabuffAnimation(errorMessages.random())
                         Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
-
-                        carabuff.alpha = 0.7f
-                        handler.postDelayed({
-                            carabuff.alpha = 1f
-                        }, 500)
                     }
                 }
         }
 
-        // FORGOT PASSWORD
         forgotPassword.setOnClickListener {
-
             val email = emailInput.text.toString().trim()
 
             if (email.isEmpty()) {
                 Toast.makeText(this, "Enter your email first", Toast.LENGTH_SHORT).show()
+                forceResetCarabuff()
+                playRandomCarabuffAnimation("Enter your email first 📩")
             } else {
-
-                playTalkAnimation()
-                typeText("Sending reset email 📩")
+                forceResetCarabuff()
+                playRandomCarabuffAnimation("Sending reset email 📩")
 
                 auth.sendPasswordResetEmail(email)
                     .addOnCompleteListener { task ->
-
                         if (task.isSuccessful) {
-                            typeText("Check your email to reset password 💪")
+                            forceResetCarabuff()
+                            playRandomCarabuffAnimation("Check your email to reset password 💪")
                             Toast.makeText(this, "Reset email sent!", Toast.LENGTH_LONG).show()
                         } else {
-                            typeText("Something went wrong 😅")
-                            Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                            forceResetCarabuff()
+                            playRandomCarabuffAnimation("Something went wrong 😅")
+                            Toast.makeText(
+                                this,
+                                "Error: ${task.exception?.message}",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
             }
         }
 
-        // SIGNUP NAVIGATION
         signupText.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
     }
 
-    private fun playTalkAnimation() {
-        carabuff.setImageResource(R.drawable.carabuff_talk_anim)
+    override fun onPostResume() {
+        super.onPostResume()
 
-        val anim = carabuff.drawable as AnimationDrawable
-        anim.start()
+        if (!hasPlayedIntro) {
+            hasPlayedIntro = true
 
-        val totalDuration = (0 until anim.numberOfFrames).sumOf {
-            anim.getDuration(it)
+            carabuff.postDelayed({
+                if (!isFinishing && !isDestroyed) {
+                    playIntroCarabuff()
+                }
+            }, 400)
         }
-
-        carabuff.postDelayed({
-            carabuff.setImageResource(R.drawable.carabuff1)
-        }, totalDuration.toLong())
     }
 
-    private fun typeText(text: String, isDefault: Boolean = false) {
+    private fun playIntroCarabuff() {
+        stopAllCarabuffCallbacks()
+        isThinking = true
 
+        val introMessage = "Hi! I'm Carabuff, your fitness AI companion 💪"
+        thoughtText.text = introMessage
+
+        playAnimationFromRes(ANIM_TALK)
+
+        deletingRunnable = Runnable {
+            deleteText(introMessage)
+        }
+        handler.postDelayed(deletingRunnable!!, 2200)
+
+        animationEndRunnable = Runnable {
+            if (!isFinishing && !isDestroyed) {
+                showStaticCarabuff()
+            }
+        }
+        handler.postDelayed(animationEndRunnable!!, getAnimationDuration(ANIM_TALK))
+    }
+
+    private fun playRandomCarabuffAnimation(message: String) {
+        stopAllCarabuffCallbacks()
         isThinking = true
         thoughtText.text = ""
 
+        val randomAnim = listOf(ANIM_TALK, ANIM_POINT, ANIM_VIBE).random()
+        playAnimationFromRes(randomAnim)
+
+        typingRunnable = Runnable {
+            typeText(message)
+        }
+        handler.postDelayed(typingRunnable!!, 100)
+
+        animationEndRunnable = Runnable {
+            if (!isFinishing && !isDestroyed) {
+                showStaticCarabuff()
+            }
+        }
+        handler.postDelayed(animationEndRunnable!!, getAnimationDuration(randomAnim))
+    }
+
+    private fun playAnimationFromRes(resId: Int) {
+        stopCurrentAnimationOnly()
+
+        val drawable: Drawable? = ContextCompat.getDrawable(this, resId)
+        if (drawable is AnimationDrawable) {
+            val anim = drawable.constantState?.newDrawable()?.mutate()
+            if (anim is AnimationDrawable) {
+                anim.isOneShot = true
+                currentAnim = anim
+                carabuff.setImageDrawable(anim)
+
+                carabuff.post {
+                    currentAnim?.stop()
+                    currentAnim?.start()
+                }
+                return
+            }
+        }
+
+        carabuff.setImageResource(resId)
+        currentAnim = null
+    }
+
+    private fun showStaticCarabuff() {
+        stopCurrentAnimationOnly()
+        carabuff.setImageResource(STATIC_CARABUFF)
+    }
+
+    private fun stopCurrentAnimationOnly() {
+        animationEndRunnable?.let { handler.removeCallbacks(it) }
+        currentAnim?.stop()
+        currentAnim = null
+        carabuff.clearAnimation()
+    }
+
+    private fun stopAllCarabuffCallbacks() {
+        typingRunnable?.let { handler.removeCallbacks(it) }
+        deletingRunnable?.let { handler.removeCallbacks(it) }
+        animationEndRunnable?.let { handler.removeCallbacks(it) }
+    }
+
+    private fun forceResetCarabuff() {
+        stopAllCarabuffCallbacks()
+        currentAnim?.stop()
+        currentAnim = null
+        carabuff.clearAnimation()
+        thoughtText.text = "..."
+        isThinking = false
+        carabuff.setImageResource(STATIC_CARABUFF)
+    }
+
+    private fun typeText(text: String) {
+        deletingRunnable?.let { handler.removeCallbacks(it) }
+
+        thoughtText.text = ""
         var index = 0
 
-        handler.post(object : Runnable {
+        typingRunnable = object : Runnable {
             override fun run() {
                 if (index < text.length) {
-                    thoughtText.text = thoughtText.text.toString() + text[index]
+                    thoughtText.text = text.substring(0, index + 1)
                     index++
                     handler.postDelayed(this, 40)
                 } else {
-
-                    if (!isDefault) {
-                        handler.postDelayed({
-                            deleteText(text)
-                        }, 5000)
-                    } else {
-                        isThinking = false
+                    deletingRunnable = Runnable {
+                        deleteText(text)
                     }
+                    handler.postDelayed(deletingRunnable!!, 1800)
                 }
             }
-        })
+        }
+
+        handler.post(typingRunnable!!)
     }
 
     private fun deleteText(text: String) {
+        deletingRunnable?.let { handler.removeCallbacks(it) }
 
         var index = text.length
 
-        handler.post(object : Runnable {
+        deletingRunnable = object : Runnable {
             override fun run() {
                 if (index > 0) {
                     index--
                     thoughtText.text = text.substring(0, index)
                     handler.postDelayed(this, 25)
                 } else {
-                    typeText("...", true)
+                    thoughtText.text = "..."
+                    isThinking = false
+                    showStaticCarabuff()
                 }
             }
-        })
+        }
+
+        handler.post(deletingRunnable!!)
+    }
+
+    private fun getAnimationDuration(resId: Int): Long {
+        val drawable = ContextCompat.getDrawable(this, resId)
+        return if (drawable is AnimationDrawable) {
+            var total = 0
+            for (i in 0 until drawable.numberOfFrames) {
+                total += drawable.getDuration(i)
+            }
+            total.toLong()
+        } else {
+            1000L
+        }
     }
 
     override fun onStart() {
         super.onStart()
 
         val user = auth.currentUser
-
         if (user != null) {
             user.reload().addOnCompleteListener {
-
                 val refreshedUser = auth.currentUser
-
                 if (refreshedUser != null && refreshedUser.isEmailVerified) {
                     goToNextScreen(refreshedUser.uid)
                 }
@@ -284,31 +391,40 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun goToNextScreen(userId: String) {
-
         FirebaseFirestore.getInstance()
             .collection("users")
             .document(userId)
             .get()
             .addOnSuccessListener { document ->
-
                 if (document.exists()) {
-
                     val isComplete = document.getBoolean("isProfileComplete") ?: false
-
                     if (isComplete) {
                         startActivity(Intent(this, HomeActivity::class.java))
                     } else {
                         startActivity(Intent(this, SetupProfileActivity::class.java))
                     }
-
                 } else {
                     startActivity(Intent(this, SetupProfileActivity::class.java))
                 }
-
                 finish()
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Error loading user", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopAllCarabuffCallbacks()
+        stopCurrentAnimationOnly()
+        if (!isThinking) {
+            showStaticCarabuff()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacksAndMessages(null)
+        stopCurrentAnimationOnly()
     }
 }

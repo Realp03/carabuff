@@ -12,14 +12,20 @@ import java.util.*
 
 class NotificationAdapter(
     private val list: MutableList<NotificationModel>,
-    private val onClick: (NotificationModel) -> Unit
+    private val onClick: (NotificationModel) -> Unit,
+    private val onLongClick: (NotificationModel) -> Unit,
+    private val onSelectionChanged: () -> Unit
 ) : RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
+
+    private val selectedIds = mutableSetOf<String>()
+    var selectionMode: Boolean = false
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val icon: TextView = view.findViewById(R.id.notifIcon)
         val title: TextView = view.findViewById(R.id.notifTitle)
         val message: TextView = view.findViewById(R.id.notifMessage)
         val time: TextView = view.findViewById(R.id.notifTime)
+        val check: TextView = view.findViewById(R.id.notifCheck)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,19 +43,19 @@ class NotificationAdapter(
         holder.message.text = notif.message
         holder.time.text = formatTime(notif.timestamp)
 
-        // 🔥 ICON BASED SA TYPE
         holder.icon.text = when (notif.type) {
             "workout" -> "💪"
             "food" -> "🍔"
+            "meal" -> "🍽"
             "achievement" -> "🏆"
             "daily_reminder" -> "⏰"
             "daily_summary" -> "📊"
             "welcome" -> "🎉"
-            "meal" -> "🍽"
+            "security" -> "🔐"
+            "profile_update" -> "👤"
             else -> "🔔"
         }
 
-        // 🔥 UNREAD HIGHLIGHT SYSTEM (IMPROVED)
         if (!notif.isRead) {
             holder.itemView.setBackgroundColor(Color.parseColor("#3A4A5F"))
             holder.title.setTypeface(null, Typeface.BOLD)
@@ -60,27 +66,102 @@ class NotificationAdapter(
             holder.message.setTypeface(null, Typeface.NORMAL)
         }
 
-        // 🔥 CLICK EVENT (SAFE POSITION)
+        if (selectionMode) {
+            holder.check.visibility = View.VISIBLE
+            holder.check.text = if (selectedIds.contains(notif.id)) "☑" else "☐"
+        } else {
+            holder.check.visibility = View.GONE
+        }
+
         holder.itemView.setOnClickListener {
             val currentPosition = holder.adapterPosition
             if (currentPosition != RecyclerView.NO_POSITION) {
-                onClick(list[currentPosition])
+                val currentNotif = list[currentPosition]
+
+                if (selectionMode) {
+                    toggleSelection(currentNotif.id)
+                } else {
+                    onClick(currentNotif)
+                }
             }
+        }
+
+        holder.itemView.setOnLongClickListener {
+            val currentPosition = holder.adapterPosition
+            if (currentPosition != RecyclerView.NO_POSITION) {
+                val currentNotif = list[currentPosition]
+
+                if (!selectionMode) {
+                    startSelection(currentNotif.id)
+                    onLongClick(currentNotif)
+                } else {
+                    toggleSelection(currentNotif.id)
+                }
+            }
+            true
         }
     }
 
-    // 🔥 FORMAT TIME
     private fun formatTime(timestamp: Long): String {
         val sdf = SimpleDateFormat("MMM dd, hh:mm a", Locale.getDefault())
         return sdf.format(Date(timestamp))
     }
 
-    // 🔥 OPTIONAL: UPDATE SINGLE ITEM (SMOOTH UI)
     fun updateItem(updatedNotif: NotificationModel) {
         val index = list.indexOfFirst { it.id == updatedNotif.id }
         if (index != -1) {
             list[index] = updatedNotif
             notifyItemChanged(index)
         }
+    }
+
+    fun toggleSelection(id: String) {
+        if (selectedIds.contains(id)) {
+            selectedIds.remove(id)
+        } else {
+            selectedIds.add(id)
+        }
+        notifyDataSetChanged()
+        onSelectionChanged()
+    }
+
+    fun startSelection(firstId: String) {
+        selectionMode = true
+        selectedIds.clear()
+        selectedIds.add(firstId)
+        notifyDataSetChanged()
+        onSelectionChanged()
+    }
+
+    fun clearSelection() {
+        selectionMode = false
+        selectedIds.clear()
+        notifyDataSetChanged()
+        onSelectionChanged()
+    }
+
+    fun getSelectedIds(): List<String> {
+        return selectedIds.toList()
+    }
+
+    fun getSelectedCount(): Int {
+        return selectedIds.size
+    }
+
+    fun selectAll() {
+        selectionMode = true
+        selectedIds.clear()
+        for (notif in list) {
+            if (notif.id.isNotEmpty()) {
+                selectedIds.add(notif.id)
+            }
+        }
+        notifyDataSetChanged()
+        onSelectionChanged()
+    }
+
+    fun areAllSelected(): Boolean {
+        val validIds = list.map { it.id }.filter { it.isNotEmpty() }
+        return validIds.isNotEmpty() && selectedIds.size == validIds.size
     }
 }

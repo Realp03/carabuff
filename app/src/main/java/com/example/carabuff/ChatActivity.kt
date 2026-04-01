@@ -3,6 +3,7 @@ package com.example.carabuff
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
@@ -19,6 +20,13 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var btnSend: ImageButton
     private lateinit var btnBack: TextView
 
+    // 🔥 Quick chips
+    private lateinit var btnChipProtein: Button
+    private lateinit var btnChipWeight: Button
+    private lateinit var btnChipWorkout: Button
+    private lateinit var btnChipCalories: Button
+    private lateinit var btnChipHydration: Button
+
     private lateinit var adapter: ChatAdapter
     private val messages = mutableListOf<ChatMessage>()
 
@@ -32,6 +40,13 @@ class ChatActivity : AppCompatActivity() {
         etMessage = findViewById(R.id.etMessage)
         btnSend = findViewById(R.id.btnSend)
         btnBack = findViewById(R.id.btnBack)
+
+        // 🔥 Connect chip buttons from XML
+        btnChipProtein = findViewById(R.id.btnChipProtein)
+        btnChipWeight = findViewById(R.id.btnChipWeight)
+        btnChipWorkout = findViewById(R.id.btnChipWorkout)
+        btnChipCalories = findViewById(R.id.btnChipCalories)
+        btnChipHydration = findViewById(R.id.btnChipHydration)
 
         adapter = ChatAdapter(messages)
         recyclerChat.layoutManager = LinearLayoutManager(this)
@@ -47,6 +62,27 @@ class ChatActivity : AppCompatActivity() {
             sendMessage()
         }
 
+        // 🔥 CHIP ACTIONS
+        btnChipProtein.setOnClickListener {
+            sendPresetMessage("How can I increase my protein intake?")
+        }
+
+        btnChipWeight.setOnClickListener {
+            sendPresetMessage("Give me a weight loss plan.")
+        }
+
+        btnChipWorkout.setOnClickListener {
+            sendPresetMessage("Suggest a workout for today.")
+        }
+
+        btnChipCalories.setOnClickListener {
+            sendPresetMessage("How many calories should I eat per day?")
+        }
+
+        btnChipHydration.setOnClickListener {
+            sendPresetMessage("How much water should I drink daily?")
+        }
+
         etMessage.setOnEditorActionListener { _, actionId, event ->
             val isEnterPressed =
                 event?.keyCode == KeyEvent.KEYCODE_ENTER &&
@@ -59,6 +95,12 @@ class ChatActivity : AppCompatActivity() {
                 false
             }
         }
+    }
+
+    private fun sendPresetMessage(text: String) {
+        if (isSending) return
+        etMessage.setText(text)
+        sendMessage()
     }
 
     private fun sendMessage() {
@@ -104,6 +146,13 @@ class ChatActivity : AppCompatActivity() {
         isSending = sending
         btnSend.isEnabled = !sending
         etMessage.isEnabled = !sending
+
+        // optional: disable chips habang nagre-reply si AI
+        btnChipProtein.isEnabled = !sending
+        btnChipWeight.isEnabled = !sending
+        btnChipWorkout.isEnabled = !sending
+        btnChipCalories.isEnabled = !sending
+        btnChipHydration.isEnabled = !sending
     }
 
     private fun addUserMessage(text: String) {

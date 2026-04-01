@@ -10,7 +10,6 @@
     android:background="@drawable/bg_notification_item"
     android:gravity="center_vertical">
 
-    <!-- 🔔 ICON -->
     <TextView
         android:id="@+id/notifIcon"
         android:layout_width="wrap_content"
@@ -19,14 +18,12 @@
         android:textSize="20sp"
         android:layout_marginEnd="12dp"/>
 
-    <!-- 📄 TEXT CONTENT -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <!-- 🏷 TITLE -->
         <TextView
             android:id="@+id/notifTitle"
             android:layout_width="wrap_content"
@@ -38,7 +35,6 @@
             android:maxLines="1"
             android:ellipsize="end"/>
 
-        <!-- 💬 MESSAGE -->
         <TextView
             android:id="@+id/notifMessage"
             android:layout_width="wrap_content"
@@ -50,7 +46,6 @@
             android:maxLines="2"
             android:ellipsize="end"/>
 
-        <!-- ⏱ TIME -->
         <TextView
             android:id="@+id/notifTime"
             android:layout_width="wrap_content"
@@ -62,4 +57,12 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/notifCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="⬜"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:layout_marginStart="10dp"/>
 </LinearLayout>

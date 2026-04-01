@@ -20,7 +20,6 @@ class PlanActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
-        // UI
         val tvBMI = findViewById<TextView>(R.id.tvPlanBMI)
         val tvGoal = findViewById<TextView>(R.id.tvPlanGoal)
         val tvCalories = findViewById<TextView>(R.id.tvPlanCalories)
@@ -31,7 +30,6 @@ class PlanActivity : AppCompatActivity() {
         val spinnerWorkout = findViewById<Spinner>(R.id.spinnerWorkout)
         val btnStart = findViewById<Button>(R.id.btnStart)
 
-        // 🔥 GET DATA FROM RESULT
         val bmi = intent.getDoubleExtra("bmi", 0.0)
         val goal = intent.getStringExtra("goal") ?: ""
 
@@ -40,22 +38,17 @@ class PlanActivity : AppCompatActivity() {
         val carbs = intent.getIntExtra("carbs", 0)
         val fats = intent.getIntExtra("fats", 0)
 
-        // DISPLAY
         tvBMI.text = "BMI: %.1f".format(bmi)
         tvGoal.text = "Goal: $goal"
-
         tvCalories.text = "Calories: $calories"
         tvProtein.text = "Protein: ${protein}g"
         tvCarbs.text = "Carbs: ${carbs}g"
         tvFats.text = "Fats: ${fats}g"
 
-        // WORKOUT OPTIONS
         val options = arrayOf("30 mins", "1 hour", "2 hours", "3 hours", "4 hours")
-
         spinnerWorkout.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, options)
 
-        // 🚀 SAVE PLAN
         btnStart.setOnClickListener {
 
             val workoutTime = spinnerWorkout.selectedItem.toString()
@@ -66,7 +59,6 @@ class PlanActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // 🔥 CONVERT TO MINUTES (FIX)
             val workoutMinutes = when (workoutTime) {
                 "30 mins" -> 30
                 "1 hour" -> 60
@@ -76,7 +68,6 @@ class PlanActivity : AppCompatActivity() {
                 else -> 0
             }
 
-            // 🔥 FIREBASE DATA STRUCTURE
             val planMap = hashMapOf(
                 "plan" to hashMapOf(
                     "bmi" to bmi,
@@ -93,18 +84,67 @@ class PlanActivity : AppCompatActivity() {
 
             db.collection("users")
                 .document(userId)
-                .set(planMap, SetOptions.merge()) // 🔥 SAFE SAVE
+                .set(planMap, SetOptions.merge())
                 .addOnSuccessListener {
-
-                    Toast.makeText(this, "Plan Saved 🔥", Toast.LENGTH_SHORT).show()
-
-                    startActivity(Intent(this, HomeActivity::class.java))
-                    finish()
+                    sendWelcomeIfFirstTime(userId) {
+                        Toast.makeText(this, "Plan Saved 🔥", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, HomeActivity::class.java))
+                        finish()
+                    }
                 }
                 .addOnFailureListener {
                     btnStart.isEnabled = true
                     Toast.makeText(this, "Failed to save", Toast.LENGTH_SHORT).show()
                 }
         }
+    }
+
+    private fun sendWelcomeIfFirstTime(userId: String, onDone: () -> Unit) {
+        db.collection("users")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { document ->
+
+                val alreadySent = document.getBoolean("welcomeNotifSent") ?: false
+
+                if (alreadySent) {
+                    onDone()
+                    return@addOnSuccessListener
+                }
+
+                val rawName = document.getString("name")
+                    ?: document.getString("fullName")
+                    ?: document.getString("username")
+                    ?: document.getString("displayName")
+                    ?: "Carabuff Warrior"
+
+                val firstName = rawName.trim()
+                    .split(" ")
+                    .firstOrNull()
+                    ?.replaceFirstChar { it.uppercase() }
+                    ?: "Carabuff Warrior"
+
+                NotificationHelper.showNotification(
+                    context = this,
+                    title = "Welcome to Carabuff, $firstName! 🎉",
+                    message = "Thanks for signing up! You’re officially in — let’s build your progress one meal, one workout, and one day at a time 💪",
+                    type = "welcome",
+                    target = "profile",
+                    saveToDb = true
+                )
+
+                db.collection("users")
+                    .document(userId)
+                    .set(mapOf("welcomeNotifSent" to true), SetOptions.merge())
+                    .addOnSuccessListener {
+                        onDone()
+                    }
+                    .addOnFailureListener {
+                        onDone()
+                    }
+            }
+            .addOnFailureListener {
+                onDone()
+            }
     }
 }
