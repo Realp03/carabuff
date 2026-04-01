@@ -55,17 +55,6 @@ function App() {
     },
   ];
 
-  const updates = [
-    "Added AI chatbot with personalized fitness coaching",
-    "Connected AI to user goals and progress data",
-    "Added calorie, macro, and workout tracking system",
-    "Added dashboard with daily and weekly analytics",
-    "Added highest record and average progress insights",
-    "Added smart reminders and in-app notifications",
-    "Added daily summary support for user progress review",
-    "Improved goal tracking for protein, carbs, fats, and calories",
-  ];
-
   return (
     <div className="main">
       {/* HERO */}
@@ -122,23 +111,6 @@ function App() {
           >
             <h3>{item.title}</h3>
             <p>{item.desc}</p>
-          </motion.div>
-        ))}
-      </section>
-
-      {/* WHAT'S NEW */}
-      <section className="features">
-        {updates.map((text, index) => (
-          <motion.div
-            className="card"
-            key={`update-${index}`}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.06 }}
-            viewport={{ once: true }}
-          >
-            <h3>✨ Update {index + 1}</h3>
-            <p>{text}</p>
           </motion.div>
         ))}
       </section>
