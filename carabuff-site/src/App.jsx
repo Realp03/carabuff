@@ -150,7 +150,7 @@ function App() {
             The name <strong>Carabuff</strong> comes from two powerful ideas:
             <strong> Cara</strong>, inspired by the <strong>carabao</strong>,
             the national animal of the Philippines, and <strong>Buff</strong>,
-            which represents strength, powerfull, and becoming a better version
+            which represents strength, powerful, and becoming a better version
             of yourself. Ang carabao ay simbolo ng pagiging
             <strong> matatag, masipag, malakas, at may disiplina</strong> —
             mga katangiang mahalaga rin sa bawat fitness journey. Kaya ang
