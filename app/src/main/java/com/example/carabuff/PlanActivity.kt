@@ -1,8 +1,16 @@
 package com.example.carabuff
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import android.widget.*
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -13,45 +21,58 @@ class PlanActivity : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
 
+    private lateinit var contentRoot: LinearLayout
+
+    private lateinit var tvBMI: TextView
+    private lateinit var tvGoal: TextView
+    private lateinit var tvCalories: TextView
+    private lateinit var tvProtein: TextView
+    private lateinit var tvCarbs: TextView
+    private lateinit var tvFats: TextView
+
+    private lateinit var spinnerWorkout: Spinner
+    private lateinit var btnStart: Button
+
+    private var bmi: Double = 0.0
+    private var goal: String = ""
+    private var calories: Int = 0
+    private var protein: Int = 0
+    private var carbs: Int = 0
+    private var fats: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_plan)
+        overridePendingTransition(0, 0)
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
-        val tvBMI = findViewById<TextView>(R.id.tvPlanBMI)
-        val tvGoal = findViewById<TextView>(R.id.tvPlanGoal)
-        val tvCalories = findViewById<TextView>(R.id.tvPlanCalories)
-        val tvProtein = findViewById<TextView>(R.id.tvPlanProtein)
-        val tvCarbs = findViewById<TextView>(R.id.tvPlanCarbs)
-        val tvFats = findViewById<TextView>(R.id.tvPlanFats)
+        contentRoot = findViewById(R.id.planContent)
 
-        val spinnerWorkout = findViewById<Spinner>(R.id.spinnerWorkout)
-        val btnStart = findViewById<Button>(R.id.btnStart)
+        tvBMI = findViewById(R.id.tvPlanBMI)
+        tvGoal = findViewById(R.id.tvPlanGoal)
+        tvCalories = findViewById(R.id.tvPlanCalories)
+        tvProtein = findViewById(R.id.tvPlanProtein)
+        tvCarbs = findViewById(R.id.tvPlanCarbs)
+        tvFats = findViewById(R.id.tvPlanFats)
 
-        val bmi = intent.getDoubleExtra("bmi", 0.0)
-        val goal = intent.getStringExtra("goal") ?: ""
+        spinnerWorkout = findViewById(R.id.spinnerWorkout)
+        btnStart = findViewById(R.id.btnStart)
 
-        val calories = intent.getIntExtra("calories", 0)
-        val protein = intent.getIntExtra("protein", 0)
-        val carbs = intent.getIntExtra("carbs", 0)
-        val fats = intent.getIntExtra("fats", 0)
+        bmi = intent.getDoubleExtra("bmi", 0.0)
+        goal = intent.getStringExtra("goal") ?: ""
+        calories = intent.getIntExtra("calories", 0)
+        protein = intent.getIntExtra("protein", 0)
+        carbs = intent.getIntExtra("carbs", 0)
+        fats = intent.getIntExtra("fats", 0)
 
-        tvBMI.text = "BMI: %.1f".format(bmi)
-        tvGoal.text = "Goal: $goal"
-        tvCalories.text = "Calories: $calories"
-        tvProtein.text = "Protein: ${protein}g"
-        tvCarbs.text = "Carbs: ${carbs}g"
-        tvFats.text = "Fats: ${fats}g"
-
-        val options = arrayOf("30 mins", "1 hour", "2 hours", "3 hours", "4 hours")
-        spinnerWorkout.adapter =
-            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, options)
+        showContentEnterAnimation()
+        bindPlanValues()
+        setupWorkoutSpinner()
 
         btnStart.setOnClickListener {
-
-            val workoutTime = spinnerWorkout.selectedItem.toString()
+            val workoutTime = spinnerWorkout.selectedItem?.toString()?.trim().orEmpty()
             val userId = auth.currentUser?.uid
 
             if (userId == null) {
@@ -88,8 +109,14 @@ class PlanActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     sendWelcomeIfFirstTime(userId) {
                         Toast.makeText(this, "Plan Saved 🔥", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, HomeActivity::class.java))
-                        finish()
+
+                        animateContentExitLeft {
+                            startActivity(Intent(this, HomeActivity::class.java).apply {
+                                putExtra("from_plan", true)
+                            })
+                            overridePendingTransition(0, 0)
+                            finish()
+                        }
                     }
                 }
                 .addOnFailureListener {
@@ -97,6 +124,47 @@ class PlanActivity : AppCompatActivity() {
                     Toast.makeText(this, "Failed to save", Toast.LENGTH_SHORT).show()
                 }
         }
+    }
+
+    private fun bindPlanValues() {
+        tvBMI.text = "BMI: %.1f".format(bmi)
+        tvGoal.text = "Goal: $goal"
+        tvCalories.text = "Calories: $calories"
+        tvProtein.text = "Protein: ${protein}g"
+        tvCarbs.text = "Carbs: ${carbs}g"
+        tvFats.text = "Fats: ${fats}g"
+    }
+
+    private fun setupWorkoutSpinner() {
+        val options = arrayOf("30 mins", "1 hour", "2 hours", "3 hours", "4 hours")
+
+        val workoutAdapter = object : ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_spinner_item,
+            options
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                val textView = view.findViewById<TextView>(android.R.id.text1)
+                textView.setTextColor(Color.parseColor("#111111"))
+                textView.textSize = 15f
+                textView.setPadding(12, 0, 12, 0)
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                val textView = view.findViewById<TextView>(android.R.id.text1)
+                textView.setTextColor(Color.WHITE)
+                textView.textSize = 15f
+                textView.setBackgroundColor(Color.parseColor("#1C3557"))
+                textView.setPadding(16, 16, 16, 16)
+                return view
+            }
+        }
+
+        workoutAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerWorkout.adapter = workoutAdapter
     }
 
     private fun sendWelcomeIfFirstTime(userId: String, onDone: () -> Unit) {
@@ -146,5 +214,35 @@ class PlanActivity : AppCompatActivity() {
             .addOnFailureListener {
                 onDone()
             }
+    }
+
+    private fun showContentEnterAnimation() {
+        contentRoot.alpha = 0f
+        contentRoot.translationX = 120f
+
+        contentRoot.animate()
+            .alpha(1f)
+            .translationX(0f)
+            .setDuration(260)
+            .start()
+    }
+
+    private fun animateContentExitLeft(onEnd: () -> Unit) {
+        contentRoot.animate()
+            .alpha(0f)
+            .translationX(-120f)
+            .setDuration(220)
+            .withEndAction {
+                onEnd()
+            }
+            .start()
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        animateContentExitLeft {
+            super.onBackPressed()
+            overridePendingTransition(0, 0)
+        }
     }
 }

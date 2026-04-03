@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Carabuff App</string>
+
+    <string name="app_name">Carabuff</string>
+
+    <!-- ADD THIS -->
+    <string name="default_web_client_id">766543877637-hett5cmd1qsoevjjlnooe9hjb2mflnf6.apps.googleusercontent.com</string>
+
 </resources>

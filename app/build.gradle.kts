@@ -64,6 +64,9 @@ dependencies {
     // 🔥 GLIDE
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
+    // FOR GOOGLE ACCOUNT SIGNUP AND SIGNIN
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+
     // 📅 CALENDAR
     implementation("com.prolificinteractive:material-calendarview:1.4.3")
 

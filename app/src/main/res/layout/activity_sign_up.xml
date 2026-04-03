@@ -1,127 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1E2A38">
+    android:fillViewport="true"
+    android:background="#142133">
 
-    <!-- MAIN CONTENT -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <!-- FORM CARD -->
-        <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:background="@drawable/rounded_card"
-            android:gravity="center"
-            android:layout_marginTop="120dp">
-
-            <!-- LOGO -->
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/carabuff_logo"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/circle_bg"
-                android:clipToOutline="true"/>
-
-            <!-- EMAIL -->
-            <EditText
-                android:id="@+id/emailInput"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="Email"
-                android:fontFamily="@font/iceland_regular"
-                android:background="@drawable/input_bg"
-                android:padding="12dp"
-                android:textColor="#000000"
-                android:textColorHint="#666666"/>
-
-            <!-- PASSWORD -->
-            <EditText
-                android:id="@+id/passwordInput"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="Password"
-                android:fontFamily="@font/iceland_regular"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/input_bg"
-                android:padding="12dp"
-                android:textColor="#000000"
-                android:textColorHint="#666666"
-                android:drawableEnd="@android:drawable/ic_menu_view"/>
-
-            <!-- CONFIRM -->
-            <EditText
-                android:id="@+id/confirmPasswordInput"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="Confirm Password"
-                android:fontFamily="@font/iceland_regular"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/input_bg"
-                android:padding="12dp"
-                android:textColor="#000000"
-                android:textColorHint="#666666"
-                android:drawableEnd="@android:drawable/ic_menu_view"/>
-
-            <!-- BUTTON -->
-            <Button
-                android:id="@+id/signUpButton"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="Sign Up"
-                android:fontFamily="@font/iceland_regular"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="#1E2A38"
-                android:textColor="#FFFFFF"/>
-
-        </LinearLayout>
-
-        <!-- LOGIN LINK -->
-        <TextView
-            android:id="@+id/signinText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Already have an Account? Sign In here."
-            android:textColor="#FFFFFF"
-            android:textSize="12sp"
-            android:layout_marginTop="15dp"/>
-
-    </LinearLayout>
-
-    <!-- 🐃 CARABUFF OVERLAY -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        android:layout_gravity="top|center_horizontal"
-        android:layout_marginTop="50dp">
+        android:gravity="center_horizontal"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="28dp"
+        android:paddingBottom="28dp">
 
-        <TextView
-            android:id="@+id/carabuffThought"
-            android:layout_width="wrap_content"
+        <!-- TOP SECTION -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="..."
-            android:textColor="#1E2A38"
-            android:textSize="13sp"
-            android:background="@drawable/rounded_card"
-            android:backgroundTint="@android:color/white"
-            android:padding="10dp"/>
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="22dp">
 
-        <ImageView
-            android:id="@+id/carabuffSprite"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="-2dp"
-            android:src="@drawable/carabuff_talk_anim"/>
+            <TextView
+                android:id="@+id/thoughtText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="64dp"
+                android:minHeight="40dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_thought_bubble"
+                android:gravity="center"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="..."
+                android:textColor="#0F1F33"
+                android:textSize="14sp"
+                android:fontFamily="@font/iceland_regular"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/carabuffImage"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:src="@drawable/carabuff1"
+                android:scaleType="fitCenter"
+                android:contentDescription="Carabuff Mascot" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Create your Carabuff account"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:fontFamily="@font/iceland_regular"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Start your fitness journey today"
+                android:textColor="#B8C7D9"
+                android:fontFamily="@font/iceland_regular"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- SIGNUP CARD -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_signup_card"
+            android:padding="24dp">
+
+            <EditText
+                android:id="@+id/emailInput"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="14dp"
+                android:background="@drawable/input_bg"
+                android:hint="Email"
+                android:textSize="23sp"
+                android:inputType="textEmailAddress"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#111111"
+                android:fontFamily="@font/iceland_regular"
+                android:textColorHint="#7A7A7A" />
+
+            <EditText
+                android:id="@+id/passwordInput"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/input_bg"
+                android:hint="Password"
+                android:textSize="17sp"
+                android:inputType="textPassword"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:drawableEnd="@android:drawable/ic_menu_view"
+                android:drawablePadding="10dp"
+                android:textColor="#111111"
+                android:fontFamily="@font/iceland_regular"
+                android:textColorHint="#7A7A7A" />
+
+            <!-- PASSWORD RULES -->
+            <LinearLayout
+                android:id="@+id/passwordRules"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:text="Password must contain:"
+                    android:textColor="#E6EEFA"
+                    android:fontFamily="@font/iceland_regular"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ruleLength"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/iceland_regular"
+                    android:layout_marginBottom="2dp"
+                    android:text="✖ At least 8 characters"
+                    android:textColor="#FF6B6B"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/ruleNumber"
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/iceland_regular"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:text="✖ At least 1 number"
+                    android:textColor="#FF6B6B"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/ruleUpper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/iceland_regular"
+                    android:layout_marginBottom="2dp"
+                    android:text="✖ At least 1 uppercase letter"
+                    android:textColor="#FF6B6B"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/ruleLower"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="✖ At least 1 lowercase letter"
+                    android:textColor="#FF6B6B"
+                    android:fontFamily="@font/iceland_regular"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/confirmPasswordInput"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="18dp"
+                android:background="@drawable/input_bg"
+                android:hint="Confirm Password"
+                android:textSize="17sp"
+                android:inputType="textPassword"
+                android:fontFamily="@font/iceland_regular"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:drawableEnd="@android:drawable/ic_menu_view"
+                android:drawablePadding="10dp"
+                android:textColor="#111111"
+                android:textColorHint="#7A7A7A" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/signupBtn"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_signup_button"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="Sign Up"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/iceland_regular"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null"
+                app:cornerRadius="18dp"
+                xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:text="or"
+                android:textColor="#DDE8F5"
+                android:textSize="14sp" />
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/btnGoogleSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:id="@+id/loginRedirect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Already have an account? Sign In"
+                android:textColor="#EAF2FF"
+                android:textSize="16sp"
+                android:fontFamily="@font/iceland_regular"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
-
-</FrameLayout>
+</ScrollView>

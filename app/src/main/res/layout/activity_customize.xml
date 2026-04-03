@@ -1,132 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/customizeScroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1E2A38">
+    android:background="#1E2A38"
+    android:fillViewport="true"
+    android:scrollbars="none">
 
     <LinearLayout
+        android:id="@+id/customizeContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:paddingStart="20dp"
+        android:paddingTop="24dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="28dp">
 
-        <!-- TITLE -->
+        <!-- HEADER -->
         <TextView
+            android:id="@+id/tvCustomizeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Customize Your Plan ⚙️"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textSize="32sp"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginBottom="4dp" />
 
-        <!-- BMI -->
         <TextView
-            android:id="@+id/tvBMI"
-            android:text="BMI: --"
-            android:textColor="#AAAAAA"
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <!-- GOAL -->
-        <TextView
-            android:text="Goal"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <Spinner
-            android:id="@+id/spinnerGoal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- CALORIES -->
-        <TextView
-            android:text="Daily Calories"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/etCalories"
-            android:hint="Enter calories"
-            android:inputType="number"
-            android:textColor="#FFFFFF"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- PROTEIN -->
-        <TextView
-            android:text="Protein (g)"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/etProtein"
-            android:hint="Enter protein"
-            android:inputType="number"
-            android:textColor="#FFFFFF"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- CARBS -->
-        <TextView
-            android:text="Carbohydrates (g)"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/etCarbs"
-            android:hint="Enter carbs"
-            android:inputType="number"
-            android:textColor="#FFFFFF"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- FATS -->
-        <TextView
-            android:text="Fats (g)"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/etFats"
-            android:hint="Enter fats"
-            android:inputType="number"
-            android:textColor="#FFFFFF"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- WORKOUT -->
-        <TextView
-            android:text="Daily Workout Time"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <Spinner
-            android:id="@+id/spinnerWorkout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- SAVE BUTTON -->
-        <Button
-            android:id="@+id/btnSave"
-            android:text="Save Plan 🚀"
+            android:id="@+id/tvCustomizeSubtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:backgroundTint="#6C8CFF"/>
+            android:text="Adjust your calories, macros, goal, and workout time to match your preferred plan."
+            android:textColor="#B8C7D9"
+            android:textSize="14sp"
+            android:layout_marginBottom="18dp" />
+
+        <!-- OVERVIEW CARD -->
+        <LinearLayout
+            android:id="@+id/customizeOverviewCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_signup_card"
+            android:padding="18dp"
+            android:layout_marginBottom="18dp">
+
+            <TextView
+                android:id="@+id/tvOverviewLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Body Overview"
+                android:textColor="#AFC0D4"
+                android:textSize="14sp"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:id="@+id/tvBMI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BMI: --"
+                android:textColor="#FFFFFF"
+                android:textSize="28sp"
+                android:fontFamily="@font/iceland_regular" />
+        </LinearLayout>
+
+        <!-- SETTINGS CARD -->
+        <LinearLayout
+            android:id="@+id/customizeFormCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_signup_card"
+            android:padding="18dp"
+            android:layout_marginBottom="22dp">
+
+            <!-- GOAL -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Goal"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="8dp" />
+
+            <Spinner
+                android:id="@+id/spinnerGoal"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/input_bg"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:popupBackground="#FFFFFF"
+                android:spinnerMode="dropdown" />
+
+            <!-- CALORIES -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daily Calories"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/etCalories"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:hint="Enter calories"
+                android:inputType="number"
+                android:background="@drawable/input_bg"
+                android:textColor="#111111"
+                android:textColorHint="#666666"
+                android:textSize="15sp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginBottom="16dp"
+                android:singleLine="true" />
+
+            <!-- PROTEIN -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Protein (g)"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/etProtein"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:hint="Enter protein"
+                android:inputType="number"
+                android:background="@drawable/input_bg"
+                android:textColor="#111111"
+                android:textColorHint="#666666"
+                android:textSize="15sp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginBottom="16dp"
+                android:singleLine="true" />
+
+            <!-- CARBS -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Carbohydrates (g)"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/etCarbs"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:hint="Enter carbs"
+                android:inputType="number"
+                android:background="@drawable/input_bg"
+                android:textColor="#111111"
+                android:textColorHint="#666666"
+                android:textSize="15sp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginBottom="16dp"
+                android:singleLine="true" />
+
+            <!-- FATS -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fats (g)"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/etFats"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:hint="Enter fats"
+                android:inputType="number"
+                android:background="@drawable/input_bg"
+                android:textColor="#111111"
+                android:textColorHint="#666666"
+                android:textSize="15sp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginBottom="16dp"
+                android:singleLine="true" />
+
+            <!-- WORKOUT -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daily Workout Time"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="8dp" />
+
+            <Spinner
+                android:id="@+id/spinnerWorkout"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@drawable/input_bg"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:popupBackground="#FFFFFF"
+                android:spinnerMode="dropdown" />
+        </LinearLayout>
+
+        <!-- SAVE BUTTON -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Save Plan 🚀"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="19sp"
+            android:fontFamily="@font/iceland_regular"
+            android:background="@drawable/bg_signup_button" />
 
     </LinearLayout>
 </ScrollView>

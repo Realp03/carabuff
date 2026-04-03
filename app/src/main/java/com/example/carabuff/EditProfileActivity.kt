@@ -17,7 +17,7 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var etWeight: EditText
     private lateinit var etHeight: EditText
     private lateinit var btnSave: Button
-    private lateinit var btnBack: TextView // 🔥 ADD THIS
+    private lateinit var btnBack: ImageView // ✅ FIXED (ImageView na)
 
     private val db = FirebaseFirestore.getInstance()
     private val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -26,25 +26,29 @@ class EditProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
 
+        // 🔥 BIND VIEWS
         etName = findViewById(R.id.etName)
         etBirthday = findViewById(R.id.etBirthday)
         etAge = findViewById(R.id.etAge)
         etWeight = findViewById(R.id.etWeight)
         etHeight = findViewById(R.id.etHeight)
         btnSave = findViewById(R.id.btnSave)
-        btnBack = findViewById(R.id.btnBack) // 🔥 BIND BACK BUTTON
+        btnBack = findViewById(R.id.btnBack)
 
         loadProfile()
 
-        // 🔥 BACK BUTTON FUNCTION
+        // 🔥 BACK BUTTON
         btnBack.setOnClickListener {
             finish()
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
+        // 🔥 DATE PICKER
         etBirthday.setOnClickListener {
             showDatePicker()
         }
 
+        // 🔥 SAVE BUTTON
         btnSave.setOnClickListener {
             saveProfile()
         }
@@ -58,18 +62,20 @@ class EditProfileActivity : AppCompatActivity() {
                 .get()
                 .addOnSuccessListener { doc ->
                     if (doc.exists()) {
-
-                        etName.setText(doc.getString("name"))
-                        etBirthday.setText(doc.getString("birthday"))
-
-                        etAge.setText(doc.get("age")?.toString())
-                        etWeight.setText(doc.get("weight")?.toString())
-                        etHeight.setText(doc.get("height")?.toString())
+                        etName.setText(doc.getString("name") ?: "")
+                        etBirthday.setText(doc.getString("birthday") ?: "")
+                        etAge.setText(doc.get("age")?.toString() ?: "")
+                        etWeight.setText(doc.get("weight")?.toString() ?: "")
+                        etHeight.setText(doc.get("height")?.toString() ?: "")
                     }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to load profile", Toast.LENGTH_SHORT).show()
                 }
         }
     }
 
+    // 📅 DATE PICKER
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
 
@@ -91,6 +97,7 @@ class EditProfileActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    // 🎯 AGE CALCULATION
     private fun calculateAge(year: Int, month: Int, day: Int): Int {
         val today = Calendar.getInstance()
         var age = today.get(Calendar.YEAR) - year
@@ -104,16 +111,30 @@ class EditProfileActivity : AppCompatActivity() {
         return age
     }
 
-    // ✅ SAVE TO USERS
+    // 💾 SAVE PROFILE
     private fun saveProfile() {
+
+        val name = etName.text.toString().trim()
+        val birthday = etBirthday.text.toString().trim()
 
         val ageValue = etAge.text.toString().toIntOrNull()
         val weightValue = etWeight.text.toString().toDoubleOrNull()
         val heightValue = etHeight.text.toString().toIntOrNull()
 
+        // 🔥 BASIC VALIDATION
+        if (name.isEmpty()) {
+            etName.error = "Required"
+            return
+        }
+
+        if (birthday.isEmpty()) {
+            etBirthday.error = "Required"
+            return
+        }
+
         val updates = hashMapOf(
-            "name" to etName.text.toString(),
-            "birthday" to etBirthday.text.toString(),
+            "name" to name,
+            "birthday" to birthday,
             "age" to ageValue,
             "weight" to weightValue,
             "height" to heightValue
@@ -124,12 +145,14 @@ class EditProfileActivity : AppCompatActivity() {
                 .document(it)
                 .set(updates, SetOptions.merge())
                 .addOnSuccessListener {
-                    Toast.makeText(this, "Updated!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Profile Updated!", Toast.LENGTH_SHORT).show()
                     finish()
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Update Failed!", Toast.LENGTH_SHORT).show()
                 }
+        } ?: run {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
         }
     }
 }

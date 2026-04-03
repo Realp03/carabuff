@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1E2A38">
+    android:background="#1E2A38"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,107 +12,196 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- 🔥 HEADER (BACK + TITLE SAME ROW) -->
+        <!-- HEADER CARD -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:background="@drawable/bg_signup_card"
+            android:padding="16dp"
             android:layout_marginBottom="20dp">
 
-            <!-- BACK BUTTON -->
-            <TextView
+            <ImageView
                 android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="&lt;--"
-                android:textSize="26sp"
-                android:textColor="#FFFFFF"
-                android:layout_marginEnd="10dp"
-                android:padding="5dp"/>
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="12dp"
+                android:padding="8dp"
+                android:background="@drawable/bg_icon_circle"
+                android:src="@android:drawable/ic_media_previous"
+                android:contentDescription="Back Button"
+                app:tint="#FFFFFF" />
 
-            <!-- TITLE -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Edit Profile"
-                android:textSize="22sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"/>
-
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/iceland_regular" />
         </LinearLayout>
 
-        <!-- NAME -->
-        <EditText
-            android:id="@+id/etName"
+        <!-- PROFILE FORM CARD -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Name"
-            android:textColor="#000000"
-            android:textColorHint="#666666"
-            android:background="@drawable/input_bg"
-            android:padding="12dp"
-            android:layout_marginBottom="15dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_signup_card"
+            android:padding="18dp">
 
-        <!-- BIRTHDAY -->
-        <EditText
-            android:id="@+id/etBirthday"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Birthday"
-            android:focusable="false"
-            android:clickable="true"
-            android:textColor="#000000"
-            android:textColorHint="#666666"
-            android:background="@drawable/input_bg"
-            android:padding="12dp"
-            android:layout_marginBottom="15dp"/>
+            <!-- NAME LABEL -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="6dp" />
 
-        <!-- AGE -->
-        <EditText
-            android:id="@+id/etAge"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Age"
-            android:enabled="false"
-            android:textColor="#000000"
-            android:textColorHint="#666666"
-            android:background="@drawable/input_bg"
-            android:padding="12dp"
-            android:layout_marginBottom="20dp"/>
+            <!-- NAME -->
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Enter your name"
+                android:textColor="#000000"
+                android:textColorHint="#5C5C5C"
+                android:textSize="15sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/input_bg"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName" />
 
-        <!-- WEIGHT -->
-        <EditText
-            android:id="@+id/etWeight"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Weight (kg)"
-            android:enabled="false"
-            android:textColor="#000000"
-            android:background="@drawable/input_bg"
-            android:padding="12dp"
-            android:layout_marginBottom="15dp"/>
+            <!-- BIRTHDAY LABEL -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Birthday"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="6dp" />
 
-        <!-- HEIGHT -->
-        <EditText
-            android:id="@+id/etHeight"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Height (cm)"
-            android:enabled="false"
-            android:textColor="#000000"
-            android:background="@drawable/input_bg"
-            android:padding="12dp"
-            android:layout_marginBottom="25dp"/>
+            <!-- BIRTHDAY -->
+            <EditText
+                android:id="@+id/etBirthday"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Select your birthday"
+                android:focusable="false"
+                android:clickable="true"
+                android:textColor="#000000"
+                android:textColorHint="#5C5C5C"
+                android:textSize="15sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/input_bg"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginBottom="16dp" />
 
-        <!-- SAVE BUTTON -->
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Save Changes"
-            android:backgroundTint="#6C8CFF"
-            android:textColor="#FFFFFF"/>
+            <!-- AGE LABEL -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Age"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="6dp" />
+
+            <!-- AGE -->
+            <EditText
+                android:id="@+id/etAge"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Age"
+                android:enabled="false"
+                android:textColor="#000000"
+                android:textColorHint="#666666"
+                android:textSize="15sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/input_bg"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- WEIGHT LABEL -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Weight"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="6dp" />
+
+            <!-- WEIGHT -->
+            <EditText
+                android:id="@+id/etWeight"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Weight (kg)"
+                android:enabled="false"
+                android:textColor="#000000"
+                android:textColorHint="#666666"
+                android:textSize="15sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/input_bg"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- HEIGHT LABEL -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Height"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="6dp" />
+
+            <!-- HEIGHT -->
+            <EditText
+                android:id="@+id/etHeight"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Height (cm)"
+                android:enabled="false"
+                android:textColor="#000000"
+                android:textColorHint="#666666"
+                android:textSize="15sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/input_bg"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginBottom="22dp" />
+
+            <!-- SAVE BUTTON -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_signup_button"
+                android:text="Save Changes"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/iceland_regular" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

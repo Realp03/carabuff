@@ -1,38 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="20dp"
-    android:background="#CC4A90E2"
+    android:background="@drawable/bg_signup_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <!-- CLOSE BUTTON -->
-    <ImageView
-        android:id="@+id/btnClose"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@android:drawable/ic_menu_close_clear_cancel"
-        android:tint="#FFFFFF"
-        android:layout_gravity="end"/>
-
-    <!-- TITLE -->
-    <TextView
-        android:text="Food Search Guide 🍽️"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <!-- CONTENT -->
-    <TextView
-        android:text="🔍 You can search any food freely!\n\nTips:\n• More specific = better results\n• Try adding type (e.g. grilled, cooked)\n\n⚖️ Quantity Guide:\n• All values are based on 100 grams (default)\n• 100g = exact calories shown\n• 200g = double calories\n• 50g = half calories\n\n📦 Using Pieces (pcs):\n• You can enter 1 pc, 2 pcs, etc.\n• The app estimates weight automatically\n• Example: 1 egg ≈ 50g\n• Results are slightly estimated but useful\n\n🔥 Tap 'Add' to save food into your daily log\n\n📊 Calories and macros update automatically in your dashboard"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:lineSpacingExtra="4dp"
+    <!-- HEADER -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="14dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Food Search Guide 🍽️"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/iceland_regular" />
+
+        <ImageView
+            android:id="@+id/btnClose"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:contentDescription="Close"
+            app:tint="#FFFFFF" />
+    </LinearLayout>
+
+    <!-- SUBTITLE -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Use this guide to search food more accurately and log better meal data."
+        android:textColor="#D9E2F1"
+        android:textSize="14sp"
+        android:fontFamily="@font/iceland_regular"
+        android:layout_marginBottom="14dp" />
+
+    <!-- CONTENT CARD -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/input_bg"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🔍 Search Tips"
+            android:textColor="#1A1A1A"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• You can search any food freely\n• More specific search = better results\n• Try adding food type like grilled, cooked, fried, or boiled"
+            android:textColor="#334155"
+            android:textSize="14sp"
+            android:lineSpacingExtra="4dp"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginBottom="14dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⚖️ Quantity Guide"
+            android:textColor="#1A1A1A"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• All values are based on 100 grams by default\n• 100g = exact calories shown\n• 200g = double calories\n• 50g = half calories"
+            android:textColor="#334155"
+            android:textSize="14sp"
+            android:lineSpacingExtra="4dp"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginBottom="14dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📦 Using Pieces (pcs)"
+            android:textColor="#1A1A1A"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• You can enter 1 pc, 2 pcs, and more\n• The app estimates weight automatically\n• Example: 1 egg ≈ 50g\n• Results are estimated but still useful"
+            android:textColor="#334155"
+            android:textSize="14sp"
+            android:lineSpacingExtra="4dp"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginBottom="14dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🔥 Saving Food"
+            android:textColor="#1A1A1A"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Tap Add to save food into your daily log\n• Calories and macros update automatically in your dashboard"
+            android:textColor="#334155"
+            android:textSize="14sp"
+            android:lineSpacingExtra="4dp"
+            android:fontFamily="@font/iceland_regular" />
+    </LinearLayout>
 
 </LinearLayout>

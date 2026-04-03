@@ -1,48 +1,89 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="20dp"
-    android:background="@android:color/black">
+    android:background="@drawable/bg_signup_card">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile Preview"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/iceland_regular"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp" />
 
     <ImageView
         android:id="@+id/previewImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_gravity="center"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:background="@drawable/avatar_bg"
+        android:padding="4dp"
+        android:contentDescription="Preview Image" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose this photo for your profile?"
+        android:textColor="#BFC9D4"
+        android:textSize="14sp"
+        android:fontFamily="@font/iceland_regular"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="20dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="20dp">
+        android:orientation="horizontal"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/btnConfirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="Confirm"
             android:textColor="#FFFFFF"
-            android:padding="10dp" />
+            android:textSize="16sp"
+            android:fontFamily="@font/iceland_regular"
+            android:background="@drawable/bg_signup_button"
+            android:layout_marginEnd="6dp" />
 
         <TextView
             android:id="@+id/btnChange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="Change"
             android:textColor="#FFFFFF"
-            android:padding="10dp"
-            android:layout_marginStart="10dp" />
+            android:textSize="16sp"
+            android:fontFamily="@font/iceland_regular"
+            android:background="@drawable/bg_signup_button"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp" />
 
         <TextView
             android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="Cancel"
             android:textColor="#FF6B6B"
-            android:padding="10dp"
-            android:layout_marginStart="10dp" />
+            android:textSize="16sp"
+            android:fontFamily="@font/iceland_regular"
+            android:background="@drawable/bg_signup_button"
+            android:layout_marginStart="6dp" />
     </LinearLayout>
 
 </LinearLayout>

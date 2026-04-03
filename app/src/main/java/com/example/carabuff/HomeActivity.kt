@@ -4,12 +4,14 @@ import android.Manifest
 import android.app.NotificationManager
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -32,16 +34,29 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var carabuff: ImageView
     private lateinit var thoughtText: TextView
+    private lateinit var dayText: TextView
     private lateinit var dateText: TextView
 
     private lateinit var btnAddWorkout: Button
     private lateinit var btnAddFood: Button
     private lateinit var btnAskCarabuff: LinearLayout
 
+    private lateinit var navHomeContainer: LinearLayout
+    private lateinit var navAnalyticsContainer: LinearLayout
+    private lateinit var navNotifContainer: LinearLayout
+    private lateinit var navProfileContainer: LinearLayout
+
     private lateinit var navHome: ImageView
     private lateinit var navAnalytics: ImageView
     private lateinit var navNotif: ImageView
     private lateinit var navProfile: ImageView
+
+    private lateinit var navHomeLabel: TextView
+    private lateinit var navAnalyticsLabel: TextView
+    private lateinit var navNotifLabel: TextView
+    private lateinit var navProfileLabel: TextView
+
+    private lateinit var navNotifDot: View
 
     private lateinit var tvCalories: TextView
     private lateinit var tvProtein: TextView
@@ -71,6 +86,18 @@ class HomeActivity : AppCompatActivity() {
         private val ANIM_TALK = R.drawable.carabuff_talk_anim
         private val ANIM_POINT = R.drawable.carabuff_point
         private val ANIM_VIBE = R.drawable.carabuff_vibe
+
+        private const val ICON_ACTIVE_COLOR = "#111111"
+        private const val ICON_INACTIVE_COLOR = "#B8C7D6"
+        private const val LABEL_ACTIVE_COLOR = "#111111"
+        private const val LABEL_INACTIVE_COLOR = "#8FA3B8"
+
+        private const val NAV_ACTIVE_ALPHA_START = 0.60f
+        private const val NAV_INACTIVE_ALPHA_START = 0.82f
+        private const val NAV_ACTIVE_DURATION = 180L
+        private const val NAV_INACTIVE_DURATION = 130L
+
+        private const val CONTENT_FADE_DURATION = 220L
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,16 +108,29 @@ class HomeActivity : AppCompatActivity() {
 
         carabuff = findViewById(R.id.carabuffHome)
         thoughtText = findViewById(R.id.carabuffThought)
+        dayText = findViewById(R.id.dayText)
         dateText = findViewById(R.id.dateText)
 
         btnAddWorkout = findViewById(R.id.btnAddWorkout)
         btnAddFood = findViewById(R.id.btnAddFood)
         btnAskCarabuff = findViewById(R.id.btnAskCarabuff)
 
+        navHomeContainer = findViewById(R.id.navHomeContainer)
+        navAnalyticsContainer = findViewById(R.id.navAnalyticsContainer)
+        navNotifContainer = findViewById(R.id.navNotifContainer)
+        navProfileContainer = findViewById(R.id.navProfileContainer)
+
         navHome = findViewById(R.id.navHome)
         navAnalytics = findViewById(R.id.navAnalytics)
         navNotif = findViewById(R.id.navNotif)
         navProfile = findViewById(R.id.navProfile)
+
+        navHomeLabel = findViewById(R.id.navHomeLabel)
+        navAnalyticsLabel = findViewById(R.id.navAnalyticsLabel)
+        navNotifLabel = findViewById(R.id.navNotifLabel)
+        navProfileLabel = findViewById(R.id.navProfileLabel)
+
+        navNotifDot = findViewById(R.id.navNotifDot)
 
         tvCalories = findViewById(R.id.tvCalories)
         tvProtein = findViewById(R.id.tvProtein)
@@ -102,12 +142,7 @@ class HomeActivity : AppCompatActivity() {
         progressCalories = findViewById(R.id.progressCalories)
         progressWorkout = findViewById(R.id.progressWorkout)
 
-        val currentDate = SimpleDateFormat(
-            "MMMM dd, yyyy\nEEEE",
-            Locale.getDefault()
-        ).format(Date())
-
-        dateText.text = currentDate
+        updateCurrentDateUI()
 
         requestNotificationPermission()
         fetchAndSaveFcmToken()
@@ -132,28 +167,60 @@ class HomeActivity : AppCompatActivity() {
 
         btnAddWorkout.setOnClickListener {
             startActivity(Intent(this, AddWorkoutActivity::class.java))
+            overridePendingTransition(0, 0)
         }
 
         btnAddFood.setOnClickListener {
             startActivity(Intent(this, AddFoodActivity::class.java))
+            overridePendingTransition(0, 0)
         }
 
         btnAskCarabuff.setOnClickListener {
             startActivity(Intent(this, ChatActivity::class.java))
+            overridePendingTransition(0, 0)
         }
 
         setupNavbar()
+
+        val fromNavbar = intent.getBooleanExtra("from_navbar", false)
+        if (fromNavbar) {
+            prepareContentForFade()
+        } else {
+            showContentImmediately()
+        }
     }
 
     override fun onResume() {
         super.onResume()
+
+        updateCurrentDateUI()
         checkDailyReset()
         loadData()
         checkMealReminder()
 
+        setActiveNav("home", animate = false)
+        enableAllNavButtons()
+
         if (!isTalking) {
             showStaticCarabuff()
         }
+
+        val fromNavbar = intent.getBooleanExtra("from_navbar", false)
+        if (fromNavbar) {
+            animatePageContentOnly()
+            intent.removeExtra("from_navbar")
+        } else {
+            showContentImmediately()
+        }
+    }
+
+    private fun updateCurrentDateUI() {
+        val now = Calendar.getInstance().time
+        val dayFormat = SimpleDateFormat("EEEE", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
+
+        dayText.text = dayFormat.format(now)
+        dateText.text = dateFormat.format(now)
     }
 
     private fun cancelOpenedNotificationIfNeeded() {
@@ -216,16 +283,169 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupNavbar() {
-        navHome.setOnClickListener { }
-        navAnalytics.setOnClickListener {
-            startActivity(Intent(this, AnalyticsActivity::class.java))
+        setActiveNav("home", animate = false)
+
+        navHomeContainer.setOnClickListener {
+            setActiveNav("home", animate = true)
         }
-        navNotif.setOnClickListener {
-            startActivity(Intent(this, NotificationActivity::class.java))
+
+        navAnalyticsContainer.setOnClickListener {
+            openTab("analytics", AnalyticsActivity::class.java)
         }
-        navProfile.setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
+
+        navNotifContainer.setOnClickListener {
+            openTab("notif", NotificationActivity::class.java)
         }
+
+        navProfileContainer.setOnClickListener {
+            openTab("profile", ProfileActivity::class.java)
+        }
+    }
+
+    private fun openTab(tab: String, target: Class<*>) {
+        if (this::class.java == target) {
+            setActiveNav(tab, animate = true)
+            return
+        }
+
+        setActiveNav(tab, animate = true)
+        disableAllNavButtons()
+
+        val intent = Intent(this, target).apply {
+            putExtra("from_navbar", true)
+        }
+
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+        finish()
+    }
+
+    private fun setActiveNav(tab: String, animate: Boolean = true) {
+        resetNavItem(navHomeContainer, navHome, navHomeLabel, animate)
+        resetNavItem(navAnalyticsContainer, navAnalytics, navAnalyticsLabel, animate)
+        resetNavItem(navNotifContainer, navNotif, navNotifLabel, animate)
+        resetNavItem(navProfileContainer, navProfile, navProfileLabel, animate)
+
+        when (tab) {
+            "home" -> activateNavItem(navHomeContainer, navHome, navHomeLabel, animate)
+            "analytics" -> activateNavItem(navAnalyticsContainer, navAnalytics, navAnalyticsLabel, animate)
+            "notif" -> activateNavItem(navNotifContainer, navNotif, navNotifLabel, animate)
+            "profile" -> activateNavItem(navProfileContainer, navProfile, navProfileLabel, animate)
+        }
+    }
+
+    private fun activateNavItem(
+        container: LinearLayout,
+        icon: ImageView,
+        label: TextView,
+        animate: Boolean
+    ) {
+        container.animate().cancel()
+        icon.animate().cancel()
+        label.animate().cancel()
+
+        container.setBackgroundResource(R.drawable.bg_nav_item_active)
+        icon.setColorFilter(Color.parseColor(ICON_ACTIVE_COLOR))
+        label.setTextColor(Color.parseColor(LABEL_ACTIVE_COLOR))
+
+        if (animate) {
+            container.alpha = NAV_ACTIVE_ALPHA_START
+            icon.alpha = NAV_ACTIVE_ALPHA_START
+            label.alpha = NAV_ACTIVE_ALPHA_START
+
+            container.animate().alpha(1f).setDuration(NAV_ACTIVE_DURATION).start()
+            icon.animate().alpha(1f).setDuration(NAV_ACTIVE_DURATION).start()
+            label.animate().alpha(1f).setDuration(NAV_ACTIVE_DURATION).start()
+        } else {
+            container.alpha = 1f
+            icon.alpha = 1f
+            label.alpha = 1f
+        }
+    }
+
+    private fun resetNavItem(
+        container: LinearLayout,
+        icon: ImageView,
+        label: TextView,
+        animate: Boolean
+    ) {
+        container.animate().cancel()
+        icon.animate().cancel()
+        label.animate().cancel()
+
+        container.setBackgroundResource(R.drawable.bg_nav_item_inactive)
+        icon.setColorFilter(Color.parseColor(ICON_INACTIVE_COLOR))
+        label.setTextColor(Color.parseColor(LABEL_INACTIVE_COLOR))
+
+        if (animate) {
+            container.alpha = NAV_INACTIVE_ALPHA_START
+            icon.alpha = NAV_INACTIVE_ALPHA_START
+            label.alpha = NAV_INACTIVE_ALPHA_START
+
+            container.animate().alpha(1f).setDuration(NAV_INACTIVE_DURATION).start()
+            icon.animate().alpha(1f).setDuration(NAV_INACTIVE_DURATION).start()
+            label.animate().alpha(1f).setDuration(NAV_INACTIVE_DURATION).start()
+        } else {
+            container.alpha = 1f
+            icon.alpha = 1f
+            label.alpha = 1f
+        }
+    }
+
+    private fun prepareContentForFade() {
+        getContentViews().forEach { it.alpha = 0f }
+    }
+
+    private fun animatePageContentOnly() {
+        getContentViews().forEachIndexed { index, view ->
+            view.animate().cancel()
+            view.animate()
+                .alpha(1f)
+                .setStartDelay(index * 18L)
+                .setDuration(CONTENT_FADE_DURATION)
+                .start()
+        }
+    }
+
+    private fun showContentImmediately() {
+        getContentViews().forEach { view ->
+            view.animate().cancel()
+            view.alpha = 1f
+        }
+    }
+
+    private fun getContentViews(): List<View> {
+        return listOf(
+            dayText,
+            dateText,
+            carabuff,
+            thoughtText,
+            btnAddWorkout,
+            btnAddFood,
+            btnAskCarabuff,
+            tvCalories,
+            tvProtein,
+            tvCarbs,
+            tvFats,
+            tvWorkout,
+            tvCaloriesBurned,
+            progressCalories,
+            progressWorkout
+        )
+    }
+
+    private fun disableAllNavButtons() {
+        navHomeContainer.isEnabled = false
+        navAnalyticsContainer.isEnabled = false
+        navNotifContainer.isEnabled = false
+        navProfileContainer.isEnabled = false
+    }
+
+    private fun enableAllNavButtons() {
+        navHomeContainer.isEnabled = true
+        navAnalyticsContainer.isEnabled = true
+        navNotifContainer.isEnabled = true
+        navProfileContainer.isEnabled = true
     }
 
     private fun checkDailyReset() {
@@ -272,6 +492,7 @@ class HomeActivity : AppCompatActivity() {
 
                 loadFoodIntake()
                 loadCaloriesBurned()
+                updateNotificationDot()
 
                 val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
                 val greeting = when (hour) {
@@ -284,6 +505,22 @@ class HomeActivity : AppCompatActivity() {
                     hasPlayedGreeting = true
                     playRandomCarabuffAnimation("$greeting, $userName 👋")
                 }
+            }
+    }
+
+    private fun updateNotificationDot() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        FirebaseFirestore.getInstance()
+            .collection("notifications")
+            .whereEqualTo("userId", userId)
+            .whereEqualTo("isRead", false)
+            .get()
+            .addOnSuccessListener { result ->
+                navNotifDot.visibility = if (result.isEmpty) View.GONE else View.VISIBLE
+            }
+            .addOnFailureListener {
+                navNotifDot.visibility = View.GONE
             }
     }
 
@@ -489,9 +726,10 @@ class HomeActivity : AppCompatActivity() {
                 message = "Don't forget to log your breakfast!",
                 type = "meal",
                 target = "home",
-                saveToDb = false
+                saveToDb = true
             )
             prefs.edit().putBoolean("breakfast_$today", true).apply()
+            updateNotificationDot()
         }
 
         if (hour in 12..16 && !prefs.getBoolean("lunch_$today", false)) {
@@ -501,9 +739,10 @@ class HomeActivity : AppCompatActivity() {
                 message = "Don't forget to log your lunch!",
                 type = "meal",
                 target = "home",
-                saveToDb = false
+                saveToDb = true
             )
             prefs.edit().putBoolean("lunch_$today", true).apply()
+            updateNotificationDot()
         }
 
         if (hour in 18..23 && !prefs.getBoolean("dinner_$today", false)) {
@@ -513,9 +752,10 @@ class HomeActivity : AppCompatActivity() {
                 message = "Don't forget to log your dinner!",
                 type = "meal",
                 target = "home",
-                saveToDb = false
+                saveToDb = true
             )
             prefs.edit().putBoolean("dinner_$today", true).apply()
+            updateNotificationDot()
         }
     }
 

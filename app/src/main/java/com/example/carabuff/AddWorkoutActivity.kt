@@ -2,8 +2,17 @@ package com.example.carabuff
 
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,61 +34,71 @@ class AddWorkoutActivity : AppCompatActivity() {
         val etMinutes = findViewById<EditText>(R.id.etMinutes)
         val etSets = findViewById<EditText>(R.id.etSets)
         val etReps = findViewById<EditText>(R.id.etReps)
-        val btnSave = findViewById<Button>(R.id.btnSaveWorkout)
-        val btnAddFavorite = findViewById<Button>(R.id.btnAddFavorite)
-        val btnBack = findViewById<TextView>(R.id.btnBack)
+        val btnSave = findViewById<AppCompatButton>(R.id.btnSaveWorkout)
+        val btnAddFavorite = findViewById<AppCompatButton>(R.id.btnAddFavorite)
+        val btnBack = findViewById<ImageView>(R.id.btnBack)
 
         favoritesContainer = findViewById(R.id.favoritesContainer)
         spinnerFilter = findViewById(R.id.spinnerFilter)
 
         val db = FirebaseFirestore.getInstance()
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
 
         btnBack.setOnClickListener { finish() }
 
         val types = arrayOf("Cardio", "Weight Lifting", "Bodyweight")
-        spinnerType.adapter =
-            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, types)
-
         val intensities = arrayOf("Light", "Moderate", "Intense")
-        spinnerIntensity.adapter =
-            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, intensities)
-
         val filters = arrayOf("All", "Cardio", "Weight Lifting", "Bodyweight")
-        spinnerFilter.adapter =
-            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, filters)
+
+        val typeAdapter = ArrayAdapter(this, R.layout.spinner_item_dark, types)
+        typeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_dark)
+        spinnerType.adapter = typeAdapter
+
+        val intensityAdapter = ArrayAdapter(this, R.layout.spinner_item_dark, intensities)
+        intensityAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_dark)
+        spinnerIntensity.adapter = intensityAdapter
+
+        val filterAdapter = ArrayAdapter(this, R.layout.spinner_item_dark, filters)
+        filterAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_dark)
+        spinnerFilter.adapter = filterAdapter
 
         spinnerFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 displayFavorites(filters[position])
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
         }
 
         spinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (types[position] == "Cardio") {
-                    etSets.visibility = View.GONE
-                    etReps.visibility = View.GONE
-                } else {
-                    etSets.visibility = View.VISIBLE
-                    etReps.visibility = View.VISIBLE
-                }
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val isCardio = types[position] == "Cardio"
+                etSets.visibility = if (isCardio) View.GONE else View.VISIBLE
+                etReps.visibility = if (isCardio) View.GONE else View.VISIBLE
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
         }
 
         loadFavorites()
 
-        // SAVE WORKOUT
         btnSave.setOnClickListener {
-
-            val type = spinnerType.selectedItem.toString()
-            val intensity = spinnerIntensity.selectedItem.toString()
+            val userId = FirebaseAuth.getInstance().currentUser?.uid
+            val type = spinnerType.selectedItem?.toString() ?: "Cardio"
+            val intensity = spinnerIntensity.selectedItem?.toString() ?: "Moderate"
             val name = etExercise.text.toString().trim()
-            val minutes = etMinutes.text.toString().toIntOrNull()
-            val sets = etSets.text.toString().toIntOrNull()
-            val reps = etReps.text.toString().toIntOrNull()
+            val minutes = etMinutes.text.toString().trim().toIntOrNull()
+            val sets = etSets.text.toString().trim().toIntOrNull()
+            val reps = etReps.text.toString().trim().toIntOrNull()
 
             if (name.isEmpty()) {
                 Toast.makeText(this, "Enter exercise name", Toast.LENGTH_SHORT).show()
@@ -91,31 +110,38 @@ class AddWorkoutActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (userId == null) {
+                Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             saveWorkout(type, name, minutes, sets, reps, intensity)
         }
 
-        // ADD FAVORITE (🔥 FIXED)
         btnAddFavorite.setOnClickListener {
-
-            val type = spinnerType.selectedItem.toString()
-            val intensity = spinnerIntensity.selectedItem.toString() // 🔥 NEW
+            val userId = FirebaseAuth.getInstance().currentUser?.uid
+            val type = spinnerType.selectedItem?.toString() ?: "Cardio"
+            val intensity = spinnerIntensity.selectedItem?.toString() ?: "Moderate"
             val name = etExercise.text.toString().trim()
-            val minutes = etMinutes.text.toString().toIntOrNull() ?: 15
-            val sets = etSets.text.toString().toIntOrNull()
-            val reps = etReps.text.toString().toIntOrNull()
+            val minutes = etMinutes.text.toString().trim().toIntOrNull() ?: 15
+            val sets = etSets.text.toString().trim().toIntOrNull()
+            val reps = etReps.text.toString().trim().toIntOrNull()
 
             if (name.isEmpty()) {
                 Toast.makeText(this, "Enter exercise name first", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if (userId == null) return@setOnClickListener
+            if (userId == null) {
+                Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             val data = hashMapOf<String, Any>(
                 "type" to type,
                 "name" to name,
                 "minutes" to minutes,
-                "intensity" to intensity // 🔥 NEW
+                "intensity" to intensity
             )
 
             if (type != "Cardio") {
@@ -131,17 +157,18 @@ class AddWorkoutActivity : AppCompatActivity() {
                     Toast.makeText(this, "Added to favorites ⭐", Toast.LENGTH_SHORT).show()
                     loadFavorites()
                 }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to add favorite", Toast.LENGTH_SHORT).show()
+                }
         }
     }
 
-    // MET CALCULATION
     private fun calculateCalories(
         name: String,
         minutes: Int,
         weight: Double,
         intensity: String
     ): Int {
-
         val baseMet = when {
             name.contains("jump rope", true) -> 11.0
             name.contains("running", true) -> 10.0
@@ -182,19 +209,20 @@ class AddWorkoutActivity : AppCompatActivity() {
                     data["id"] = doc.id
                     allFavorites.add(data)
                 }
-                displayFavorites("All")
+                displayFavorites(spinnerFilter.selectedItem?.toString() ?: "All")
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed to load favorites", Toast.LENGTH_SHORT).show()
             }
     }
 
     private fun displayFavorites(filter: String) {
-
         favoritesContainer.removeAllViews()
 
         val db = FirebaseFirestore.getInstance()
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
         for (item in allFavorites) {
-
             val type = item["type"] as? String ?: continue
             if (filter != "All" && type != filter) continue
 
@@ -202,41 +230,98 @@ class AddWorkoutActivity : AppCompatActivity() {
             val minutes = (item["minutes"] as? Long)?.toInt() ?: 15
             val sets = (item["sets"] as? Long)?.toInt()
             val reps = (item["reps"] as? Long)?.toInt()
-            val intensity = item["intensity"] as? String ?: "Moderate" // 🔥 FIX
-            val id = item["id"] as String
+            val intensity = item["intensity"] as? String ?: "Moderate"
+            val id = item["id"] as? String ?: continue
 
-            val container = LinearLayout(this)
-            container.orientation = LinearLayout.VERTICAL
-            container.setPadding(16, 16, 16, 16)
+            val container = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                setPadding(20, 20, 20, 20)
+                background = ContextCompat.getDrawable(this@AddWorkoutActivity, R.drawable.bg_signup_card)
 
-            val title = TextView(this)
-            title.text = "$name ($type)"
-            title.setTextColor(resources.getColor(android.R.color.white))
-
-            val details = TextView(this)
-            details.text = "Time: $minutes mins | Intensity: $intensity"
-            details.visibility = View.GONE
-
-            val btnLayout = LinearLayout(this)
-            btnLayout.orientation = LinearLayout.HORIZONTAL
-            btnLayout.visibility = View.GONE
-
-            val btnSaveFav = Button(this)
-            btnSaveFav.text = "Save"
-            btnSaveFav.setOnClickListener {
-                saveWorkout(type, name, minutes, sets, reps, intensity)
+                val params = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                params.bottomMargin = 12
+                layoutParams = params
             }
 
-            val btnDelete = Button(this)
-            btnDelete.text = "Delete"
-            btnDelete.setOnClickListener {
-                db.collection("users")
-                    .document(userId)
-                    .collection("favorites")
-                    .document(id)
-                    .delete()
-                    .addOnSuccessListener { loadFavorites() }
+            val title = TextView(this).apply {
+                text = "$name ($type)"
+                textSize = 16f
+                setTextColor(ContextCompat.getColor(this@AddWorkoutActivity, android.R.color.white))
+                typeface = resources.getFont(R.font.iceland_regular)
             }
+
+            val details = TextView(this).apply {
+                text = buildString {
+                    append("Time: $minutes mins")
+                    append(" | Intensity: $intensity")
+                    if (type != "Cardio") {
+                        if (sets != null) append(" | Sets: $sets")
+                        if (reps != null) append(" | Reps: $reps")
+                    }
+                }
+                textSize = 14f
+                setTextColor(ContextCompat.getColor(this@AddWorkoutActivity, android.R.color.white))
+                alpha = 0.75f
+                visibility = View.GONE
+                setPadding(0, 12, 0, 12)
+                typeface = resources.getFont(R.font.iceland_regular)
+            }
+
+            val btnLayout = LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                visibility = View.GONE
+            }
+
+            val btnSaveFav = AppCompatButton(this).apply {
+                text = "Save"
+                background = ContextCompat.getDrawable(this@AddWorkoutActivity, R.drawable.bg_signup_button)
+                setTextColor(ContextCompat.getColor(this@AddWorkoutActivity, android.R.color.white))
+                typeface = resources.getFont(R.font.iceland_regular)
+                textSize = 15f
+                setOnClickListener {
+                    saveWorkout(type, name, minutes, sets, reps, intensity)
+                }
+            }
+
+            val saveParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+            saveParams.marginEnd = 8
+            btnSaveFav.layoutParams = saveParams
+
+            val btnDelete = AppCompatButton(this).apply {
+                text = "Delete"
+                background = ContextCompat.getDrawable(this@AddWorkoutActivity, R.drawable.bg_signup_button)
+                setTextColor(ContextCompat.getColor(this@AddWorkoutActivity, android.R.color.white))
+                typeface = resources.getFont(R.font.iceland_regular)
+                textSize = 15f
+                setOnClickListener {
+                    db.collection("users")
+                        .document(userId)
+                        .collection("favorites")
+                        .document(id)
+                        .delete()
+                        .addOnSuccessListener {
+                            Toast.makeText(this@AddWorkoutActivity, "Deleted", Toast.LENGTH_SHORT).show()
+                            loadFavorites()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this@AddWorkoutActivity, "Failed to delete", Toast.LENGTH_SHORT).show()
+                        }
+                }
+            }
+
+            val deleteParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+            btnDelete.layoutParams = deleteParams
 
             btnLayout.addView(btnSaveFav)
             btnLayout.addView(btnDelete)
@@ -263,16 +348,17 @@ class AddWorkoutActivity : AppCompatActivity() {
         reps: Int?,
         intensity: String
     ) {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val db = FirebaseFirestore.getInstance()
-
         val userWeight = 60.0
-
         val caloriesBurned = calculateCalories(name, minutes, userWeight, intensity)
 
         val userRef = db.collection("users").document(userId)
-
-        userRef.update("plan.workoutDone", FieldValue.increment(minutes.toLong()))
 
         val data = hashMapOf<String, Any>(
             "type" to type,
@@ -291,8 +377,26 @@ class AddWorkoutActivity : AppCompatActivity() {
         userRef.collection("workouts")
             .add(data)
             .addOnSuccessListener {
-                Toast.makeText(this, "🔥 $caloriesBurned kcal burned!", Toast.LENGTH_SHORT).show()
-                finish()
+                userRef.update("plan.workoutDone", FieldValue.increment(minutes.toLong()))
+                    .addOnSuccessListener {
+                        Toast.makeText(
+                            this,
+                            "🔥 $caloriesBurned kcal burned!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(
+                            this,
+                            "Workout saved, but failed to update plan",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed to save workout", Toast.LENGTH_SHORT).show()
             }
     }
 }

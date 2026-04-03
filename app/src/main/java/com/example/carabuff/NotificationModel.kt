@@ -9,5 +9,7 @@ data class NotificationModel(
     val target: String = "",
     val timestamp: Long = 0L,
     val isRead: Boolean = false,
-    val summaryDate: String = ""
+    val summaryDate: String = "",
+    val dedupeKey: String = "",
+    var isSelected: Boolean = false
 )

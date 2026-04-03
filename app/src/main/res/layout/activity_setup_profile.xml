@@ -1,99 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/setupProfileScroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1E2A38">
+    android:background="#1E2A38"
+    android:fillViewport="true"
+    android:scrollbars="none">
 
     <LinearLayout
+        android:id="@+id/setupProfileContent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:paddingStart="24dp"
+        android:paddingTop="28dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="28dp">
 
-        <View
+        <Space
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_height="12dp" />
 
-        <!-- TITLE -->
+        <!-- HEADER -->
         <TextView
+            android:id="@+id/tvSetupTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Set Up your Profile"
+            android:text="Set Up Your Profile"
             android:textColor="#FFFFFF"
-            android:textSize="22sp"
+            android:textSize="31sp"
             android:fontFamily="@font/iceland_regular"
-            android:layout_marginBottom="25dp"/>
+            android:letterSpacing="0.03"
+            android:layout_marginBottom="6dp" />
 
-        <!-- NAME -->
-        <EditText
-            android:id="@+id/nameInput"
+        <TextView
+            android:id="@+id/tvSetupSubtitle"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Name"
-            android:background="@drawable/input_bg"
-            android:textColor="#333333"
-            android:textColorHint="#666666"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_height="wrap_content"
+            android:text="Enter your basic details so Carabuff can personalize your setup."
+            android:textColor="#B8C7D9"
+            android:textSize="14sp"
+            android:layout_marginBottom="22dp" />
 
-        <!-- GENDER -->
-        <Spinner
-            android:id="@+id/genderSpinner"
+        <!-- MAIN CARD -->
+        <LinearLayout
+            android:id="@+id/profileCard"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_signup_card"
+            android:padding="18dp"
+            android:layout_marginBottom="22dp">
 
-        <!-- BIRTHDAY -->
-        <EditText
-            android:id="@+id/birthdayInput"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Select Birthday"
-            android:focusable="false"
-            android:clickable="true"
-            android:background="@drawable/input_bg"
-            android:textColor="#333333"
-            android:textColorHint="#666666"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp"/>
+            <!-- NAME -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="8dp" />
 
-        <!-- AGE (AUTO) -->
-        <EditText
-            android:id="@+id/ageInput"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Age (Auto)"
-            android:enabled="false"
-            android:background="@drawable/input_bg"
-            android:textColor="#333333"
-            android:textColorHint="#666666"
-            android:padding="12dp"
-            android:layout_marginBottom="30dp"/>
+            <EditText
+                android:id="@+id/nameInput"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:hint="Enter your name"
+                android:background="@drawable/input_bg"
+                android:textColor="#111111"
+                android:textColorHint="#666666"
+                android:textSize="15sp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginBottom="16dp"
+                android:singleLine="true" />
 
-        <!-- PROGRESS -->
+            <!-- GENDER -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gender"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="8dp" />
+
+            <Spinner
+                android:id="@+id/genderSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/input_bg"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
+
+            <!-- BIRTHDAY -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Birthday"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/birthdayContainer"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/input_bg"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <EditText
+                    android:id="@+id/birthdayInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Select your birthday"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:background="@android:color/transparent"
+                    android:textColor="#111111"
+                    android:textColorHint="#666666"
+                    android:textSize="15sp"
+                    android:padding="0dp" />
+
+                <TextView
+                    android:id="@+id/tvBirthdayArrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="▼"
+                    android:textColor="#1C3557"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/iceland_regular"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+
+            <!-- AGE -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Age"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/ageInput"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:hint="Auto-calculated age"
+                android:enabled="false"
+                android:background="@drawable/input_bg"
+                android:textColor="#111111"
+                android:textColorHint="#666666"
+                android:textSize="15sp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvAgeNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Minimum age: 14    •    Maximum age: 99"
+                android:textColor="#AFC0D4"
+                android:textSize="12sp"
+                android:layout_marginTop="10dp" />
+
+        </LinearLayout>
+
+        <!-- STEP INDICATOR -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginBottom="25dp">
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
 
             <View
-                android:layout_width="40dp"
-                android:layout_height="5dp"
-                android:background="#00BCD4"/>
+                android:id="@+id/stepOne"
+                android:layout_width="48dp"
+                android:layout_height="6dp"
+                android:background="@drawable/bg_step_active" />
 
             <View
-                android:layout_width="40dp"
-                android:layout_height="5dp"
-                android:background="#AAAAAA"
-                android:layout_marginStart="10dp"/>
+                android:id="@+id/stepTwo"
+                android:layout_width="48dp"
+                android:layout_height="6dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_step_inactive" />
 
             <View
-                android:layout_width="40dp"
-                android:layout_height="5dp"
-                android:background="#AAAAAA"
-                android:layout_marginStart="10dp"/>
+                android:id="@+id/stepThree"
+                android:layout_width="48dp"
+                android:layout_height="6dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_step_inactive" />
         </LinearLayout>
 
         <!-- BUTTONS -->
@@ -102,27 +213,31 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/prevBtn"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="54dp"
                 android:layout_weight="1"
                 android:text="Previous"
+                android:textAllCaps="false"
                 android:enabled="false"
-                android:backgroundTint="#555555"
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/iceland_regular"/>
+                android:textColor="#D5DCE5"
+                android:textSize="18sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/bg_button_disabled" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/nextBtn"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="54dp"
                 android:layout_weight="1"
+                android:layout_marginStart="12dp"
                 android:text="Next"
-                android:layout_marginStart="10dp"
-                android:backgroundTint="#3A8DFF"
+                android:textAllCaps="false"
                 android:textColor="#FFFFFF"
-                android:fontFamily="@font/iceland_regular"/>
+                android:textSize="18sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/bg_signup_button" />
         </LinearLayout>
 
     </LinearLayout>

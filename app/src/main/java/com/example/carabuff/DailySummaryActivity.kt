@@ -1,19 +1,27 @@
 package com.example.carabuff
 
 import android.graphics.Color
+import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.TypedValue
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class DailySummaryActivity : AppCompatActivity() {
 
     private lateinit var container: LinearLayout
+    private lateinit var btnBack: ImageView
 
     private val db = FirebaseFirestore.getInstance()
     private val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -28,6 +36,11 @@ class DailySummaryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_daily_summary)
 
         container = findViewById(R.id.containerSummary)
+        btnBack = findViewById(R.id.btnBack)
+
+        btnBack.setOnClickListener {
+            finish()
+        }
 
         selectedDate = intent.getStringExtra("date")
             ?: SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
@@ -59,17 +72,15 @@ class DailySummaryActivity : AppCompatActivity() {
 
         val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
 
-        fun render(foodDocs: List<com.google.firebase.firestore.QueryDocumentSnapshot>?,
-                   workoutDocs: List<com.google.firebase.firestore.QueryDocumentSnapshot>?) {
-
+        fun render(
+            foodDocs: List<com.google.firebase.firestore.QueryDocumentSnapshot>?,
+            workoutDocs: List<com.google.firebase.firestore.QueryDocumentSnapshot>?
+        ) {
             container.removeAllViews()
 
-            addHeader("📅 Daily Summary for $displayDate")
+            addHeaderCard("📅 Summary for $displayDate")
 
-            // =========================
-            // 🍔 FOOD LOGS
-            // =========================
-            addTitle("🍔 Food Logs")
+            addSectionTitle("🍔 Food Logs")
 
             var totalFoodCalories = 0
             var totalProtein = 0.0
@@ -95,24 +106,25 @@ class DailySummaryActivity : AppCompatActivity() {
                 totalCarbs += carbs
                 totalFats += fats
 
-                addCard(
-                    "$name\n$time\n🔥 $calories kcal | P:${protein.toInt()} C:${carbs.toInt()} F:${fats.toInt()}"
+                addInfoCard(
+                    title = name,
+                    subtitle = time,
+                    details = "🔥 $calories kcal   •   P:${protein.toInt()}  C:${carbs.toInt()}  F:${fats.toInt()}",
+                    backgroundColor = "#24364A"
                 )
             }
 
             if (!hasFood) {
-                addText("No food logs for this day 🍔")
+                addEmptyState("No food logs for this day 🍔")
             } else {
-                addSummaryBox(
-                    "Food Total",
-                    "🔥 $totalFoodCalories kcal\nP:${totalProtein.toInt()}  C:${totalCarbs.toInt()}  F:${totalFats.toInt()}"
+                addSummaryCard(
+                    title = "Food Total",
+                    body = "🔥 $totalFoodCalories kcal\nP:${totalProtein.toInt()}  •  C:${totalCarbs.toInt()}  •  F:${totalFats.toInt()}",
+                    backgroundColor = "#355C8C"
                 )
             }
 
-            // =========================
-            // 💪 WORKOUTS
-            // =========================
-            addTitle("💪 Workouts")
+            addSectionTitle("💪 Workouts")
 
             var totalWorkoutMinutes = 0
             var totalBurnedCalories = 0
@@ -132,17 +144,21 @@ class DailySummaryActivity : AppCompatActivity() {
                 totalWorkoutMinutes += minutes
                 totalBurnedCalories += calories
 
-                addCard(
-                    "$name\n$time\n⏱ $minutes mins | 🔥 $calories kcal"
+                addInfoCard(
+                    title = name,
+                    subtitle = time,
+                    details = "⏱ $minutes mins   •   🔥 $calories kcal",
+                    backgroundColor = "#24364A"
                 )
             }
 
             if (!hasWorkout) {
-                addText("No workouts for this day 💪")
+                addEmptyState("No workouts for this day 💪")
             } else {
-                addSummaryBox(
-                    "Workout Total",
-                    "⏱ $totalWorkoutMinutes mins\n🔥 $totalBurnedCalories kcal burned"
+                addSummaryCard(
+                    title = "Workout Total",
+                    body = "⏱ $totalWorkoutMinutes mins\n🔥 $totalBurnedCalories kcal burned",
+                    backgroundColor = "#355C8C"
                 )
             }
         }
@@ -170,69 +186,154 @@ class DailySummaryActivity : AppCompatActivity() {
             }
     }
 
-    private fun addHeader(text: String) {
-        val tv = TextView(this)
-        tv.text = text
-        tv.textSize = 20f
-        tv.setTextColor(Color.WHITE)
-        tv.setPadding(0, 0, 0, 20)
-        tv.setTypeface(null, android.graphics.Typeface.BOLD)
-        container.addView(tv)
-    }
-
-    private fun addTitle(text: String) {
-        val tv = TextView(this)
-        tv.text = text
-        tv.textSize = 18f
-        tv.setTextColor(Color.WHITE)
-        tv.setPadding(0, 20, 0, 10)
-        tv.setTypeface(null, android.graphics.Typeface.BOLD)
-        container.addView(tv)
-    }
-
-    private fun addText(text: String) {
-        val tv = TextView(this)
-        tv.text = text
-        tv.textSize = 14f
-        tv.setTextColor(Color.parseColor("#D9E2EC"))
-        tv.setPadding(0, 10, 0, 10)
-        container.addView(tv)
-    }
-
-    private fun addCard(text: String) {
-        val tv = TextView(this)
-        tv.text = text
-        tv.textSize = 14f
-        tv.setTextColor(Color.WHITE)
-        tv.setBackgroundColor(Color.parseColor("#263544"))
-        tv.setPadding(24, 20, 24, 20)
+    private fun addHeaderCard(text: String) {
+        val tv = TextView(this).apply {
+            this.text = text
+            setTextColor(Color.WHITE)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+            setPadding(dp(16), dp(16), dp(16), dp(16))
+            background = roundedDrawable("#1E2E42", 16f)
+            typeface = getIcelandTypeface() ?: Typeface.DEFAULT_BOLD
+        }
 
         val params = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-        params.setMargins(0, 0, 0, 16)
+        params.bottomMargin = dp(18)
         tv.layoutParams = params
 
         container.addView(tv)
     }
 
-    private fun addSummaryBox(title: String, body: String) {
-        val tv = TextView(this)
-        tv.text = "$title\n$body"
-        tv.textSize = 15f
-        tv.setTextColor(Color.WHITE)
-        tv.setBackgroundColor(Color.parseColor("#355070"))
-        tv.setPadding(24, 20, 24, 20)
+    private fun addSectionTitle(text: String) {
+        val tv = TextView(this).apply {
+            this.text = text
+            setTextColor(Color.WHITE)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
+            setPadding(0, dp(6), 0, dp(10))
+            typeface = getIcelandTypeface() ?: Typeface.DEFAULT_BOLD
+        }
+        container.addView(tv)
+    }
+
+    private fun addEmptyState(text: String) {
+        val tv = TextView(this).apply {
+            this.text = text
+            setTextColor(Color.parseColor("#D9E2EC"))
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+            setPadding(dp(4), dp(4), dp(4), dp(14))
+            typeface = getIcelandTypeface() ?: Typeface.DEFAULT
+            alpha = 0.9f
+        }
+        container.addView(tv)
+    }
+
+    private fun addInfoCard(
+        title: String,
+        subtitle: String,
+        details: String,
+        backgroundColor: String
+    ) {
+        val card = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            background = roundedDrawable(backgroundColor, 16f)
+            setPadding(dp(16), dp(14), dp(16), dp(14))
+        }
 
         val params = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-        params.setMargins(0, 0, 0, 20)
-        tv.layoutParams = params
+        params.bottomMargin = dp(12)
+        card.layoutParams = params
 
-        container.addView(tv)
+        val tvTitle = TextView(this).apply {
+            text = title
+            setTextColor(Color.WHITE)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+            typeface = getIcelandTypeface() ?: Typeface.DEFAULT_BOLD
+        }
+
+        val tvSubtitle = TextView(this).apply {
+            text = subtitle
+            setTextColor(Color.parseColor("#C7D6E8"))
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
+            setPadding(0, dp(3), 0, dp(8))
+            typeface = getIcelandTypeface() ?: Typeface.DEFAULT
+        }
+
+        val tvDetails = TextView(this).apply {
+            text = details
+            setTextColor(Color.WHITE)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+            typeface = getIcelandTypeface() ?: Typeface.DEFAULT
+        }
+
+        card.addView(tvTitle)
+        card.addView(tvSubtitle)
+        card.addView(tvDetails)
+
+        container.addView(card)
+    }
+
+    private fun addSummaryCard(
+        title: String,
+        body: String,
+        backgroundColor: String
+    ) {
+        val card = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            background = roundedDrawable(backgroundColor, 18f)
+            setPadding(dp(18), dp(16), dp(18), dp(16))
+        }
+
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        params.bottomMargin = dp(18)
+        card.layoutParams = params
+
+        val tvTitle = TextView(this).apply {
+            text = title
+            setTextColor(Color.WHITE)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+            typeface = getIcelandTypeface() ?: Typeface.DEFAULT_BOLD
+        }
+
+        val tvBody = TextView(this).apply {
+            text = body
+            setTextColor(Color.WHITE)
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+            setPadding(0, dp(8), 0, 0)
+            typeface = getIcelandTypeface() ?: Typeface.DEFAULT
+        }
+
+        card.addView(tvTitle)
+        card.addView(tvBody)
+
+        container.addView(card)
+    }
+
+    private fun roundedDrawable(colorHex: String, radiusDp: Float): GradientDrawable {
+        return GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+            cornerRadius = dp(radiusDp.toInt()).toFloat()
+            setColor(Color.parseColor(colorHex))
+        }
+    }
+
+    private fun dp(value: Int): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            value.toFloat(),
+            resources.displayMetrics
+        ).toInt()
+    }
+
+    private fun getIcelandTypeface(): Typeface? {
+        return ResourcesCompat.getFont(this, R.font.iceland_regular)
     }
 
     override fun onDestroy() {

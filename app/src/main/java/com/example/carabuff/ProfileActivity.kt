@@ -2,9 +2,11 @@ package com.example.carabuff
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -24,18 +26,44 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var profileImage: ImageView
 
     private lateinit var logoutBtn: LinearLayout
-    private lateinit var editProfileBtn: LinearLayout   // 🔥 FIXED (use layout not textview)
+    private lateinit var editProfileBtn: LinearLayout
     private lateinit var settingsBtn: LinearLayout
     private lateinit var aboutBtn: LinearLayout
     private lateinit var profileName: TextView
 
-    // 🔥 NAVBAR
+    private lateinit var navHomeContainer: LinearLayout
+    private lateinit var navAnalyticsContainer: LinearLayout
+    private lateinit var navNotifContainer: LinearLayout
+    private lateinit var navProfileContainer: LinearLayout
+
     private lateinit var navHome: ImageView
     private lateinit var navAnalytics: ImageView
     private lateinit var navNotif: ImageView
     private lateinit var navProfile: ImageView
 
+    private lateinit var navHomeLabel: TextView
+    private lateinit var navAnalyticsLabel: TextView
+    private lateinit var navNotifLabel: TextView
+    private lateinit var navProfileLabel: TextView
+
+    private lateinit var navNotifDot: View
+
     private var imageUri: Uri? = null
+    private var hasAnimatedContent = false
+
+    companion object {
+        private const val ICON_ACTIVE_COLOR = "#111111"
+        private const val ICON_INACTIVE_COLOR = "#B8C7D6"
+        private const val LABEL_ACTIVE_COLOR = "#111111"
+        private const val LABEL_INACTIVE_COLOR = "#8FA3B8"
+
+        private const val NAV_ACTIVE_ALPHA_START = 0.60f
+        private const val NAV_INACTIVE_ALPHA_START = 0.82f
+        private const val NAV_ACTIVE_DURATION = 180L
+        private const val NAV_INACTIVE_DURATION = 130L
+
+        private const val CONTENT_FADE_DURATION = 220L
+    }
 
     private val pickImage =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -52,75 +80,247 @@ class ProfileActivity : AppCompatActivity() {
 
         Log.d("PROFILE_DEBUG", "USER ID: ${auth.currentUser?.uid}")
 
-        // 🔥 Bind views
         profileImage = findViewById(R.id.profileImage)
         logoutBtn = findViewById(R.id.logoutBtn)
-        editProfileBtn = findViewById(R.id.editProfileBtn) // ✅ FIXED
+        editProfileBtn = findViewById(R.id.editProfileBtn)
         settingsBtn = findViewById(R.id.settingsBtn)
         aboutBtn = findViewById(R.id.aboutBtn)
         profileName = findViewById(R.id.profileName)
 
-        // 🔥 NAVBAR
+        navHomeContainer = findViewById(R.id.navHomeContainer)
+        navAnalyticsContainer = findViewById(R.id.navAnalyticsContainer)
+        navNotifContainer = findViewById(R.id.navNotifContainer)
+        navProfileContainer = findViewById(R.id.navProfileContainer)
+
         navHome = findViewById(R.id.navHome)
         navAnalytics = findViewById(R.id.navAnalytics)
         navNotif = findViewById(R.id.navNotif)
         navProfile = findViewById(R.id.navProfile)
 
+        navHomeLabel = findViewById(R.id.navHomeLabel)
+        navAnalyticsLabel = findViewById(R.id.navAnalyticsLabel)
+        navNotifLabel = findViewById(R.id.navNotifLabel)
+        navProfileLabel = findViewById(R.id.navProfileLabel)
+
+        navNotifDot = findViewById(R.id.navNotifDot)
+
         loadProfileData()
         loadProfileImage()
+        updateNotificationDot()
 
-        // 📷 pick image
         profileImage.setOnClickListener {
             pickImage.launch("image/*")
         }
 
-        // ✏️ EDIT PROFILE
         editProfileBtn.setOnClickListener {
             startActivity(Intent(this, EditProfileActivity::class.java))
+            overridePendingTransition(0, 0)
         }
 
-        // ⚙️ SETTINGS
         settingsBtn.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
+            overridePendingTransition(0, 0)
         }
 
-        // ℹ️ ABOUT
         aboutBtn.setOnClickListener {
             startActivity(Intent(this, AboutActivity::class.java))
+            overridePendingTransition(0, 0)
         }
 
-        // 🚪 LOGOUT
         logoutBtn.setOnClickListener {
             showLogoutDialog()
         }
 
         setupBottomNav()
+        prepareContentForFade()
     }
 
     override fun onResume() {
         super.onResume()
         loadProfileData()
         loadProfileImage()
+        updateNotificationDot()
+        setActiveNav("profile", animate = false)
+        enableAllNavButtons()
+
+        if (!hasAnimatedContent) {
+            animatePageContentOnly()
+            hasAnimatedContent = true
+        }
     }
 
     private fun setupBottomNav() {
+        setActiveNav("profile", animate = false)
 
-        navHome.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
+        navHomeContainer.setOnClickListener {
+            openTab("home", HomeActivity::class.java)
         }
 
-        navAnalytics.setOnClickListener {
-            startActivity(Intent(this, AnalyticsActivity::class.java))
-            finish()
+        navAnalyticsContainer.setOnClickListener {
+            openTab("analytics", AnalyticsActivity::class.java)
         }
 
-        navNotif.setOnClickListener {
-            startActivity(Intent(this, NotificationActivity::class.java))
-            finish()
+        navNotifContainer.setOnClickListener {
+            openTab("notif", NotificationActivity::class.java)
         }
 
-        navProfile.alpha = 1f
+        navProfileContainer.setOnClickListener {
+            setActiveNav("profile", animate = true)
+        }
+    }
+
+    private fun openTab(tab: String, target: Class<*>) {
+        if (this::class.java == target) {
+            setActiveNav(tab, animate = true)
+            return
+        }
+
+        setActiveNav(tab, animate = true)
+        disableAllNavButtons()
+
+        val intent = Intent(this, target).apply {
+            addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        }
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+    }
+
+    private fun setActiveNav(tab: String, animate: Boolean = true) {
+        resetNavItem(navHomeContainer, navHome, navHomeLabel, animate)
+        resetNavItem(navAnalyticsContainer, navAnalytics, navAnalyticsLabel, animate)
+        resetNavItem(navNotifContainer, navNotif, navNotifLabel, animate)
+        resetNavItem(navProfileContainer, navProfile, navProfileLabel, animate)
+
+        when (tab) {
+            "home" -> activateNavItem(navHomeContainer, navHome, navHomeLabel, animate)
+            "analytics" -> activateNavItem(navAnalyticsContainer, navAnalytics, navAnalyticsLabel, animate)
+            "notif" -> activateNavItem(navNotifContainer, navNotif, navNotifLabel, animate)
+            "profile" -> activateNavItem(navProfileContainer, navProfile, navProfileLabel, animate)
+        }
+    }
+
+    private fun activateNavItem(
+        container: LinearLayout,
+        icon: ImageView,
+        label: TextView,
+        animate: Boolean
+    ) {
+        container.animate().cancel()
+        icon.animate().cancel()
+        label.animate().cancel()
+
+        container.setBackgroundResource(R.drawable.bg_nav_item_active)
+        icon.setColorFilter(Color.parseColor(ICON_ACTIVE_COLOR))
+        label.setTextColor(Color.parseColor(LABEL_ACTIVE_COLOR))
+
+        if (animate) {
+            container.alpha = NAV_ACTIVE_ALPHA_START
+            icon.alpha = NAV_ACTIVE_ALPHA_START
+            label.alpha = NAV_ACTIVE_ALPHA_START
+
+            container.animate().alpha(1f).setDuration(NAV_ACTIVE_DURATION).start()
+            icon.animate().alpha(1f).setDuration(NAV_ACTIVE_DURATION).start()
+            label.animate().alpha(1f).setDuration(NAV_ACTIVE_DURATION).start()
+        } else {
+            container.alpha = 1f
+            icon.alpha = 1f
+            label.alpha = 1f
+        }
+    }
+
+    private fun resetNavItem(
+        container: LinearLayout,
+        icon: ImageView,
+        label: TextView,
+        animate: Boolean
+    ) {
+        container.animate().cancel()
+        icon.animate().cancel()
+        label.animate().cancel()
+
+        container.setBackgroundResource(R.drawable.bg_nav_item_inactive)
+        icon.setColorFilter(Color.parseColor(ICON_INACTIVE_COLOR))
+        label.setTextColor(Color.parseColor(LABEL_INACTIVE_COLOR))
+
+        if (animate) {
+            container.alpha = NAV_INACTIVE_ALPHA_START
+            icon.alpha = NAV_INACTIVE_ALPHA_START
+            label.alpha = NAV_INACTIVE_ALPHA_START
+
+            container.animate().alpha(1f).setDuration(NAV_INACTIVE_DURATION).start()
+            icon.animate().alpha(1f).setDuration(NAV_INACTIVE_DURATION).start()
+            label.animate().alpha(1f).setDuration(NAV_INACTIVE_DURATION).start()
+        } else {
+            container.alpha = 1f
+            icon.alpha = 1f
+            label.alpha = 1f
+        }
+    }
+
+    private fun prepareContentForFade() {
+        val contentViews = listOf<View>(
+            profileImage,
+            profileName,
+            editProfileBtn,
+            settingsBtn,
+            aboutBtn,
+            logoutBtn
+        )
+
+        contentViews.forEach {
+            it.alpha = 0f
+        }
+    }
+
+    private fun animatePageContentOnly() {
+        val contentViews = listOf<View>(
+            profileImage,
+            profileName,
+            editProfileBtn,
+            settingsBtn,
+            aboutBtn,
+            logoutBtn
+        )
+
+        contentViews.forEachIndexed { index, view ->
+            view.animate().cancel()
+            view.animate()
+                .alpha(1f)
+                .setStartDelay(index * 20L)
+                .setDuration(CONTENT_FADE_DURATION)
+                .start()
+        }
+    }
+
+    private fun disableAllNavButtons() {
+        navHomeContainer.isEnabled = false
+        navAnalyticsContainer.isEnabled = false
+        navNotifContainer.isEnabled = false
+        navProfileContainer.isEnabled = false
+    }
+
+    private fun enableAllNavButtons() {
+        navHomeContainer.isEnabled = true
+        navAnalyticsContainer.isEnabled = true
+        navNotifContainer.isEnabled = true
+        navProfileContainer.isEnabled = true
+    }
+
+    private fun updateNotificationDot() {
+        val userId = auth.currentUser?.uid ?: return
+
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(userId)
+            .collection("notifications")
+            .whereEqualTo("read", false)
+            .get()
+            .addOnSuccessListener { result ->
+                navNotifDot.visibility = if (result.isEmpty) View.GONE else View.VISIBLE
+            }
+            .addOnFailureListener {
+                navNotifDot.visibility = View.GONE
+            }
     }
 
     private fun loadProfileData() {
@@ -142,7 +342,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun showImagePreviewDialog(uri: Uri) {
-
         val dialogView = layoutInflater.inflate(R.layout.image_confirm_dialog, null)
         val dialog = AlertDialog.Builder(this).setView(dialogView).create()
 
@@ -176,7 +375,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun uploadImageToFirebase() {
-
         val userId = auth.currentUser?.uid ?: return
         profileImage.alpha = 0.5f
 
@@ -186,9 +384,7 @@ class ProfileActivity : AppCompatActivity() {
         imageUri?.let { uri ->
             storageRef.putFile(uri)
                 .addOnSuccessListener {
-
                     storageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
-
                         val url = downloadUrl.toString()
 
                         FirebaseFirestore.getInstance()
@@ -208,7 +404,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun loadProfileImage() {
-
         val userId = auth.currentUser?.uid ?: return
 
         FirebaseFirestore.getInstance()
@@ -216,7 +411,6 @@ class ProfileActivity : AppCompatActivity() {
             .document(userId)
             .get()
             .addOnSuccessListener { doc ->
-
                 val imageUrl = doc.getString("profileImage")
 
                 if (!imageUrl.isNullOrEmpty()) {
@@ -229,7 +423,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun showLogoutDialog() {
-
         val dialogView = layoutInflater.inflate(R.layout.logout_dialog, null)
         val dialog = AlertDialog.Builder(this).setView(dialogView).create()
 
@@ -240,9 +433,9 @@ class ProfileActivity : AppCompatActivity() {
             auth.signOut()
 
             val intent = Intent(this, MainActivity::class.java)
-            intent.flags =
-                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
+            overridePendingTransition(0, 0)
 
             dialog.dismiss()
         }

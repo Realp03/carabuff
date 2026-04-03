@@ -5,61 +5,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#1E2A38">
+    android:background="#0B1622">
 
-    <!-- 🔝 TOP BAR -->
+    <!-- TOP BAR -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="78dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:background="#263544">
+        android:background="#101C2C"
+        android:elevation="6dp">
 
-        <!-- BACK BUTTON -->
-        <TextView
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="&lt;--"
-            android:textSize="22sp"
-            android:textColor="#FFFFFF"
-            android:padding="4dp"
-            android:contentDescription="Back" />
-
-        <!-- CARABUFF AVATAR -->
         <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="12dp"
+            android:id="@+id/btnBack"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@android:drawable/ic_media_previous"
+            app:tint="#EAF4FF"
+            android:contentDescription="Back"
+            android:padding="2dp" />
+
+        <ImageView
+            android:id="@+id/imgBotAvatar"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="14dp"
             android:src="@drawable/carabuff1"
             android:scaleType="centerCrop"
             android:background="@drawable/circle_bg"
             android:padding="2dp"
             android:contentDescription="Carabuff" />
 
-        <!-- NAME -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginStart="10dp">
+            android:layout_marginStart="12dp">
 
             <TextView
+                android:id="@+id/tvBotName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Carabuff"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textSize="22sp"
+                android:fontFamily="@font/iceland_regular"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvBotStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Online • Fitness Coach"
-                android:textColor="#90A4AE"
-                android:textSize="12sp" />
+                android:textColor="#8DA3BD"
+                android:textSize="12sp"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginTop="1dp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -68,106 +71,175 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
-        android:paddingTop="10dp"
-        android:paddingBottom="6dp">
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp">
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnChipProtein"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="8dp"
                 android:text="Protein"
                 android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#3E5C76"
-                android:layout_marginEnd="8dp" />
+                android:textColor="#F7FAFF"
+                android:textSize="15sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/bg_chat_chip_selected"
+                android:backgroundTint="@null"
+                app:backgroundTint="@null"
+                android:stateListAnimator="@null"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnChipWeight"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="8dp"
                 android:text="Weight Loss"
                 android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#3E5C76"
-                android:layout_marginEnd="8dp" />
+                android:textColor="#D7E6F5"
+                android:textSize="15sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/bg_chat_chip_default"
+                android:backgroundTint="@null"
+                app:backgroundTint="@null"
+                android:stateListAnimator="@null"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnChipWorkout"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="8dp"
                 android:text="Workout"
                 android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#3E5C76"
-                android:layout_marginEnd="8dp" />
+                android:textColor="#D7E6F5"
+                android:textSize="15sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/bg_chat_chip_default"
+                android:backgroundTint="@null"
+                app:backgroundTint="@null"
+                android:stateListAnimator="@null"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnChipCalories"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="8dp"
                 android:text="Calories"
                 android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#3E5C76"
-                android:layout_marginEnd="8dp" />
+                android:textColor="#D7E6F5"
+                android:textSize="15sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/bg_chat_chip_default"
+                android:backgroundTint="@null"
+                app:backgroundTint="@null"
+                android:stateListAnimator="@null"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnChipHydration"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="42dp"
                 android:text="Hydration"
                 android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#3E5C76" />
+                android:textColor="#D7E6F5"
+                android:textSize="15sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/bg_chat_chip_default"
+                android:backgroundTint="@null"
+                app:backgroundTint="@null"
+                android:stateListAnimator="@null"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp" />
         </LinearLayout>
     </HorizontalScrollView>
 
-    <!-- 💬 CHAT LIST -->
+    <!-- CHAT LIST -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerChat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="12dp"
-        android:clipToPadding="false" />
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="10dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never" />
 
-    <!-- ✍️ INPUT BAR -->
+    <!-- INPUT BAR -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="10dp"
-        android:background="#263544">
+        android:paddingStart="12dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="12dp"
+        android:background="#101C2C"
+        android:elevation="8dp">
 
-        <EditText
-            android:id="@+id/etMessage"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="54dp"
             android:layout_weight="1"
-            android:hint="Message Carabuff..."
-            android:textColor="#FFFFFF"
-            android:textColorHint="#90A4AE"
-            android:background="@drawable/rounded_card"
-            android:backgroundTint="#32485C"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_chat_input"
             android:paddingStart="14dp"
-            android:paddingEnd="14dp" />
+            android:paddingEnd="14dp">
+
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Message Carabuff..."
+                android:textColor="#F8FBFF"
+                android:textColorHint="#7F96AE"
+                android:textSize="15sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@android:color/transparent"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLines="4"
+                android:minLines="1"
+                android:padding="0dp" />
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/btnSend"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="8dp"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_marginStart="10dp"
             android:src="@android:drawable/ic_menu_send"
-            android:backgroundTint="#6C8CFF"
-            android:contentDescription="Send" />
+            app:tint="#FFFFFF"
+            android:background="@drawable/bg_send_button"
+            android:contentDescription="Send"
+            android:padding="14dp"
+            android:scaleType="centerInside" />
     </LinearLayout>
 
 </LinearLayout>

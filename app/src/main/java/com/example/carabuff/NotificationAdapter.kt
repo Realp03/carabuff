@@ -1,6 +1,5 @@
 package com.example.carabuff
 
-import android.graphics.Color
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class NotificationAdapter(
     private val list: MutableList<NotificationModel>,
@@ -21,6 +22,8 @@ class NotificationAdapter(
     var selectionMode: Boolean = false
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val root: View = view.findViewById(R.id.notifRoot)
+        val unreadDot: View = view.findViewById(R.id.notifUnreadDot)
         val icon: TextView = view.findViewById(R.id.notifIcon)
         val title: TextView = view.findViewById(R.id.notifTitle)
         val message: TextView = view.findViewById(R.id.notifMessage)
@@ -43,7 +46,7 @@ class NotificationAdapter(
         holder.message.text = notif.message
         holder.time.text = formatTime(notif.timestamp)
 
-        holder.icon.text = when (notif.type) {
+        holder.icon.text = when (notif.type.lowercase()) {
             "workout" -> "💪"
             "food" -> "🍔"
             "meal" -> "🍽"
@@ -57,14 +60,24 @@ class NotificationAdapter(
         }
 
         if (!notif.isRead) {
-            holder.itemView.setBackgroundColor(Color.parseColor("#3A4A5F"))
+            holder.unreadDot.visibility = View.VISIBLE
             holder.title.setTypeface(null, Typeface.BOLD)
             holder.message.setTypeface(null, Typeface.BOLD)
+            holder.title.alpha = 1.0f
+            holder.message.alpha = 1.0f
+            holder.time.alpha = 1.0f
+            holder.icon.alpha = 1.0f
         } else {
-            holder.itemView.setBackgroundColor(Color.TRANSPARENT)
+            holder.unreadDot.visibility = View.GONE
             holder.title.setTypeface(null, Typeface.NORMAL)
             holder.message.setTypeface(null, Typeface.NORMAL)
+            holder.title.alpha = 0.92f
+            holder.message.alpha = 0.82f
+            holder.time.alpha = 0.72f
+            holder.icon.alpha = 0.92f
         }
+
+        holder.root.isActivated = !notif.isRead
 
         if (selectionMode) {
             holder.check.visibility = View.VISIBLE
@@ -73,11 +86,10 @@ class NotificationAdapter(
             holder.check.visibility = View.GONE
         }
 
-        holder.itemView.setOnClickListener {
+        holder.root.setOnClickListener {
             val currentPosition = holder.adapterPosition
             if (currentPosition != RecyclerView.NO_POSITION) {
                 val currentNotif = list[currentPosition]
-
                 if (selectionMode) {
                     toggleSelection(currentNotif.id)
                 } else {
@@ -86,11 +98,10 @@ class NotificationAdapter(
             }
         }
 
-        holder.itemView.setOnLongClickListener {
+        holder.root.setOnLongClickListener {
             val currentPosition = holder.adapterPosition
             if (currentPosition != RecyclerView.NO_POSITION) {
                 val currentNotif = list[currentPosition]
-
                 if (!selectionMode) {
                     startSelection(currentNotif.id)
                     onLongClick(currentNotif)
@@ -103,8 +114,25 @@ class NotificationAdapter(
     }
 
     private fun formatTime(timestamp: Long): String {
-        val sdf = SimpleDateFormat("MMM dd, hh:mm a", Locale.getDefault())
-        return sdf.format(Date(timestamp))
+        val now = System.currentTimeMillis()
+        val diff = now - timestamp
+
+        if (diff < 0) return "Just now"
+
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(diff)
+        val hours = TimeUnit.MILLISECONDS.toHours(diff)
+
+        return when {
+            diff < TimeUnit.MINUTES.toMillis(1) -> "Just now"
+            minutes == 1L -> "1 min"
+            minutes in 2..59 -> "$minutes mins"
+            hours == 1L -> "1 hour"
+            hours in 2..23 -> "$hours hours"
+            else -> {
+                val sdf = SimpleDateFormat("MMM dd yyyy", Locale.getDefault())
+                sdf.format(Date(timestamp))
+            }
+        }
     }
 
     fun updateItem(updatedNotif: NotificationModel) {
@@ -121,6 +149,11 @@ class NotificationAdapter(
         } else {
             selectedIds.add(id)
         }
+
+        if (selectedIds.isEmpty()) {
+            selectionMode = false
+        }
+
         notifyDataSetChanged()
         onSelectionChanged()
     }
@@ -140,13 +173,9 @@ class NotificationAdapter(
         onSelectionChanged()
     }
 
-    fun getSelectedIds(): List<String> {
-        return selectedIds.toList()
-    }
+    fun getSelectedIds(): List<String> = selectedIds.toList()
 
-    fun getSelectedCount(): Int {
-        return selectedIds.size
-    }
+    fun getSelectedCount(): Int = selectedIds.size
 
     fun selectAll() {
         selectionMode = true

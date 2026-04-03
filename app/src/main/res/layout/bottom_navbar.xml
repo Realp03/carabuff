@@ -1,40 +1,157 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bottomNavbar"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="82dp"
     android:orientation="horizontal"
-    android:background="#2C3E50"
+    android:background="@drawable/bg_bottom_navbar"
     android:gravity="center"
-    android:padding="10dp">
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:elevation="12dp">
 
-    <ImageView
-        android:id="@+id/navHome"
+    <!-- HOME -->
+    <LinearLayout
+        android:id="@+id/navHomeContainer"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:src="@drawable/home_icon"/>
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/bg_nav_item_active"
+        android:padding="6dp"
+        android:scaleX="1.05"
+        android:scaleY="1.05">
 
-    <ImageView
-        android:id="@+id/navAnalytics"
-        android:layout_width="10dp"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-        android:src="@drawable/analytics_icon"/>
+        <ImageView
+            android:id="@+id/navHome"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/home_icon"
+            android:contentDescription="Home"
+            android:scaleType="fitCenter"
+            app:tint="#111111" />
 
-    <ImageView
-        android:id="@+id/navNotif"
+        <TextView
+            android:id="@+id/navHomeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textColor="#111111"
+            android:textSize="11sp"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <!-- ANALYTICS -->
+    <LinearLayout
+        android:id="@+id/navAnalyticsContainer"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:src="@drawable/notification_icon"/>
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/bg_nav_item_inactive"
+        android:padding="6dp"
+        android:layout_marginStart="6dp">
 
-    <ImageView
-        android:id="@+id/navProfile"
+        <ImageView
+            android:id="@+id/navAnalytics"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/analytics_icon"
+            android:contentDescription="Analytics"
+            android:scaleType="fitCenter"
+            app:tint="#B8C7D6" />
+
+        <TextView
+            android:id="@+id/navAnalyticsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dashboard"
+            android:textColor="#8FA3B8"
+            android:textSize="11sp"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <!-- NOTIFICATIONS -->
+    <LinearLayout
+        android:id="@+id/navNotifContainer"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:src="@drawable/profile_icon"/>
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/bg_nav_item_inactive"
+        android:padding="6dp"
+        android:layout_marginStart="6dp">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/navNotif"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/notification_icon"
+                android:contentDescription="Notifications"
+                android:scaleType="fitCenter"
+                app:tint="#B8C7D6" />
+
+            <View
+                android:id="@+id/navNotifDot"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_gravity="top|end"
+                android:background="@drawable/bg_unread_dot"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/navNotifLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notification"
+            android:textColor="#8FA3B8"
+            android:textSize="11sp"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <!-- PROFILE -->
+    <LinearLayout
+        android:id="@+id/navProfileContainer"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/bg_nav_item_inactive"
+        android:padding="6dp"
+        android:layout_marginStart="6dp">
+
+        <ImageView
+            android:id="@+id/navProfile"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/profile_icon"
+            android:contentDescription="Profile"
+            android:scaleType="fitCenter"
+            app:tint="#B8C7D6" />
+
+        <TextView
+            android:id="@+id/navProfileLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textColor="#8FA3B8"
+            android:textSize="11sp"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
 
 </LinearLayout>

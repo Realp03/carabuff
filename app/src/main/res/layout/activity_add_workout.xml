@@ -1,8 +1,9 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1E2A38">
+    android:background="#142133">
 
     <LinearLayout
         android:orientation="vertical"
@@ -10,172 +11,208 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- 🔙 HEADER -->
+        <!-- HEADER -->
         <LinearLayout
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <ImageView
                 android:id="@+id/btnBack"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="12dp"
+                android:src="@android:drawable/ic_media_previous"
+                android:contentDescription="Back Button"
+                app:tint="#FFFFFF" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="&lt;--"
-                android:textSize="26sp"
-                android:textColor="#FFFFFF"
-                android:layout_marginEnd="10dp"/>
-
-            <TextView
                 android:text="Add Workout"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
+                android:fontFamily="@font/iceland_regular" />
         </LinearLayout>
 
-        <!-- 💪 MANUAL INPUT CARD -->
+        <!-- MANUAL INPUT CARD -->
         <LinearLayout
             android:orientation="vertical"
-            android:background="#263544"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_signup_card"
+            android:padding="18dp"
+            android:layout_marginBottom="18dp"
+            android:elevation="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Manual Input"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="14dp" />
 
-            <!-- TYPE -->
             <Spinner
                 android:id="@+id/spinnerType"
-                android:backgroundTint="#FFFFFF"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="52dp"
+                android:background="@drawable/input_bg"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:popupBackground="@drawable/bg_spinner_popup"
+                android:spinnerMode="dropdown" />
 
-            <!-- EXERCISE -->
             <EditText
                 android:id="@+id/etExercise"
-                android:hint="Exercise (e.g. Push-ups)"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#B0BEC5"
-                android:backgroundTint="#FFFFFF"
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="52dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/input_bg"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:gravity="center_vertical"
+                android:hint="Exercise (e.g. Push-ups)"
+                android:textColor="#1A1A1A"
+                android:textColorHint="#5F6B7A"
+                android:textSize="17sp"
+                android:fontFamily="@font/iceland_regular" />
 
-            <!-- MINUTES -->
             <EditText
                 android:id="@+id/etMinutes"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/input_bg"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:gravity="center_vertical"
                 android:hint="Minutes"
                 android:inputType="number"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#B0BEC5"
-                android:backgroundTint="#FFFFFF"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:textColor="#1A1A1A"
+                android:textColorHint="#5F6B7A"
+                android:textSize="17sp"
+                android:fontFamily="@font/iceland_regular" />
 
-            <!-- 🔥 NEW: INTENSITY -->
             <Spinner
                 android:id="@+id/spinnerIntensity"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="#FFFFFF"/>
+                android:layout_height="52dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/input_bg"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:popupBackground="@drawable/bg_spinner_popup"
+                android:spinnerMode="dropdown" />
 
-            <!-- SETS & REPS -->
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/etSets"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/input_bg"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:gravity="center_vertical"
                     android:hint="Sets"
                     android:inputType="number"
-                    android:textColor="#FFFFFF"
-                    android:textColorHint="#B0BEC5"
-                    android:backgroundTint="#FFFFFF"
-                    android:layout_marginEnd="6dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="#1A1A1A"
+                    android:textColorHint="#5F6B7A"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/iceland_regular" />
 
                 <EditText
                     android:id="@+id/etReps"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/input_bg"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:gravity="center_vertical"
                     android:hint="Reps"
                     android:inputType="number"
-                    android:textColor="#FFFFFF"
-                    android:textColorHint="#B0BEC5"
-                    android:backgroundTint="#FFFFFF"
-                    android:layout_marginStart="6dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="#1A1A1A"
+                    android:textColorHint="#5F6B7A"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/iceland_regular" />
             </LinearLayout>
 
-            <!-- BUTTONS -->
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSaveWorkout"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_signup_button"
                 android:text="Save Workout"
-                android:layout_marginTop="14dp"
-                android:backgroundTint="#4CAF50"
+                android:textAllCaps="false"
                 android:textColor="#FFFFFF"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/iceland_regular" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAddFavorite"
-                android:text="⭐ Add to Favorites"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="#607D8B"
-                android:textColor="#FFFFFF"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
+                android:layout_height="56dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_signup_button"
+                android:text="⭐ Add to Favorites"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/iceland_regular" />
         </LinearLayout>
 
-        <!-- ⭐ FAVORITES CARD -->
+        <!-- FAVORITES CARD -->
         <LinearLayout
             android:orientation="vertical"
-            android:background="#263544"
-            android:padding="16dp"
+            android:background="@drawable/bg_signup_card"
+            android:padding="18dp"
+            android:elevation="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Favorites"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="14dp" />
 
             <Spinner
                 android:id="@+id/spinnerFilter"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#FFFFFF"
-                android:layout_marginBottom="10dp"/>
+                android:layout_height="52dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/input_bg"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:popupBackground="@drawable/bg_spinner_popup"
+                android:spinnerMode="dropdown" />
 
             <LinearLayout
                 android:id="@+id/favoritesContainer"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
     </LinearLayout>

@@ -1,226 +1,756 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/main"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#1E2A38">
+    android:background="#142133"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingStart="18dp"
+            android:paddingTop="18dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="24dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="📊 Progress Dashboard"
-                android:textColor="#FFFFFF"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="18dp" />
-
-            <!-- TODAY SUMMARY -->
+            <!-- HEADER -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#263544"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="18dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="🔥 Today Summary"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvTodayCalories"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Calories: 0"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="6dp" />
+                    <TextView
+                        android:id="@+id/tvHeaderDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Mon, Feb 20 2026"
+                        android:textColor="#8FA4C3"
+                        android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/tvTodayBurn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Burned: 0"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="6dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Progress Dashboard"
+                        android:textColor="#FFFFFF"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tvTodayNet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Net: 0"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp" />
+                <ImageView
+                    android:id="@+id/imgAvatar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/profile_cbg"
+                    android:contentDescription="Profile Avatar"
+                    android:padding="3dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/profile_icon" />
             </LinearLayout>
 
-            <!-- CALENDAR + STREAK -->
+            <!-- DAY CHIPS -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="18dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- CHIP 1 -->
+                    <LinearLayout
+                        android:id="@+id/chipDay1"
+                        android:layout_width="72dp"
+                        android:layout_height="86dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/bg_signup_button"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/day1Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/iceland_regular"
+                            android:text="Thu"
+                            android:textColor="#EAF8FF"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/date1Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/iceland_regular"
+                            android:text="20"
+                            android:textColor="#FFFFFF"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- CHIP 2 -->
+                    <LinearLayout
+                        android:id="@+id/chipDay2"
+                        android:layout_width="72dp"
+                        android:layout_height="86dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/bg_signup_card"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/day2Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/iceland_regular"
+                            android:text="Fri"
+                            android:textColor="#AFC2DE"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/date2Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/iceland_regular"
+                            android:text="21"
+                            android:textColor="#FFFFFF"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- CHIP 3 -->
+                    <LinearLayout
+                        android:id="@+id/chipDay3"
+                        android:layout_width="72dp"
+                        android:layout_height="86dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/bg_signup_card"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/day3Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/iceland_regular"
+                            android:text="Sat"
+                            android:textColor="#AFC2DE"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/date3Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/iceland_regular"
+                            android:text="22"
+                            android:textColor="#FFFFFF"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- CHIP 4 -->
+                    <LinearLayout
+                        android:id="@+id/chipDay4"
+                        android:layout_width="72dp"
+                        android:layout_height="86dp"
+                        android:background="@drawable/bg_signup_card"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:id="@+id/day4Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/iceland_regular"
+                            android:text="Sun"
+                            android:textColor="#AFC2DE"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/date4Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/iceland_regular"
+                            android:text="23"
+                            android:textColor="#FFFFFF"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+            <!-- HERO STATS -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_signup_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Today"
+                        android:textColor="#8FA4C3"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tvTodayCalories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Calories: 0"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvTodayBurn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Burned: 0"
+                        android:textColor="#45D6FF"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvTodayNet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Net: 0"
+                        android:textColor="#FFB26B"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Progress Dashboard"
+                        android:textColor="#AFC2DE"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="126dp"
+                    android:layout_height="150dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_signup_card"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/iceland_regular"
+                            android:text="Streak"
+                            android:textColor="#8FA4C3"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvStreak"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/iceland_regular"
+                            android:text="🔥 Current Streak: 0 days"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_signup_button"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/iceland_regular"
+                            android:text="Smart"
+                            android:textColor="#EAF8FF"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/iceland_regular"
+                            android:text="Insights"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- WEEKLY CHART -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_signup_card"
                 android:orientation="vertical"
-                android:background="#263544"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp">
+                android:padding="18dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📅 Activity Calendar"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp" />
-
-                <TextView
-                    android:id="@+id/tvStreak"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="🔥 Current Streak: 0 days"
-                    android:textColor="#FFA726"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
-
-                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                    android:id="@+id/calendarView"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#263544"
-                    android:padding="8dp" />
-            </LinearLayout>
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-            <!-- WEEKLY GRAPH -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#263544"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📈 Weekly Graph"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/iceland_regular"
+                            android:text="Weekly Progress"
+                            android:textColor="#FFFFFF"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/iceland_regular"
+                            android:text="Weekly calories intake vs burned"
+                            android:textColor="#8FA4C3"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/lineChartWeekly"
                     android:layout_width="match_parent"
-                    android:layout_height="280dp"
-                    android:layout_marginBottom="12dp" />
+                    android:layout_height="250dp" />
             </LinearLayout>
 
-            <!-- AVERAGE MACROS + CALORIES DONUT CHART -->
+            <!-- CALENDAR + MACROS -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#263544"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="🍽 Average Macros"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="290dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_signup_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/pieChartMacros"
-                    android:layout_width="match_parent"
-                    android:layout_height="260dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Activity Calendar"
+                        android:textColor="#FFFFFF"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Tap any active date"
+                        android:textColor="#8FA4C3"
+                        android:textSize="12sp" />
+
+                    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                        android:id="@+id/calendarView"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="● Blue dots = active workout days"
+                        android:textColor="#45D6FF"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="290dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_signup_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Average Macros"
+                        android:textColor="#FFFFFF"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Average per logged day"
+                        android:textColor="#8FA4C3"
+                        android:textSize="12sp" />
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/pieChartMacros"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="6dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:background="#26D9FF" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginEnd="12dp"
+                                android:fontFamily="@font/iceland_regular"
+                                android:text="Calories"
+                                android:textColor="#FFFFFF"
+                                android:textSize="11sp" />
+
+                            <View
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:background="#FF8A65" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginEnd="12dp"
+                                android:fontFamily="@font/iceland_regular"
+                                android:text="Protein"
+                                android:textColor="#FFFFFF"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:background="#66E0A3" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginEnd="12dp"
+                                android:fontFamily="@font/iceland_regular"
+                                android:text="Carbs"
+                                android:textColor="#FFFFFF"
+                                android:textSize="11sp" />
+
+                            <View
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:background="#FFD166" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:fontFamily="@font/iceland_regular"
+                                android:text="Fats"
+                                android:textColor="#FFFFFF"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
-            <!-- EXTRA STATS -->
-            <LinearLayout
+            <!-- INSIGHTS GRID -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/iceland_regular"
+                android:text="Insights"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#263544"
-                android:padding="16dp"
-                android:layout_marginBottom="16dp">
+                android:columnCount="2"
+                android:rowCount="3"
+                android:useDefaultMargins="false">
 
-                <TextView
-                    android:id="@+id/tvHighestCalories"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Highest Intake: 0 kcal"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                    android:layout_marginBottom="6dp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/bg_signup_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/tvLowestCalories"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lowest Intake: 0 kcal"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                    android:layout_marginBottom="6dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Highest Intake"
+                        android:textColor="#8FA4C3"
+                        android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/tvHighestBurn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Highest Burn: 0 kcal"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                    android:layout_marginBottom="6dp" />
+                    <TextView
+                        android:id="@+id/tvHighestCalories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Highest Intake: 0 kcal"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tvLowestBurn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lowest Burn: 0 kcal"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                    android:layout_marginBottom="6dp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/bg_signup_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/tvMaxWorkout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Longest Workout: 0 mins"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                    android:layout_marginBottom="6dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Lowest Intake"
+                        android:textColor="#8FA4C3"
+                        android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/tvMinWorkout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Shortest Workout: 0 mins"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvLowestCalories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Lowest Intake: 0 kcal"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/bg_signup_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Highest Burn"
+                        android:textColor="#8FA4C3"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tvHighestBurn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Highest Burn: 0 kcal"
+                        android:textColor="#45D6FF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/bg_signup_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Lowest Burn"
+                        android:textColor="#8FA4C3"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tvLowestBurn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Lowest Burn: 0 kcal"
+                        android:textColor="#45D6FF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_signup_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Longest Workout"
+                        android:textColor="#8FA4C3"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tvMaxWorkout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Longest Workout: 0 mins"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:background="@drawable/bg_signup_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Shortest Workout"
+                        android:textColor="#8FA4C3"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tvMinWorkout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/iceland_regular"
+                        android:text="Shortest Workout: 0 mins"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </GridLayout>
 
         </LinearLayout>
     </ScrollView>

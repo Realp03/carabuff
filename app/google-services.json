@@ -12,7 +12,20 @@
           "package_name": "com.example.carabuff"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "766543877637-ouih4aodmmmer8pkllpv3pubhng53n9n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.carabuff",
+            "certificate_hash": "3a338c067e3090f6b756869735cb4f0bc83e2aa1"
+          }
+        },
+        {
+          "client_id": "766543877637-hett5cmd1qsoevjjlnooe9hjb2mflnf6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDkpV2nTlINnstum83OGkclZ4hBRK6mCyM"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766543877637-hett5cmd1qsoevjjlnooe9hjb2mflnf6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

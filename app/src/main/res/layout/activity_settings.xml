@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1E2A38">
+    android:background="#1E2A38"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,141 +12,296 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- HEADER -->
+        <!-- HEADER CARD -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:background="@drawable/bg_signup_card"
+            android:padding="16dp"
             android:layout_marginBottom="20dp">
 
-            <TextView
+            <ImageView
                 android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="&lt;--"
-                android:textSize="26sp"
-                android:textColor="#FFFFFF"
-                android:layout_marginEnd="10dp"/>
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="12dp"
+                android:padding="8dp"
+                android:background="@drawable/bg_icon_circle"
+                android:src="@android:drawable/ic_media_previous"
+                android:contentDescription="Back Button"
+                app:tint="#FFFFFF" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Settings"
-                android:textSize="22sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/iceland_regular" />
         </LinearLayout>
 
-        <!-- ACCOUNT & SECURITY -->
+        <!-- ACCOUNT & SECURITY TITLE -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Account &amp; Security"
-            android:textColor="#AAAAAA"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp"/>
+            android:textColor="#BFC9D4"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginBottom="10dp" />
 
-        <!-- CHANGE EMAIL -->
+        <!-- ACCOUNT & SECURITY CARD -->
         <LinearLayout
-            android:id="@+id/changeEmailBtn"
+            android:id="@+id/accountSecurityCard"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:padding="10dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_signup_card"
+            android:padding="10dp"
+            android:layout_marginBottom="18dp"
+            android:animateLayoutChanges="true">
 
+            <!-- PROVIDER / SECURITY HINT -->
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tvSecurityHint"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Change Email"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"/>
+                android:text="Manage your email, password, and account access."
+                android:textColor="#8FA3B8"
+                android:textSize="13sp"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp" />
+
+            <!-- CHANGE EMAIL -->
+            <LinearLayout
+                android:id="@+id/changeEmailBtn"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="14dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_icon_circle"
+                    android:padding="8dp"
+                    android:src="@android:drawable/ic_dialog_email"
+                    android:contentDescription="Change Email"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Change Email"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/iceland_regular"
+                    android:layout_marginStart="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="›"
+                    android:textColor="#8FA3B8"
+                    android:textSize="22sp"
+                    android:fontFamily="@font/iceland_regular" />
+            </LinearLayout>
+
+            <!-- CHANGE PASSWORD -->
+            <LinearLayout
+                android:id="@+id/changePasswordBtn"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="14dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_icon_circle"
+                    android:padding="8dp"
+                    android:src="@android:drawable/ic_lock_lock"
+                    android:contentDescription="Change Password"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Change Password"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/iceland_regular"
+                    android:layout_marginStart="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="›"
+                    android:textColor="#8FA3B8"
+                    android:textSize="22sp"
+                    android:fontFamily="@font/iceland_regular" />
+            </LinearLayout>
+
+            <!-- DELETE ACCOUNT -->
+            <LinearLayout
+                android:id="@+id/deleteAccountBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="72dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="14dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_icon_circle"
+                    android:padding="8dp"
+                    android:src="@android:drawable/ic_menu_delete"
+                    android:contentDescription="Delete Account"
+                    app:tint="#FF6B6B" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="14dp">
+
+                    <TextView
+                        android:id="@+id/tvDeleteAccountTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Delete Account"
+                        android:textColor="#FF6B6B"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/iceland_regular" />
+
+                    <TextView
+                        android:id="@+id/tvDeleteAccountHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Permanently remove your Carabuff account and data."
+                        android:textColor="#D7A3A3"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="›"
+                    android:textColor="#FF6B6B"
+                    android:textSize="22sp"
+                    android:fontFamily="@font/iceland_regular" />
+            </LinearLayout>
+
         </LinearLayout>
 
-        <!-- CHANGE PASSWORD -->
-        <LinearLayout
-            android:id="@+id/changePasswordBtn"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Change Password"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"/>
-        </LinearLayout>
-
-        <!-- DELETE ACCOUNT -->
-        <LinearLayout
-            android:id="@+id/deleteAccountBtn"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Delete Account"
-                android:textColor="#FF5252"
-                android:textSize="16sp"/>
-        </LinearLayout>
-
-        <!-- NOTIFICATIONS -->
+        <!-- NOTIFICATIONS TITLE -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Notifications"
-            android:textColor="#AAAAAA"
-            android:textSize="14sp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="8dp"/>
+            android:textColor="#BFC9D4"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginBottom="10dp" />
 
-        <!-- WORKOUT -->
+        <!-- NOTIFICATIONS CARD -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_signup_card"
             android:padding="10dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Workout Reminder"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"/>
+            <!-- WORKOUT -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="14dp">
 
-            <Switch
-                android:id="@+id/switchWorkout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_icon_circle"
+                    android:padding="8dp"
+                    android:src="@android:drawable/ic_menu_my_calendar"
+                    android:contentDescription="Workout Reminder"
+                    app:tint="#FFFFFF" />
 
-        <!-- MEAL -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="10dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Workout Reminder"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/iceland_regular"
+                    android:layout_marginStart="14dp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Meal Reminder"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"/>
+                <Switch
+                    android:id="@+id/switchWorkout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
-            <Switch
-                android:id="@+id/switchMeal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            <!-- MEAL -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_icon_circle"
+                    android:padding="8dp"
+                    android:src="@android:drawable/ic_menu_agenda"
+                    android:contentDescription="Meal Reminder"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Meal Reminder"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/iceland_regular"
+                    android:layout_marginStart="14dp" />
+
+                <Switch
+                    android:id="@+id/switchMeal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

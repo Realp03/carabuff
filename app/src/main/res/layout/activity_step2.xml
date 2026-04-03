@@ -1,79 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/step2Scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1E2A38">
+    android:background="#1E2A38"
+    android:fillViewport="true"
+    android:scrollbars="none">
 
     <LinearLayout
+        android:id="@+id/step2Content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:paddingStart="24dp"
+        android:paddingTop="28dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="28dp">
 
-        <!-- PUSH DOWN -->
-        <View
+        <Space
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_height="12dp" />
 
-        <!-- TITLE -->
+        <!-- HEADER -->
         <TextView
+            android:id="@+id/tvStep2Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Body Information"
             android:textColor="#FFFFFF"
-            android:textSize="22sp"
+            android:textSize="31sp"
             android:fontFamily="@font/iceland_regular"
-            android:layout_marginBottom="25dp"/>
+            android:letterSpacing="0.03"
+            android:layout_marginBottom="6dp" />
 
-        <!-- WEIGHT -->
-        <EditText
-            android:id="@+id/weightInput"
+        <TextView
+            android:id="@+id/tvStep2Subtitle"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Weight (kg)"
-            android:inputType="numberDecimal"
-            android:background="@drawable/input_bg"
-            android:textColor="#333333"
-            android:textColorHint="#666666"
-            android:padding="12dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_height="wrap_content"
+            android:text="Add your body details so Carabuff can calculate more accurate fitness insights."
+            android:textColor="#B8C7D9"
+            android:textSize="14sp"
+            android:layout_marginBottom="22dp" />
 
-        <!-- HEIGHT -->
-        <EditText
-            android:id="@+id/heightInput"
+        <!-- CARD -->
+        <LinearLayout
+            android:id="@+id/bodyInfoCard"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Height (cm)"
-            android:inputType="numberDecimal"
-            android:background="@drawable/input_bg"
-            android:textColor="#333333"
-            android:textColorHint="#666666"
-            android:padding="12dp"
-            android:layout_marginBottom="30dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_signup_card"
+            android:padding="18dp"
+            android:layout_marginBottom="22dp">
 
-        <!-- PROGRESS (STEP 2 ACTIVE) -->
+            <!-- WEIGHT -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Weight"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/weightInput"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:hint="Enter your weight in kg"
+                android:inputType="numberDecimal"
+                android:background="@drawable/input_bg"
+                android:textColor="#111111"
+                android:textColorHint="#666666"
+                android:textSize="15sp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginBottom="16dp"
+                android:singleLine="true" />
+
+            <!-- HEIGHT -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Height"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/iceland_regular"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/heightInput"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:hint="Enter your height in cm"
+                android:inputType="numberDecimal"
+                android:background="@drawable/input_bg"
+                android:textColor="#111111"
+                android:textColorHint="#666666"
+                android:textSize="15sp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/tvStep2Note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="These values help estimate calories burned and personalize your plan."
+                android:textColor="#AFC0D4"
+                android:textSize="12sp"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
+
+        <!-- STEP INDICATOR -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginBottom="25dp">
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
 
             <View
-                android:layout_width="40dp"
-                android:layout_height="5dp"
-                android:background="#AAAAAA"/>
+                android:id="@+id/stepOne"
+                android:layout_width="48dp"
+                android:layout_height="6dp"
+                android:background="@drawable/bg_step_inactive" />
 
             <View
-                android:layout_width="40dp"
-                android:layout_height="5dp"
-                android:background="#00BCD4"
-                android:layout_marginStart="10dp"/>
+                android:id="@+id/stepTwo"
+                android:layout_width="48dp"
+                android:layout_height="6dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_step_active" />
 
             <View
-                android:layout_width="40dp"
-                android:layout_height="5dp"
-                android:background="#AAAAAA"
-                android:layout_marginStart="10dp"/>
+                android:id="@+id/stepThree"
+                android:layout_width="48dp"
+                android:layout_height="6dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_step_inactive" />
         </LinearLayout>
 
         <!-- BUTTONS -->
@@ -82,28 +146,30 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <!-- PREVIOUS -->
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/prevBtn"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="54dp"
                 android:layout_weight="1"
                 android:text="Previous"
-                android:backgroundTint="#3A8DFF"
+                android:textAllCaps="false"
                 android:textColor="#FFFFFF"
-                android:fontFamily="@font/iceland_regular"/>
+                android:textSize="18sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/bg_signup_button" />
 
-            <!-- NEXT -->
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/nextBtn"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="54dp"
                 android:layout_weight="1"
+                android:layout_marginStart="12dp"
                 android:text="Next"
-                android:layout_marginStart="10dp"
-                android:backgroundTint="#3A8DFF"
+                android:textAllCaps="false"
                 android:textColor="#FFFFFF"
-                android:fontFamily="@font/iceland_regular"/>
+                android:textSize="18sp"
+                android:fontFamily="@font/iceland_regular"
+                android:background="@drawable/bg_signup_button" />
         </LinearLayout>
 
     </LinearLayout>

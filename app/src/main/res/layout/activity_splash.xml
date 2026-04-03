@@ -1,20 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:background="#1E2A38"
-    android:orientation="vertical">
+    android:background="#1E2A38">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="206dp"
-        android:layout_height="204dp"
-        android:alpha="0"
-        android:background="@drawable/logo_bg"
-        android:padding="20dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/carabuff_logo" />
+    <View
+        android:id="@+id/topGlow"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="-90dp"
+        android:alpha="0.18"
+        android:background="@drawable/bg_splash_glow" />
 
-</LinearLayout>
+    <View
+        android:id="@+id/bottomGlow"
+        android:layout_width="340dp"
+        android:layout_height="340dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="-130dp"
+        android:alpha="0.10"
+        android:background="@drawable/bg_splash_glow" />
+
+    <LinearLayout
+        android:id="@+id/splashContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <FrameLayout
+            android:id="@+id/logoCard"
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:background="@drawable/bg_signup_card"
+            android:elevation="8dp"
+            android:padding="18dp">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0"
+                android:scaleType="centerInside"
+                android:src="@drawable/carabuff_logo" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvAppName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:alpha="0"
+            android:fontFamily="@font/iceland_regular"
+            android:text="Carabuff"
+            android:textColor="#FFFFFF"
+            android:textSize="42sp" />
+
+        <TextView
+            android:id="@+id/tvTagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:alpha="0"
+            android:text="Track. Improve. Transform."
+            android:textColor="#B8C7D9"
+            android:textSize="14sp" />
+
+        <FrameLayout
+            android:id="@+id/loadingTrack"
+            android:layout_width="150dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="24dp"
+            android:alpha="0"
+            android:background="@drawable/splash_loading_track_bg"
+            android:clipToOutline="true"
+            android:padding="1dp">
+
+            <View
+                android:id="@+id/loadingFill"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_signup_button" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvLoadingPercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:alpha="0"
+            android:fontFamily="@font/iceland_regular"
+            android:text="0%"
+            android:textColor="#D9E6F2"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,75 +1,100 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="12dp"
-    android:background="#2A3B4D"
-    android:layout_marginBottom="10dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_signup_card"
+    android:padding="16dp"
+    android:elevation="3dp">
 
-    <!-- FOOD INFO -->
+    <!-- TOP SECTION -->
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
+        <!-- FOOD INFO -->
         <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_marginEnd="12dp">
 
             <TextView
                 android:id="@+id/tvFoodName"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/iceland_regular"
+                android:maxLines="2" />
 
             <TextView
                 android:id="@+id/tvFoodCalories"
-                android:textColor="#BBBBBB"
-                android:textSize="14sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#D9E2F1"
+                android:textSize="14sp"
+                android:fontFamily="@font/iceland_regular" />
         </LinearLayout>
 
-        <Button
+        <!-- ADD BUTTON -->
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAdd"
+            android:layout_width="92dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_signup_button"
             android:text="Add"
-            android:backgroundTint="#4A90E2"
+            android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/iceland_regular" />
     </LinearLayout>
 
-    <!-- 🔥 QUANTITY SECTION -->
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
+    <!-- DIVIDER SPACE -->
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="10dp" />
 
-        <!-- INPUT -->
+    <!-- QUANTITY SECTION -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- QUANTITY INPUT -->
         <EditText
             android:id="@+id/etQuantity"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/input_bg"
             android:hint="Quantity"
             android:inputType="numberDecimal"
-            android:textColor="#1E2A38"
-            android:textColorHint="#888888"
-            android:background="@drawable/input_bg"
-            android:padding="8dp"
-            android:textSize="14sp"
-            android:layout_width="0dp"
-            android:layout_height="40dp"/>
+            android:textColor="#1A1A1A"
+            android:textColorHint="#5F6B7A"
+            android:textSize="16sp"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/iceland_regular" />
 
-        <!-- UNIT -->
+        <!-- UNIT SPINNER -->
         <Spinner
             android:id="@+id/spinnerUnit"
-            android:layout_marginStart="8dp"
-            android:layout_width="80dp"
-            android:layout_height="40dp"/>
+            android:layout_width="96dp"
+            android:layout_height="48dp"
+            android:background="@drawable/input_bg"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:spinnerMode="dropdown" />
     </LinearLayout>
 
 </LinearLayout>

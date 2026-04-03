@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/notifRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_signup_card"
+    android:gravity="center_vertical"
+    android:minHeight="88dp"
     android:orientation="horizontal"
-    android:padding="14dp"
-    android:layout_marginBottom="10dp"
-    android:background="@drawable/bg_notification_item"
-    android:gravity="center_vertical">
+    android:padding="14dp">
+
+    <View
+        android:id="@+id/notifUnreadDot"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_gravity="top|center_vertical"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/bg_unread_dot"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/notifIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/bg_icon_circle"
+        android:fontFamily="@font/iceland_regular"
+        android:gravity="center"
         android:text="🔔"
-        android:textSize="20sp"
-        android:layout_marginEnd="12dp"/>
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -24,45 +38,57 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/notifTitle"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Notification Title"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:maxLines="1"
-            android:ellipsize="end"/>
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/notifTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/iceland_regular"
+                android:maxLines="1"
+                android:text="Workout Completed"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/notifTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/iceland_regular"
+                android:maxLines="1"
+                android:text="6:19 PM"
+                android:textColor="#9DB0BF"
+                android:textSize="10sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/notifMessage"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="This is the message preview of the notification"
-            android:textColor="#B0BEC5"
-            android:textSize="13sp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="3dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/iceland_regular"
             android:maxLines="2"
-            android:ellipsize="end"/>
-
-        <TextView
-            android:id="@+id/notifTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Just now"
-            android:textColor="#78909C"
-            android:textSize="11sp"
-            android:layout_marginTop="4dp"/>
-
+            android:text="You burned 310 calories today. Keep going with your progress."
+            android:textColor="#C6D4DF"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/notifCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="⬜"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/iceland_regular"
+        android:text="☐"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
-        android:visibility="gone"
-        android:layout_marginStart="10dp"/>
+        android:visibility="gone" />
 </LinearLayout>

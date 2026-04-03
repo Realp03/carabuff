@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="20dp"
-    android:background="#1E2A38"
+    android:background="#142133"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 🔥 HEADER -->
+    <!-- HEADER -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,84 +16,105 @@
         android:gravity="center_vertical"
         android:layout_marginBottom="20dp">
 
-        <!-- 🔙 BACK BUTTON -->
-        <TextView
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="&lt;--"
-            android:textSize="26sp"
-            android:textColor="#FFFFFF"
-            android:layout_marginEnd="10dp"/>
-
-        <!-- TITLE -->
-        <TextView
-            android:text="Add Food 🍗"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
-
-        <!-- HELP -->
         <ImageView
-            android:id="@+id/btnHelp"
+            android:id="@+id/btnBack"
             android:layout_width="28dp"
             android:layout_height="28dp"
+            android:layout_marginEnd="12dp"
+            android:src="@android:drawable/ic_media_previous"
+            android:contentDescription="Back Button"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Add Food 🍗"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/iceland_regular" />
+
+        <ImageView
+            android:id="@+id/btnHelp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:src="@android:drawable/ic_menu_help"
-            android:tint="#FFFFFF"/>
+            android:contentDescription="Help Button"
+            app:tint="#FFFFFF" />
     </LinearLayout>
 
-    <!-- INPUT -->
-    <EditText
-        android:id="@+id/etFood"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Search food (e.g. egg)"
-        android:background="@drawable/input_bg"
-        android:textColor="#333333"
-        android:textColorHint="#666666"
-        android:padding="12dp"
-        android:textSize="16sp"
-        android:layout_marginBottom="12dp"/>
-
-    <!-- 🔎 SEARCH BUTTON -->
-    <Button
-        android:id="@+id/btnSearchFood"
-        android:text="Search Food 🔎"
-        android:backgroundTint="#6C8CFF"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-
-    <!-- 🔥 LOADING -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:layout_marginTop="15dp"/>
-
-    <!-- 📋 RESULTS LIST -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFoods"
+    <!-- MAIN CARD -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="15dp"
-        tools:listitem="@layout/item_food"/>
+        android:orientation="vertical"
+        android:background="@drawable/bg_signup_card"
+        android:padding="18dp"
+        android:elevation="4dp">
 
-    <!-- DEBUG RESULT -->
-    <TextView
-        android:id="@+id/tvResult"
-        android:text=""
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <!-- INPUT -->
+
+        <!-- SEARCH BUTTON -->
+        <EditText
+            android:id="@+id/etFood"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/input_bg"
+            android:fontFamily="@font/iceland_regular"
+            android:gravity="center_vertical"
+            android:hint="Search food (e.g. egg)"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="#1A1A1A"
+            android:textColorHint="#5F6B7A"
+            android:textSize="17sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSearchFood"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_signup_button"
+            android:text="Search Food 🔎"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/iceland_regular" />
+
+        <!-- LOADING -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
+
+        <!-- RESULT LABEL -->
+        <TextView
+            android:id="@+id/tvResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="8dp"
+            android:text=""
+            android:textColor="#D9E2F1"
+            android:textSize="14sp"
+            android:fontFamily="@font/iceland_regular" />
+
+        <!-- RESULTS LIST -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFoods"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingBottom="8dp"
+            tools:listitem="@layout/item_food" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -19,11 +19,11 @@ function App() {
   const features = [
     {
       title: "🤖 AI Fitness Coach",
-      desc: "Chat with Carabuff for personalized tips about calories, protein, workouts, and progress.",
+      desc: "Chat with Carabuff for personalized advice about calories, protein, workouts, and daily progress.",
     },
     {
       title: "🔥 Calorie Tracking",
-      desc: "Log your meals and monitor your daily calorie intake with ease.",
+      desc: "Log meals quickly and stay aware of your daily calorie intake.",
     },
     {
       title: "🍗 Macro Monitoring",
@@ -31,74 +31,141 @@ function App() {
     },
     {
       title: "🏋️ Workout Logging",
-      desc: "Record workout duration and calories burned to measure your activity level.",
+      desc: "Save workouts, monitor duration, and estimate calories burned.",
     },
     {
       title: "📊 Smart Analytics",
-      desc: "View averages, highest records, streaks, weekly trends, and overall progress insights.",
+      desc: "View trends, averages, records, and progress insights in one dashboard.",
     },
     {
-      title: "🎯 Goal-Based Dashboard",
-      desc: "See your calorie, macro, and workout progress compared to your personal targets.",
+      title: "🎯 Goal Dashboard",
+      desc: "Compare your current calories, macros, and activity against your personal targets.",
     },
     {
       title: "🔔 Smart Notifications",
-      desc: "Get reminders for meals, workouts, and daily progress check-ins.",
+      desc: "Receive reminders for meals, workouts, and daily check-ins.",
     },
     {
-      title: "📅 Daily Progress Summary",
-      desc: "Review your daily performance and stay aware of where you need to improve.",
+      title: "📅 Daily Summary",
+      desc: "Review your performance each day and spot where you need improvement.",
     },
     {
-      title: "⚡ Fast and Simple UI",
-      desc: "Clean design focused on quick logging, fast access, and easy tracking.",
+      title: "⚡ Fast and Clean UI",
+      desc: "Built for quick logging, easy navigation, and a smooth user experience.",
     },
+  ];
+
+  const highlights = [
+    { value: "AI", label: "Coach Assistant" },
+    { value: "Smart", label: "Progress Analytics" },
+    { value: "100%", label: "Free to Use" },
   ];
 
   return (
     <div className="main">
-      {/* HERO */}
+      <div className="bg-orb orb-1" />
+      <div className="bg-orb orb-2" />
+      <div className="bg-grid" />
+
       <section className="hero">
-        <motion.img
-          src={logo}
-          alt="Carabuff Logo"
-          className="logo"
-          initial={{ opacity: 0, y: -40 }}
+        <motion.div
+          className="hero-badge"
+          initial={{ opacity: 0, y: -18 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          Carabuff Mobile Fitness App
+        </motion.div>
+
+        <motion.div
+          className="logo-shell"
+          initial={{ opacity: 0, y: -35, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8 }}
-        />
+        >
+          <img src={logo} alt="Carabuff Logo" className="logo" />
+        </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
+          className="hero-title"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.6 }}
         >
           Carabuff 💪
         </motion.h1>
 
         <motion.p
           className="subtitle"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
         >
           Your smart fitness companion for tracking food, workouts, analytics,
           and real progress.
         </motion.p>
 
-        <motion.button
-          className="btn"
-          onClick={handleDownload}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
+        <motion.div
+          className="hero-actions"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45, duration: 0.6 }}
         >
-          📥 Download for Android
-        </motion.button>
+          <motion.button
+            className="btn primary-btn"
+            onClick={handleDownload}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            📥 Download for Android
+          </motion.button>
 
-        <p className="small-note">Free • No ads • Built for fitness tracking</p>
+          <a
+            className="btn ghost-btn"
+            href={apkLink}
+            target="_blank"
+            rel="noreferrer"
+          >
+            🔗 View APK Link
+          </a>
+        </motion.div>
+
+        <motion.div
+          className="hero-note-box"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.6 }}
+        >
+          <span>Free</span>
+          <span>No ads</span>
+          <span>Built for fitness tracking</span>
+        </motion.div>
       </section>
 
-      {/* FEATURES */}
+      <section className="preview-strip">
+        <div className="preview-card">
+          <p className="preview-label">Why Carabuff?</p>
+          <h2>Inspired by Filipino strength and discipline</h2>
+          <p>
+            The name <strong>Carabuff</strong> comes from two powerful ideas:
+            <strong> Cara</strong>, inspired by the <strong>carabao</strong>,
+            the national animal of the Philippines, and <strong>Buff</strong>,
+            which represents strength, fitness, and becoming a better version
+            of yourself. Ang carabao ay simbolo ng pagiging
+            <strong> matatag, masipag, malakas, at may disiplina</strong> —
+            mga katangiang mahalaga rin sa bawat fitness journey. Kaya ang
+            Carabuff ay hindi lang tungkol sa muscles o workouts, kundi tungkol
+            din sa consistency, discipline, at self-improvement para mas maging
+            better version ka ng sarili mo every day.
+          </p>
+        </div>
+      </section>
+
+      <section className="section-head">
+        <p className="section-tag">Core Features</p>
+        <h2>Everything you need in one fitness app</h2>
+      </section>
+
       <section className="features">
         {features.map((item, index) => (
           <motion.div
@@ -106,7 +173,7 @@ function App() {
             key={index}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.08 }}
+            transition={{ delay: index * 0.06, duration: 0.45 }}
             viewport={{ once: true }}
           >
             <h3>{item.title}</h3>
@@ -115,32 +182,39 @@ function App() {
         ))}
       </section>
 
-      {/* STATS */}
-      <section className="stats">
-        <div>
-          <h2>🤖 AI</h2>
-          <p>Coach Assistant</p>
-        </div>
-        <div>
-          <h2>📊 Smart</h2>
-          <p>Progress Analytics</p>
-        </div>
-        <div>
-          <h2>💪 100%</h2>
-          <p>Free App</p>
-        </div>
+      <section className="section-head stats-head">
+        <p className="section-tag">Highlights</p>
+        <h2>Simple, smart, and made for progress</h2>
       </section>
 
-      {/* QR */}
+      <section className="stats">
+        {highlights.map((item, index) => (
+          <motion.div
+            className="stat-card"
+            key={index}
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1, duration: 0.45 }}
+            viewport={{ once: true }}
+          >
+            <h2>{item.value}</h2>
+            <p>{item.label}</p>
+          </motion.div>
+        ))}
+      </section>
+
       <section className="qr">
-        <h2>Scan to Install</h2>
+        <div className="qr-card">
+          <p className="section-tag">Quick Install</p>
+          <h2>Scan to install on Android</h2>
 
-        <img
-          src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${apkLink}`}
-          alt="QR Code"
-        />
+          <img
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${apkLink}`}
+            alt="QR Code"
+          />
 
-        <p className="small-note">Scan using your Android phone</p>
+          <p className="small-note">Scan using your Android phone</p>
+        </div>
       </section>
 
       <footer>

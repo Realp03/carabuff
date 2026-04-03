@@ -1,12 +1,13 @@
 package com.example.carabuff
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,9 +19,8 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var recyclerChat: RecyclerView
     private lateinit var etMessage: EditText
     private lateinit var btnSend: ImageButton
-    private lateinit var btnBack: TextView
+    private lateinit var btnBack: ImageView
 
-    // 🔥 Quick chips
     private lateinit var btnChipProtein: Button
     private lateinit var btnChipWeight: Button
     private lateinit var btnChipWorkout: Button
@@ -41,7 +41,6 @@ class ChatActivity : AppCompatActivity() {
         btnSend = findViewById(R.id.btnSend)
         btnBack = findViewById(R.id.btnBack)
 
-        // 🔥 Connect chip buttons from XML
         btnChipProtein = findViewById(R.id.btnChipProtein)
         btnChipWeight = findViewById(R.id.btnChipWeight)
         btnChipWorkout = findViewById(R.id.btnChipWorkout)
@@ -54,7 +53,14 @@ class ChatActivity : AppCompatActivity() {
 
         addBotMessage("Hi! I’m Carabuff 🐃 Ask me about food, workouts, calories, healthy habits, or your progress.")
 
+        selectChip(btnChipProtein)
+
         btnBack.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java).apply {
+                putExtra("from_navbar", true)
+            }
+            startActivity(intent)
+            overridePendingTransition(0, 0)
             finish()
         }
 
@@ -62,24 +68,28 @@ class ChatActivity : AppCompatActivity() {
             sendMessage()
         }
 
-        // 🔥 CHIP ACTIONS
         btnChipProtein.setOnClickListener {
+            selectChip(btnChipProtein)
             sendPresetMessage("How can I increase my protein intake?")
         }
 
         btnChipWeight.setOnClickListener {
+            selectChip(btnChipWeight)
             sendPresetMessage("Give me a weight loss plan.")
         }
 
         btnChipWorkout.setOnClickListener {
+            selectChip(btnChipWorkout)
             sendPresetMessage("Suggest a workout for today.")
         }
 
         btnChipCalories.setOnClickListener {
+            selectChip(btnChipCalories)
             sendPresetMessage("How many calories should I eat per day?")
         }
 
         btnChipHydration.setOnClickListener {
+            selectChip(btnChipHydration)
             sendPresetMessage("How much water should I drink daily?")
         }
 
@@ -95,6 +105,24 @@ class ChatActivity : AppCompatActivity() {
                 false
             }
         }
+    }
+
+    private fun selectChip(selected: Button) {
+        val chips = listOf(
+            btnChipProtein,
+            btnChipWeight,
+            btnChipWorkout,
+            btnChipCalories,
+            btnChipHydration
+        )
+
+        chips.forEach { chip ->
+            chip.setBackgroundResource(R.drawable.bg_chat_chip_default)
+            chip.alpha = 0.85f
+        }
+
+        selected.setBackgroundResource(R.drawable.bg_chat_chip_selected)
+        selected.alpha = 1.0f
     }
 
     private fun sendPresetMessage(text: String) {
@@ -144,15 +172,40 @@ class ChatActivity : AppCompatActivity() {
 
     private fun setSendingState(sending: Boolean) {
         isSending = sending
+
         btnSend.isEnabled = !sending
         etMessage.isEnabled = !sending
 
-        // optional: disable chips habang nagre-reply si AI
         btnChipProtein.isEnabled = !sending
         btnChipWeight.isEnabled = !sending
         btnChipWorkout.isEnabled = !sending
         btnChipCalories.isEnabled = !sending
         btnChipHydration.isEnabled = !sending
+
+        btnSend.alpha = if (sending) 0.6f else 1.0f
+        etMessage.alpha = if (sending) 0.7f else 1.0f
+
+        val chipAlpha = if (sending) 0.6f else 1.0f
+        btnChipProtein.alpha = chipAlpha
+        btnChipWeight.alpha = chipAlpha
+        btnChipWorkout.alpha = chipAlpha
+        btnChipCalories.alpha = chipAlpha
+        btnChipHydration.alpha = chipAlpha
+
+        if (!sending) {
+            val chips = listOf(
+                btnChipProtein,
+                btnChipWeight,
+                btnChipWorkout,
+                btnChipCalories,
+                btnChipHydration
+            )
+
+            val selectedChip = chips.firstOrNull { it.alpha == 1.0f }
+            if (selectedChip != null) {
+                selectedChip.alpha = 1.0f
+            }
+        }
     }
 
     private fun addUserMessage(text: String) {

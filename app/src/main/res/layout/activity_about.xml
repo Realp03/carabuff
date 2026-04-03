@@ -1,108 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#1E2A38"
     android:padding="20dp">
 
-    <!-- 🔙 HEADER -->
+    <!-- HEADER CARD -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:background="@drawable/bg_signup_card"
+        android:padding="16dp"
         android:layout_marginBottom="20dp">
 
-        <TextView
+        <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="&lt;--"
-            android:textSize="26sp"
-            android:textColor="#FFFFFF"
-            android:layout_marginEnd="10dp"/>
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="12dp"
+            android:padding="8dp"
+            android:background="@drawable/bg_icon_circle"
+            android:src="@android:drawable/ic_media_previous"
+            android:contentDescription="Back Button"
+            app:tint="#FFFFFF" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="About"
-            android:textSize="22sp"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/iceland_regular" />
     </LinearLayout>
 
-    <!-- 🔥 CENTER CONTENT -->
+    <!-- MAIN ABOUT CARD -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="20dp">
+        android:background="@drawable/bg_signup_card"
+        android:padding="24dp">
 
         <!-- LOGO -->
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:src="@mipmap/ic_launcher"
-            android:layout_marginBottom="15dp"/>
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="16dp" />
 
         <!-- APP NAME -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Carabuff"
-            android:textSize="26sp"
+            android:textSize="30sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/iceland_regular" />
 
         <!-- TAGLINE -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Your personal fitness companion"
-            android:textColor="#AAAAAA"
-            android:layout_marginTop="5dp"/>
+            android:textColor="#BFC9D4"
+            android:textSize="15sp"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginTop="6dp"
+            android:gravity="center" />
 
-        <!-- VERSION -->
+        <!-- VERSION BADGE -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Version 1.0.0"
-            android:textColor="#6C8CFF"
-            android:layout_marginTop="20dp"/>
+            android:text="Version 2.0.1"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:fontFamily="@font/iceland_regular"
+            android:background="@drawable/bg_icon_circle"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_marginTop="20dp" />
 
         <!-- DIVIDER -->
         <View
-            android:layout_width="60dp"
-            android:layout_height="2dp"
-            android:background="#444444"
-            android:layout_marginTop="20dp"/>
+            android:layout_width="80dp"
+            android:layout_height="1dp"
+            android:background="#3A4B5C"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="22dp" />
 
-        <!-- DEV LABEL -->
+        <!-- DEVELOPED BY -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Developed by"
-            android:textColor="#AAAAAA"
-            android:layout_marginTop="20dp"/>
+            android:textColor="#8FA3B8"
+            android:textSize="14sp"
+            android:fontFamily="@font/iceland_regular" />
 
-        <!-- DEV NAME -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mark Daryl Pineda"
             android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginTop="4dp" />
 
         <!-- FOOTER -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="© 2026 Carabuff"
-            android:textColor="#777777"
-            android:layout_marginTop="30dp"/>
+            android:textColor="#6F7F8E"
+            android:textSize="13sp"
+            android:fontFamily="@font/iceland_regular"
+            android:layout_marginTop="28dp" />
 
     </LinearLayout>
 
